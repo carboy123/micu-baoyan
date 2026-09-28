@@ -2,6 +2,15 @@
 
 本项目用 GitHub 保存源码，用 GitHub Actions 构建和检查网站，再将静态产物发布到 GitHub Pages。线上阅读需要联网；原有 Windows 本机预览入口继续可用。
 
+## 当前发布地址
+
+- 网站：[米醋保研指南](https://carboy123.github.io/micu-baoyan/)
+- 公开源码：[carboy123/micu-baoyan](https://github.com/carboy123/micu-baoyan)
+- 部署记录：[Build and deploy Pages](https://github.com/carboy123/micu-baoyan/actions/workflows/pages.yml)
+- 发布分支：`main`；Pages Source：`GitHub Actions`；HTTPS：已启用。
+
+2026-09-28 首次部署成功，运行记录为 [36364263752](https://github.com/carboy123/micu-baoyan/actions/runs/36364263752)，对应提交 `f2fc35a89cc1f90c6c37c7e61a19e8ee0513a18d`。`build` 和 `deploy` 均成功，包括运行器上的 Hugo 下载、校验、构建、站点检查、产物上传和部署。
+
 ## 工作流
 
 配置文件为 [`.github/workflows/pages.yml`](../.github/workflows/pages.yml)。推送到 `main` 后自动运行，也可以在仓库的 **Actions → Build and deploy Pages → Run workflow** 中选择 `main` 手动运行。其他分支不发布。
@@ -41,6 +50,10 @@ Hugo Linux 归档固定为 `hugo_extended_0.166.0_linux-amd64.tar.gz`，官方 S
 
 编辑 `content/` 等源文件、本机预览并核实后，提交和推送至 `main`，工作流会自动更新线上网站。多人协作时，可以通过 Pull Request 审阅后合并到 `main`。发生错误时，先修正源码并重新发布；需要恢复旧内容时，用新的提交撤销相应更改，保留修改历史。
 
+只修改一篇文章时，也可以在 GitHub 仓库打开对应 `content/` 文件，选择编辑，保留开头的元数据结构，预览后提交到 `main`。本机的文件不会随网页编辑自动更新，下次本机修改前先运行 `git pull --ff-only` 同步；如本机已有未提交修改，先保存并处理这些修改，不能直接覆盖。
+
+本机提交时先用 `git status` 和 `git diff` 查看修改，只暂存这次准备发布的文件，再执行 `git commit` 和 `git push origin main`。本机保存与 GitHub 推送是两件事；应以对应提交的 Actions 结果确认线上更新完成。
+
 `参考资料/`、原始面经、工具下载归档、`.runtime/` 和 `public/` 由 `.gitignore` 排除。它们不应进入源码提交；发布产物只来源于生产构建。后续如需导入真实面经，应先完成授权与内容核验。
 
 普通 GitHub Pages 网站公开可访问，私有源码仓库不等于网站具有访问权限控制。公开库及站点仅收录适合公开的内容。
@@ -67,12 +80,17 @@ python tests/site-check.py .runtime/builds/pages-check --prefix /micu-baoyan/
 | `site-check.py` 失败 | 按日志修复源文件中的路径、锚点、草稿或索引问题，再重新构建；不要绕过检查。 |
 | 部署等待审批 | 查看 `github-pages` 环境的审批和分支规则。 |
 | 部署成功但页面或资源 404 | 以 Pages 设置中的实际网址为准，确认工作流使用其 `base_url`，检查文章路径与资源大小写，排除尚未完成的首次发布。 |
+| 本机 Git 提示连接代理失败 | 核对 Git 的 `http.proxy`、`https.proxy` 是否与当前系统代理一致。首次发布发现旧 Git 代理不可用，上传命令临时使用 Windows 当前代理完成推送，没有修改全局代理设置。代理地址应按本机实际配置处理，不照抄他人端口。 |
 
 ## 配置验证记录
 
 2026-09-28 在现有 WSL Ubuntu 24.04 中核验 YAML 结构及全部内嵌 Bash 脚本语法，并使用 Linux Hugo 0.166.0 extended 实际执行工作流的归档校验、解压、生产构建和站点检查。验证副本只包含公开源码，不包含 `参考资料/`；根路径和 `/micu-baoyan/` 两种地址均通过，每种检查覆盖 39 个 HTML、3182 个本地引用和 2 处 JSON。
 
-本机 WSL 下载受代理连接影响，因此归档通过 Windows 从同一官方 URL 下载，SHA256 在 Windows 与 Linux 分别核对通过。GitHub 托管运行器中的下载、权限、产物上传和部署仍应以实际 Actions 运行结果为准；本机验证不代表已经发布。
+本机 WSL 下载受代理连接影响，因此归档通过 Windows 从同一官方 URL 下载，SHA256 在 Windows 与 Linux 分别核对通过。随后首次 GitHub Actions 运行已完成真实的下载、权限、产物上传和部署验证，结果见上方发布记录。使用实际地址 `https://carboy123.github.io/micu-baoyan/` 的本机构建也通过 39 个 HTML、3182 个本地引用和 2 处 JSON 检查，原始面经哈希保持不变。
+
+首次部署后的线上 HTTP 与产物检查通过：抽查首页、流程文章、搜索、经验页、两份 Logo、材料清单、CSS 和两个 JS，共 10 个目标均返回 200，内容类型正确；链接保留 `/micu-baoyan/` 前缀，没有本机地址。搜索索引为 63 条，未包含待补充内容或模板预览；经验索引为空。Logo、下载与静态代码和本地产物一致，流程文章的 20 个同页锚点均存在。
+
+本次发布没有改动页面布局或交互代码。浏览器连接工具超时，未完成线上实际渲染和点击操作复验；上述线上记录仅代表 HTTP 与产物层验证，不替代已有本机浏览器记录或后续页面改动后的浏览器验收。
 
 ## 参考依据
 
