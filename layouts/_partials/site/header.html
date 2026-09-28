@@ -1,0 +1,20 @@
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="{{ site.Home.RelPermalink }}" aria-label="米醋保研指南首页">
+      <img class="brand-logo" src="{{ "images/micu-symbol.png" | relURL }}" width="194" height="203" alt="" aria-hidden="true">
+      <span class="brand-type">米醋<span class="brand-divider">/</span><strong>保研指南</strong><small>MICU · GROWTH GUIDE</small></span>
+    </a>
+    <nav class="desktop-nav" aria-label="主导航">
+      {{ $current := . }}{{ range site.Menus.main }}
+      {{ $active := or (and (eq .PageRef "/") $current.IsHome) (and (ne .PageRef "/") (hasPrefix $current.RelPermalink .URL)) }}
+      <a href="{{ .URL }}" {{ if $active }}aria-current="page"{{ end }}>{{ .Name }}</a>
+      {{ end }}
+    </nav>
+    <a class="header-search" href="{{ "search/" | relURL }}" aria-label="搜索站内内容">{{ partial "site/icon.html" "search" }}<span>搜索</span><kbd>/</kbd></a>
+    <button class="menu-toggle" data-menu-toggle aria-controls="mobile-nav" aria-expanded="false" aria-label="打开导航菜单">{{ partial "site/icon.html" "menu" }}</button>
+  </div>
+  <nav id="mobile-nav" class="mobile-nav" aria-label="移动端导航" hidden>
+    {{ range site.Menus.main }}<a href="{{ .URL }}">{{ .Name }}</a>{{ end }}
+    <a href="{{ "search/" | relURL }}">站内搜索</a>
+  </nav>
+</header>

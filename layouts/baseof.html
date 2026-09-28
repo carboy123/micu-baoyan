@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ if not .IsHome }}{{ .Title }} · {{ end }}{{ site.Title }}</title>
+  <meta name="description" content="{{ .Description | default site.Params.description }}">
+  {{ if or .Draft (eq .Params.status "preview") }}<meta name="robots" content="noindex,nofollow">{{ end }}
+  <meta name="theme-color" content="#f7f5ef">
+  <link rel="icon" href="{{ "images/micu-symbol.png" | relURL }}" type="image/png" sizes="194x203">
+  <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
+  <script defer src="{{ "js/core.js" | relURL }}"></script>
+  <script defer src="{{ "js/site.js" | relURL }}"></script>
+</head>
+<body class="{{ if .IsHome }}home-page{{ else }}inner-page{{ end }}">
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  {{ partial "site/header.html" . }}
+  <main id="main" tabindex="-1">{{ block "main" . }}{{ end }}</main>
+  {{ partial "site/footer.html" . }}
+  {{ block "data" . }}{{ end }}
+</body>
+</html>

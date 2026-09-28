@@ -1,0 +1,16 @@
+{{ define "main" }}
+<div class="experience-detail-wrap">
+  <a class="back-link" data-experience-return href="{{ "experiences/" | relURL }}">← 返回学员经验</a>
+  <article class="article-panel">
+    {{ partial "site/article-header.html" . }}
+    <dl class="experience-facts">
+      {{ range slice (dict "label" "内容类型" "value" .Params.kind) (dict "label" "申请院校" "value" .Params.school) (dict "label" "院系" "value" .Params.department) (dict "label" "专业方向" "value" .Params.direction) (dict "label" "申请阶段" "value" .Params.stage) (dict "label" "申请年份" "value" .Params.applicationYear) (dict "label" "原始届次" "value" .Params.cohort) (dict "label" "培养类型" "value" .Params.admissionType) (dict "label" "作者展示名" "value" .Params.author) (dict "label" "结果状态" "value" .Params.result) }}
+      <div><dt>{{ .label }}</dt><dd>{{ if reflect.IsSlice .value }}{{ delimit .value " / " }}{{ else }}{{ .value | default "未注明" }}{{ end }}</dd></div>
+      {{ end }}
+    </dl>
+    {{ partial "site/inline-toc.html" . }}
+    <div class="prose">{{ .Content }}</div>
+    {{ partial "site/article-footer.html" . }}
+  </article>
+</div>
+{{ end }}

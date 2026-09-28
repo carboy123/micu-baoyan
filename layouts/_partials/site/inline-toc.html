@@ -1,0 +1,1 @@
+{{ if gt (len .TableOfContents) 40 }}<details class="inline-toc"><summary>本页目录</summary>{{ replace .TableOfContents "id=\"TableOfContents\"" "id=\"InlineTableOfContents\"" | safeHTML }}</details>{{ end }}

@@ -1,0 +1,119 @@
+# 米醋保研指南
+
+面向电子、嵌入式、自动化和计算机相关专业学员的本地保研知识网站。当前为 **v0.2.2 公共知识内容版**：在品牌首页、知识库与经验分类框架上，依据工作室提供的基础稿补充可阅读内容与空白工具，帮助学员理解保研、找到当前阶段的准备事项。
+
+技术方案为 **Hugo 0.166.0 extended + 本地 Hugo Book 主题 + Markdown + 原生 JavaScript**，没有数据库、账号系统或后端 API。主题、脚本、字体与资料随完整预览包提供；日常阅读、修改和构建不需要联网，也不需要 Node.js、Python 或云服务器。
+
+## 先把网站打开
+
+在 Windows 10/11 64 位电脑上解压完整预览包，保留目录结构：
+
+1. 双击 **启动预览.cmd**，等待浏览器打开 [本机预览](http://127.0.0.1:1313/)。
+2. 修改文章后保存，Hugo 会重新构建；需要时刷新浏览器。
+3. 用完后双击 **停止预览.cmd**。关闭浏览器窗口不会停止后台预览。
+4. 需要生成静态网站时，双击 **构建网站.cmd**，输出在 `public/`。
+
+预览只监听本机 `127.0.0.1:1313`。重复启动会复用当前项目的预览；端口被其他程序占用时会提示，不会结束无关进程。日志位于 `.runtime/preview.log` 和 `.runtime/preview-error.log`。
+
+本版使用本机预览服务阅读，不提供“直接双击 HTML 文件”模式。更多命令、输出目录保护与故障排查见 [本地运行与构建](docs/runtime.md)。
+
+## 当前有哪些内容
+
+| 栏目 | 当前内容 |
+| --- | --- |
+| 首页 | 品牌介绍、六阶段入口、常用知识、经验与资料入口 |
+| 保研基础 | 概览、本校规则、完整流程、术语词典、阶段路线、培养方向和常见问题 |
+| 申请指南 | 材料与文书、院校选择、导师沟通、竞赛项目、报名考核、面试、专业复习、机试、系统确认及年度安排 |
+| 学员经验 | 院校面经、申请复盘、上岸成果、上岸感言；组合筛选与真实空态 |
+| 资料与工具 | 材料检查清单、六份空白台账与模板、面经投稿模板、临场清单、官方及公共资源入口 |
+
+全站搜索、文章目录、移动菜单、打印与本地下载已接入。经验列表支持内容类型、院校、专业方向、阶段、申请年份与关键词组合，条件保留在网址中。
+
+**当前真实经验库为空。** 原有面经没有导入、改写或用于生成统计。后续收录使用统一模板；本机 [内容模板预览](http://127.0.0.1:1313/preview/) 仅展示字段占位，不代表真实人物或院校经历。正式构建不包含这些草稿模板。
+
+本轮按 `参考资料/保研公共知识基础.md` 组织公共知识，保留出处与适用范围。年度系统日期单列在 `application/calendar-2027/`，不混入通用路线。资格、日期和招生要求以适用年度的官方通知为准，离线版本不会自动更新招生政策。内容覆盖及本轮验证见 [内容补充记录](docs/content-update.md)。
+
+## 内容维护从这里开始
+
+使用文本编辑器编辑 `content/` 中的 Markdown 文件。新增内容的精确命令、字段和图片处理见 [内容维护手册](docs/content-maintenance.md)。
+
+在项目根目录的 PowerShell 中创建草稿：
+
+```powershell
+& '.\tools\hugo\hugo.exe' new content --kind knowledge 'basics/my-topic.md'
+& '.\tools\hugo\hugo.exe' new content --kind experience 'experiences/my-story.md'
+& '.\tools\hugo\hugo.exe' new content --kind resource 'resources/my-resource.md'
+```
+
+以上是三个独立示例，按需要运行，并把文件名改成简短、稳定的小写英文名称。命令默认生成草稿，不会覆盖已有文件。完成正文并核实后，再将 `draft` 改为 `false`，设置相应的 `params.status`。
+
+| 位置 | 用途 |
+| --- | --- |
+| `content/` | 网站文章、栏目说明、仅开发可见的模板预览 |
+| `data/` | 六阶段首页数据与术语词典 |
+| `archetypes/` | 新文章、经验、资源与词条模板 |
+| `layouts/` | 米醋首页、列表、文章与索引模板 |
+| `static/` | 本地样式、脚本、字体、下载文件 |
+| `themes/hugo-book/` | 完整本地主题及其许可 |
+| `tools/hugo/` | 固定 Hugo 运行时、来源与校验信息 |
+| `scripts/` | Windows 启动、停止和生产构建脚本 |
+| `tests/` | 搜索筛选逻辑测试与产物检查脚本 |
+
+`public/`、`.runtime/` 是生成目录，不能用来维护文章。原始面经、工作室标识及其他参考文件目前保存在 `参考资料/`，整个目录不进入站点产物、便携包或 Git 提交。
+
+网站已使用工作室提供的透明 Logo：`static/images/micu-symbol.png` 用于页头及浏览器标签，`static/images/micu-logo.png` 用于页脚。这两份授权用图副本随网站发布和封包，原始素材保持不变。
+
+首页主视觉下方的工作室简介与官网地址在 `content/_index.md` 的 `params.studio` 中维护。简介依据 [工作室官网](https://svip.micu.wiki/) 整理；官网入口在新标签页打开，并标注需联网访问。
+
+## 构建与开发验证
+
+日常用户只需双击入口；下列命令用于维护者验证。在项目根目录运行：
+
+```powershell
+# 生产构建：排除草稿，输出到 public/
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\build-site.ps1
+
+# 模拟 GitHub Pages 项目子路径，仅构建，不发布
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\build-site.ps1 -BaseURL 'https://example.github.io/micu-baoyan/' -Destination '.runtime/builds/subpath'
+```
+
+已有构建目录必须为空或带脚本生成的 `.micu-build-output` 标记。重复构建会清理该输出目录中的旧产物，请不要将手写内容放在那里。
+
+以下开发检查需要另外可用的 Node.js 与 Python，不是启动网站的必需条件。本轮使用 Node.js 24.11.1 和 Python 3.11.4，检查脚本不需要安装第三方包：
+
+```powershell
+node --check static/js/core.js
+node --check static/js/site.js
+node --test tests/core.test.cjs
+python tests/site-check.py public
+python tests/site-check.py .runtime/builds/subpath --prefix /micu-baoyan/
+```
+
+`site-check.py` 检查内链、锚点、资源、页面 H1、JSON、草稿与搜索隔离、远程自动加载依赖，以及本地原始面经哈希。带草稿的测试产物可以增加 `--development`。公开克隆或 CI 不含原始面经时，显式添加 `--skip-original`，只跳过原始文件哈希检查，其他检查保留；本地默认仍检查原件。本版本的生产验收要求真实经验数据为空；后续正式导入经验时，需同步调整这一验收目标。
+
+自动检查不能代替浏览器验收。页面改动后仍需检查桌面与手机宽度、中文搜索、筛选、返回与刷新、打印，以及断网时资源可用性。已有结果与验证边界见 [第一版验收记录](docs/acceptance.md)，详细记录见 [运行验证](docs/runtime-validation.md) 与 [交互验证](docs/behavior-validation.md)。
+
+## 完整预览包与 Git 克隆的区别
+
+完整预览包已经附带 `tools/hugo/hugo.exe`。`.gitignore` 特意排除了 Hugo 的 `.exe`、下载归档、生成目录与原始素材，因此 **首次 Git 克隆不会自带 Windows 可执行文件**。
+
+克隆后按 [运行时说明](docs/runtime.md) 从固定的 Hugo 官方 release 准备对应 Windows amd64 extended 版本，核对官方归档校验及 `tools/hugo/runtime.json` 中的程序 SHA256，再放回 `tools/hugo/hugo.exe`。不要为了跳过检查修改校验值。主题及字体文件连同许可应保留在仓库中，不依赖子模块或在线拉取。
+
+## 发布到 GitHub Pages
+
+已准备 `.github/workflows/pages.yml`：推送 `main` 或手动运行后，使用固定 Hugo 版本构建、检查产物并部署 Pages。工作流从 GitHub Pages 设置读取真实地址，自动处理项目子路径；本机配置保留本地预览地址。首次上线需要完成以下步骤，详细说明见 [GitHub Pages 发布说明](docs/github-pages.md)。
+
+1. 确定工作室账号、仓库名称与真实网址，检查将要提交的文件。
+2. 只提交已核实可公开的工程与内容。原始面经、未经确认的个人资料、`工作室logo/` 原始素材及运行日志不要提交；`.gitignore` 不会自动移除已经被 Git 跟踪的文件。
+3. 在仓库 **Settings → Pages** 中选择 **GitHub Actions**。
+4. 使用已有工作流：在 Linux runner 下载并校验 Hugo extended 0.166.0，不提交 Windows `.exe`，不在线下载主题或字体。
+5. 将已检查的源码推送至 `main`，在 Actions 查看构建与部署。只有生成的 `public/` 会成为网站发布产物，原始资料不提交到源码仓库。
+6. 检查线上首页、文章直达与刷新、搜索、下载和静态资源路径。
+
+工作流依据 [Hugo 官方 GitHub Pages 指南](https://gohugo.io/host-and-deploy/host-on-github-pages/) 精简，不为通用示例额外引入 Node.js、Go 或 Sass 工具。GitHub 账号、仓库与访问授权由工作室提供；本地准备或构建通过不等于网站已经上线，实际网址与状态以首次远端部署结果为准。
+
+## 来源与许可
+
+本轮以工作室提供的公共知识基础稿为底稿整理正文；基础稿参考 [OpenSHTU 保研 Wiki](https://github.com/OpenSHTU/Baoyan-Wiki) 与 [江南大学 CS 保研仓库](https://jnu-cs-baoyan.github.io/site/) 的公共主题及相关资料。各文章的 `sourceNote` 和 `sources` 保留整理来源及必要的官方链接，没有复制其学员文章。详见网站 `sources/` 内容来源与整理说明。
+
+Hugo 运行时许可在 `tools/hugo/LICENSE`；Hugo Book 主题许可在 `themes/hugo-book/LICENSE`；本地思源黑体、思源宋体的许可在 `static/fonts/`。后续加入图片或学员资料时保留来源、署名及已确认的公开范围。

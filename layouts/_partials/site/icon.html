@@ -1,0 +1,13 @@
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+{{ if eq . "search" }}<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/>
+{{ else if eq . "menu" }}<path d="M4 6h16M4 12h16M4 18h16"/>
+{{ else if eq . "arrow" }}<path d="M4 12h15M13 6l6 6-6 6"/>
+{{ else if eq . "book" }}<path d="M12 5C8 2 4 3 2 4v15c3-1.5 7-1 10 1 3-2 7-2.5 10-1V4c-2-1-6-2-10 1Zm0 0v15"/>
+{{ else if eq . "route" }}<circle cx="5" cy="5" r="2"/><circle cx="19" cy="19" r="2"/><path d="M7 5h9a4 4 0 0 1 0 8H8a3 3 0 0 0 0 6h9"/>
+{{ else if eq . "file" }}<path d="M14 2H5v20h14V7l-5-5Zm0 0v5h5M8 12h8M8 16h6"/>
+{{ else if eq . "quote" }}<path d="M10 5H4v8h5c0 3-2 4-4 5M21 5h-6v8h5c0 3-2 4-4 5"/>
+{{ else if eq . "download" }}<path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/>
+{{ else if eq . "external" }}<path d="M14 3h7v7m0-7-11 11M10 4H4v16h16v-6"/>
+{{ else if eq . "check" }}<path d="m5 12 4 4L19 6"/>
+{{ else }}<circle cx="12" cy="12" r="9"/><path d="M12 10v6m0-10v.1"/>{{ end }}
+</svg>

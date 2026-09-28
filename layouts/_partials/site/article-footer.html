@@ -1,0 +1,8 @@
+{{ if or .Params.sourceNote .Params.sources }}
+<section class="article-sources">
+  <h2>资料来源与适用范围</h2>
+  {{ with .Params.sourceNote }}<p>{{ . }}</p><p><a href="{{ "sources/" | relURL }}">查看内容来源与整理说明</a></p>{{ end }}
+  {{ with .Params.sources }}<p>相关规定请以对应学校与招生年度的正式通知为准。以下链接需联网访问。</p><ul>{{ range . }}<li><a href="{{ .url }}" target="_blank" rel="noopener noreferrer">{{ .title }} ↗</a></li>{{ end }}</ul>{{ end }}
+</section>
+{{ end }}
+<div class="article-end">{{ if eq .Type "experience" }}<a data-experience-return href="{{ "experiences/" | relURL }}">← 返回学员经验</a>{{ else }}<a href="{{ if .Parent }}{{ .Parent.RelPermalink }}{{ else }}{{ site.Home.RelPermalink }}{{ end }}">← 返回{{ with .Parent }}{{ .Title }}{{ else }}首页{{ end }}</a>{{ end }}<button class="text-button" data-print>{{ partial "site/icon.html" "file" }} 打印本页</button></div>

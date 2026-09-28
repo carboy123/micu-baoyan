@@ -1,0 +1,22 @@
+{{ define "main" }}
+<div class="reading-layout">
+  {{ partial "site/sidebar.html" . }}
+  <article class="article-panel">
+    {{ partial "site/article-header.html" . }}
+    <details class="inline-toc"><summary>术语索引</summary><nav aria-label="术语索引"><ul>{{ range hugo.Data.glossary }}<li><a href="#{{ .id }}">{{ .term }}</a></li>{{ end }}</ul></nav></details>
+    <div class="prose">{{ .Content }}</div>
+    <div class="glossary-list">
+      {{ range hugo.Data.glossary }}
+      <section class="glossary-term" id="{{ .id }}">
+        <div class="term-heading"><h2>{{ .term }}</h2>{{ with .aliases }}<span>{{ delimit . " / " }}</span>{{ end }}</div>
+        <p>{{ .definition }}</p>
+        {{ with .note }}<div class="term-note">{{ . }}</div>{{ end }}
+        {{ with .related }}<div class="term-related">{{ range . }}<a href="{{ .url | relURL }}">{{ .title }} ↗</a>{{ end }}</div>{{ end }}
+      </section>
+      {{ end }}
+    </div>
+    {{ partial "site/article-footer.html" . }}
+  </article>
+  <aside class="article-toc"><p>术语索引</p>{{ range hugo.Data.glossary }}<a href="#{{ .id }}">{{ .term }}</a>{{ end }}</aside>
+</div>
+{{ end }}

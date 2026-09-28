@@ -1,0 +1,10 @@
+# 复制并填写此条目，然后追加到 data/glossary.yaml。
+# id 使用不重复的小写英文和连字符；不要填写未经核实的政策要求。
+- id: term-id
+  term: 术语名称
+  aliases: []
+  definition: 用一句话解释术语。
+  note: 说明常见误解及需要核对的官方依据。
+  related:
+    - title: 相关页面标题
+      url: basics/overview/

@@ -1,0 +1,9 @@
+{
+  "version": "0.166.0",
+  "edition": "extended",
+  "platform": "windows-amd64",
+  "archive": "hugo_extended_0.166.0_windows-amd64.zip",
+  "source": "https://github.com/gohugoio/hugo/releases/tag/v0.166.0",
+  "sha256": "51e4512ff343e7a2b9d879028a92177d090031c71e7a6a2a3d7cba8536202e80",
+  "executable_sha256": "07af3981895ec3b42ccf3de8ae8670919fbcae9989396435456d57ef165d46d5"
+}

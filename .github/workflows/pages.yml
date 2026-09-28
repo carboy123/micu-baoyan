@@ -1,0 +1,83 @@
+name: Build and deploy Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  HUGO_VERSION: '0.166.0'
+  # Official hugo_extended_0.166.0_linux-amd64.tar.gz SHA256.
+  HUGO_SHA256: '0e39b901e3f919f1daae05c8ff64f0c14c8a348ef46886d63f8e6d1bb2653885'
+  TZ: Asia/Shanghai
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v6.0.0
+
+      - name: Install Hugo extended
+        run: |
+          archive="hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
+          curl --fail --location --silent --show-error --retry 3 --connect-timeout 20 --max-time 120 \
+            "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/${archive}" \
+            --output "${RUNNER_TEMP}/${archive}"
+          printf '%s  %s\n' "${HUGO_SHA256}" "${RUNNER_TEMP}/${archive}" | sha256sum --check --strict
+          mkdir -p "${RUNNER_TEMP}/hugo-bin"
+          tar -xzf "${RUNNER_TEMP}/${archive}" -C "${RUNNER_TEMP}/hugo-bin" hugo
+          printf '%s\n' "${RUNNER_TEMP}/hugo-bin" >> "${GITHUB_PATH}"
+          "${RUNNER_TEMP}/hugo-bin/hugo" version
+
+      - name: Build and check site
+        env:
+          PAGES_BASE_URL: ${{ steps.pages.outputs.base_url }}
+        run: |
+          hugo --environment production --buildDrafts=false --minify \
+            --baseURL "${PAGES_BASE_URL%/}/" \
+            --cacheDir "${RUNNER_TEMP}/hugo-cache" \
+            --destination public
+          prefix="$(python3 -c 'import os; from urllib.parse import urlsplit; print(urlsplit(os.environ["PAGES_BASE_URL"]).path or "/")')"
+          python3 tests/site-check.py public --prefix "${prefix}" --skip-original
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5.0.0
+        with:
+          path: public
+          include-hidden-files: false
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5.0.1

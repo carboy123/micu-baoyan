@@ -1,0 +1,46 @@
+baseURL = 'http://127.0.0.1:1313/'
+locale = 'zh-CN'
+defaultContentLanguage = 'zh'
+title = '米醋保研指南'
+theme = 'hugo-book'
+hasCJKLanguage = true
+enableRobotsTXT = true
+disableKinds = ['taxonomy', 'term', 'RSS']
+summaryLength = 90
+
+[params]
+  description = '面向电子、嵌入式、自动化与计算机专业的保研成长指南。看懂规则，明确每个阶段的下一步。'
+  version = '0.2.2'
+  BookTheme = 'light'
+  BookSearch = false
+  BookComments = false
+  BookSection = '*'
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = false
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+    ordered = false
+
+[[menus.main]]
+  name = '首页'
+  pageRef = '/'
+  weight = 10
+[[menus.main]]
+  name = '保研基础'
+  pageRef = '/basics'
+  weight = 20
+[[menus.main]]
+  name = '申请指南'
+  pageRef = '/application'
+  weight = 30
+[[menus.main]]
+  name = '学员经验'
+  pageRef = '/experiences'
+  weight = 40
+[[menus.main]]
+  name = '资料与工具'
+  pageRef = '/resources'
+  weight = 50

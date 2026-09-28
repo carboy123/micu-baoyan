@@ -1,0 +1,4 @@
+{{ partial "site/breadcrumbs.html" . }}
+<header class="article-header"><div class="article-meta"><span class="status-tag {{ .Params.status }}">{{ if eq .Params.status "planned" }}专题导读 · 待补充{{ else if eq .Params.status "preview" }}模板预览{{ else if eq .Params.status "example" }}通用示例{{ else }}米醋保研指南{{ end }}</span>{{ with .Params.stage }}<span>{{ if reflect.IsSlice . }}{{ delimit . " / " }}{{ else }}{{ . }}{{ end }}</span>{{ end }}</div><h1>{{ .Title }}</h1>{{ with .Description }}<p class="article-description">{{ . }}</p>{{ end }}{{ if or .Date .Lastmod }}<p class="article-date">更新于 {{ .Lastmod.Format "2006.01.02" }}</p>{{ end }}</header>
+{{ if eq .Params.status "planned" }}<div class="notice planned-notice"><strong>本专题正在准备中</strong><p>下方是内容导读与后续收录方向，可先通过相关入口继续阅读。</p></div>{{ end }}
+{{ if eq .Params.status "preview" }}<div class="notice"><strong>这是字段与排版预览</strong><p>以下为模板占位，不是真实学员经历。预览页面不会进入搜索、经验列表或公开构建。</p></div>{{ end }}

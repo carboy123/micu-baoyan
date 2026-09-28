@@ -1,0 +1,8 @@
+{{ $records := slice }}
+{{ range where site.RegularPages "Section" "experiences" }}
+{{ if and (not .Draft) (eq .Params.status "published") }}
+{{ $directions := slice }}{{ with .Params.direction }}{{ if reflect.IsSlice . }}{{ $directions = . }}{{ else }}{{ $directions = slice . }}{{ end }}{{ end }}
+{{ $stages := slice }}{{ with .Params.stage }}{{ if reflect.IsSlice . }}{{ $stages = . }}{{ else }}{{ $stages = slice . }}{{ end }}{{ end }}
+{{ $records = $records | append (dict "id" .RelPermalink "title" .Title "description" .Description "body" .Plain "url" .RelPermalink "kind" (.Params.kind | default "") "school" (.Params.school | default "") "college" (.Params.department | default "") "directions" $directions "stages" $stages "applicationYear" (.Params.applicationYear | default "") "cohort" (.Params.cohort | default "") "author" (.Params.author | default "") "resultStatus" (.Params.result | default "")) }}
+{{ end }}{{ end }}
+<script type="application/json" id="experience-data">{{ $records | jsonify | safeJS }}</script>

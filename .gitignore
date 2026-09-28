@@ -1,0 +1,15 @@
+/public/
+/dist/
+/resources/_gen/
+/.hugo_build.lock
+/.runtime/
+/.test-output/
+/.test-workspaces/
+/node_modules/
+/tools/hugo/*.exe
+/tools/hugo/*.zip
+__pycache__/
+# 原始资料留在本地，不进入公开仓库。
+/2026-8-7 米醋电子工作室保研面经整理 231938.md
+/工作室logo/
+/参考资料/

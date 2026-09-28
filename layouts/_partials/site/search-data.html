@@ -1,0 +1,10 @@
+{{ $records := slice }}
+{{ range site.RegularPages }}
+{{ if and (not .Draft) (in (slice "example" "published") .Params.status) (ne .Section "preview") }}
+{{ $section := "知识文章" }}{{ with .FirstSection }}{{ $section = .Title }}{{ end }}
+{{ $records = $records | append (dict "id" .RelPermalink "title" .Title "description" .Description "body" .Plain "section" $section "url" .RelPermalink "kind" (.Params.kind | default "")) }}
+{{ end }}{{ end }}
+{{ range hugo.Data.glossary }}
+{{ $records = $records | append (dict "id" .id "title" .term "description" .definition "body" (printf "%s %s %s" (delimit .aliases " ") .definition .note) "section" "术语词典" "url" (printf "%s#%s" ("basics/glossary/" | relURL) .id) "kind" "术语") }}
+{{ end }}
+<script type="application/json" id="search-data">{{ $records | jsonify | safeJS }}</script>

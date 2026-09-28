@@ -1,0 +1,46 @@
+[
+  {
+    "name": "Hugo Book",
+    "version": "v0.15.0",
+    "url": "https://codeload.github.com/alex-shpak/hugo-book/zip/refs/tags/v0.15.0",
+    "path": "themes/hugo-book",
+    "sha256": "7711eda8dc6297f5d8cfacc60c3a81d61eb4d5c4b3e842b3e1ac6f649dbe84a1",
+    "hash_scope": "extracted-tree"
+  },
+  {
+    "name": "SourceHanSansCN-Regular.otf",
+    "url": "https://raw.githubusercontent.com/adobe-fonts/source-han-sans/a4f7cf94edfb9d7ffbdfc4841de276358bd7e0f2/SubsetOTF/CN/SourceHanSansCN-Regular.otf",
+    "path": "static/fonts/SourceHanSansCN-Regular.otf",
+    "source_commit": "a4f7cf94edfb9d7ffbdfc4841de276358bd7e0f2",
+    "git_blob_sha1": "5e6605995d5cbc432c4273f566a5f2b8c376c682",
+    "sha256": "e2bc8a2e7f37474b774fff8db758681ece40bb6947a90d571bce9dd60671a8e4",
+    "size": 8429224
+  },
+  {
+    "name": "SourceHanSerifCN-Regular.otf",
+    "url": "https://raw.githubusercontent.com/adobe-fonts/source-han-serif/7889f11bf31170b5d092a083b357c8c8130f89e0/SubsetOTF/CN/SourceHanSerifCN-Regular.otf",
+    "path": "static/fonts/SourceHanSerifCN-Regular.otf",
+    "source_commit": "7889f11bf31170b5d092a083b357c8c8130f89e0",
+    "git_blob_sha1": "a4feb5f2461886dbf9cfe575974f0a68940c6bf9",
+    "sha256": "3754ea669c530e2473354f8f6d9f79680a44d7e26ec7d00eeabee4a7e0753c5d",
+    "size": 11626108
+  },
+  {
+    "name": "source-han-sans-LICENSE.txt",
+    "url": "https://raw.githubusercontent.com/adobe-fonts/source-han-sans/a4f7cf94edfb9d7ffbdfc4841de276358bd7e0f2/LICENSE.txt",
+    "path": "static/fonts/source-han-sans-LICENSE.txt",
+    "source_commit": "a4f7cf94edfb9d7ffbdfc4841de276358bd7e0f2",
+    "git_blob_sha1": "3ff0ccaba06857bf292ade9a50f16a0f02b3b8d4",
+    "sha256": "fcac737e761ec63dbfbdce11030a1780161920d80315edba9c8beff1c2bac5a2",
+    "size": 4463
+  },
+  {
+    "name": "source-han-serif-LICENSE.txt",
+    "url": "https://raw.githubusercontent.com/adobe-fonts/source-han-serif/7889f11bf31170b5d092a083b357c8c8130f89e0/LICENSE.txt",
+    "path": "static/fonts/source-han-serif-LICENSE.txt",
+    "source_commit": "7889f11bf31170b5d092a083b357c8c8130f89e0",
+    "git_blob_sha1": "07235a78b936958799812313565ba0d03e7cd7dd",
+    "sha256": "9ff5bb567e1b92c801fc1069e5fbf992ff8efccacb9db94e5959a5b3ba9bb903",
+    "size": 4463
+  }
+]

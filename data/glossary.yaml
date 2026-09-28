@@ -1,0 +1,248 @@
+- id: qualification
+  term: 推免资格
+  aliases: [推荐免试资格]
+  definition: 本科院校按规定遴选推荐、并完成相应审核与备案的资格。
+  note: 本校推荐与目标院校接收是不同环节。预计有资格不等于已正式获得，拥有资格也不等于已有接收院校。
+  related:
+    - title: 如何了解本校规则
+      url: basics/rules/
+- id: summer-camp
+  term: 夏令营
+  aliases: [保研夏令营]
+  definition: 院系开展学术交流、宣讲或选拔时采用的活动名称。
+  note: 是否考核、采用何种形式及如何使用结果，要看本次通知；入营本身不是正式录取。
+  related:
+    - title: 夏令营与预推免
+      url: application/camps/
+- id: pre-recommendation
+  term: 预推免
+  aliases: [预推荐免试, 推免预报名]
+  definition: 院系在正式录取流程前开展预报名、审核或考核等安排时常用的名称。
+  note: 报名条件、结果效力与后续手续由具体通知说明，不代表提前完成了全部录取程序。
+  related:
+    - title: 保研完整流程
+      url: basics/flow/
+- id: camp-invitation
+  term: 入营
+  aliases: [入营资格, 获邀参营]
+  definition: 获准参加某次夏令营等活动的状态。
+  note: 需要继续查看参加确认、日程和考核要求，不能把获得参加机会写成考核通过或录取。
+  related:
+    - title: 报名与参营安排
+      url: application/camps/
+- id: excellent-camper
+  term: 优营
+  aliases: [优秀营员]
+  definition: 院系在相应活动或考核后发布的一类阶段性评价或结果。
+  note: 后续效力因项目而异，需要读清资格、名额、双选、再考核和系统确认等条件，不能统一等同于拟录取。
+  related:
+    - title: 分清不同申请结果
+      url: basics/overview/
+- id: offer
+  term: offer
+  aliases: [接收意向]
+  definition: 申请交流中对接收意向或某种阶段结果的泛称，使用范围并不统一。
+  note: 继续问清是谁发出、对应哪个项目、具体结果名称和后续条件，再按正式状态记录。
+  related:
+    - title: 结果确认检查单
+      url: resources/result-checklist/
+- id: oral-offer
+  term: oral offer
+  aliases: [口头接收意向, 口头offer]
+  definition: 通过口头沟通表达的接收意向。
+  note: 不能当作正式录取凭据，也不能替代本校资格、院系审核和全国系统手续。
+  related:
+    - title: 联系导师
+      url: application/mentors/
+- id: waitlist
+  term: 候补
+  aliases: [候补名单, waiting list, wl]
+  definition: 选拔中等待后续递补机会的状态，是否能够递补尚不确定。
+  note: 核对该项目的递补规则、回复要求和有效范围，不要把候补记录成已经接收或录取。
+  related:
+    - title: 保研完整流程
+      url: basics/flow/
+- id: late-round
+  term: 九推、十推
+  aliases: [九推, 十推]
+  definition: 对申请季后期申请、考核或递补等活动的口语称呼。
+  note: 名称不代表统一批次或固定机会。是否开放申请、面向谁及怎样办理，都要找具体官方通知。
+  related:
+    - title: 报名与结果跟进
+      url: application/camps/
+- id: historical-system-dates
+  term: 928、925
+  aliases: ['928', '925', '9.28', '9.25']
+  definition: 交流中对部分往年全国系统节点的俗称。
+  note: 不是每年通用的操作日历。按对应入学年度查询研招网说明，并分别记录院系自己的期限。
+  related:
+    - title: 当年国家节点
+      url: application/calendar-2027/
+- id: mentor-contact
+  term: 套磁
+  aliases: [陶瓷, 提前联系导师]
+  definition: 申请者提前联系导师，交流研究兴趣、个人经历或招生安排的非正式说法。
+  note: 邮件只写真实阅读和经历，沟通意向不能代替正式申请。对方无回复也不足以判断原因。
+  related:
+    - title: 联系导师的方法
+      url: application/mentors/
+- id: mutual-selection
+  term: 双选
+  aliases: [师生双选, 导师双选]
+  definition: 学生与导师依据院系规则相互选择的过程。
+  note: 何时双选、需要哪些前置审核、怎样确认结果，应按项目安排了解，不能假定都在同一阶段完成。
+  related:
+    - title: 院校与培养方向选择
+      url: basics/choosing/
+- id: committee
+  term: com
+  aliases: [committee, 招生委员会]
+  definition: 申请交流中对招生委员会等集体审核机制的简称。
+  note: 具体由谁审核、怎样组织考核与接收，应阅读当前院系办法，不以简称推断程序。
+  related:
+    - title: 了解招生组织
+      url: basics/choosing/
+- id: committee-labels
+  term: 强 com、弱 com
+  aliases: [强com, 弱com, 强委员会, 弱委员会]
+  definition: 对委员会与导师在招生中影响方式的非正式概括。
+  note: 此类标签可能过时或过度简化，不能替代当前规则，也不能据此断言导师可以绕过正式审核。
+  related:
+    - title: 常见问题
+      url: basics/faq/
+- id: background
+  term: bg
+  aliases: [background, 申请背景]
+  definition: 对学习、英语、科研、项目与竞赛等申请经历和条件的简写。
+  note: 不同人的信息完整度、年度和项目不同，背景看似接近不能推出相同录取结果。
+  related:
+    - title: 申请材料清单
+      url: application/materials/
+- id: rank
+  term: 排名
+  aliases: [rank, rk, 专业排名]
+  definition: 按某种统计指标和范围形成的相对次序。
+  note: 同时说明指标、范围、时间与总人数；课程成绩排名和综合评价排名不应混用，估计值也不是正式证明。
+  related:
+    - title: 成绩与排名口径
+      url: basics/rules/
+- id: gpa
+  term: GPA
+  aliases: [平均绩点, grade point average]
+  definition: 平均绩点，是学校按自身规则计算学业表现的一种指标。
+  note: 不同学校的满分与算法可能不同。提交时按院系要求说明或提供证明，不自行当作完全可比的数值。
+  related:
+    - title: 查清本校成绩规则
+      url: basics/rules/
+- id: school-title
+  term: title
+  aliases: [学校背景, 院校背景]
+  definition: 申请交流中有时用于指代学校背景或层次的简称。
+  note: 这个词不是正式招生条件。具体接受哪些申请者、如何评价，应以项目规定为准，不只凭标签判断机会。
+  related:
+    - title: 择校与培养方向
+      url: basics/choosing/
+- id: bar
+  term: bar
+  aliases: [申请门槛, 筛选门槛]
+  definition: 交流中对申请条件或筛选要求的概括。
+  note: 区分官方明确条件、他人经验和个人猜测；不要把往届某个录取样本反推成固定门槛。
+  related:
+    - title: 核对目标项目条件
+      url: application/choosing/
+- id: overqualified
+  term: oq
+  aliases: [overqualified]
+  definition: 对申请条件高于某项目通常预期的非正式判断。
+  note: 用这个词解释未获邀请仍然只是推测，不能因此断言院系拒绝原因或预测后续结果。
+  related:
+    - title: 如何看待个体经验
+      url: basics/faq/
+- id: assistant-professor
+  term: AP
+  aliases: [assistant professor, 助理教授]
+  definition: assistant professor 的缩写，通常译作助理教授。
+  note: 职称本身不能说明当前招生名额、决定权限或指导质量，仍需了解具体制度、研究匹配和沟通情况。
+  related:
+    - title: 了解导师与培养项目
+      url: basics/choosing/
+- id: deadline
+  term: ddl
+  aliases: [deadline, 截止时间]
+  definition: 某项提交、回复、考核确认或其他工作的截止时点。
+  note: 记录日期、具体时刻和对应事项；院系材料或回复截止可能早于全国系统窗口，不能互相代替。
+  related:
+    - title: 申请台账
+      url: resources/application-ledger/
+- id: withdrawal
+  term: 放鸽子
+  aliases: [鸽]
+  definition: 对未履行先前表达的意向或约定的口语评价。
+  note: 先区分意向、约定与正式系统确认的实际状态；变更选择时按相应规则及时沟通，不用口语标签代替事实。
+  related:
+    - title: 正式推免与后续事项
+      url: application/confirmation/
+- id: late-opportunity
+  term: 捡漏
+  aliases: [后期机会, 补招机会]
+  definition: 申请交流中对后期补招、递补等机会的俗称。
+  note: 不代表容易录取或无需资格。先核对是否确有官方入口、当前条件与完整手续。
+  related:
+    - title: 保研完整流程
+      url: basics/flow/
+- id: pending-admission
+  term: 待录取
+  aliases: [待录取通知]
+  definition: 国家推免服务系统中由招生单位发送、需要考生按规定接收和确认的通知环节。
+  note: 操作时限、确认方式及结果效力按当年系统和单位要求办理，确认后仍需关注后续规定事项。
+  related:
+    - title: 正式推免手续
+      url: application/confirmation/
+- id: proposed-admission
+  term: 拟录取
+  aliases: [拟录取名单]
+  definition: 招生单位在相应选拔后公布拟接收考生时使用的结果表述。
+  note: 仍需留意公示、审核、本科学业与后续材料等要求，具体按院校通知执行。
+  related:
+    - title: 拟录取后的准备
+      url: basics/roadmap/#stage-6
+- id: academic-master
+  term: 学硕
+  aliases: [学术学位硕士]
+  definition: 学术学位硕士的简称，培养侧重学术研究训练。
+  note: 学位类型不能直接决定统一学制、费用或毕业要求，应查具体专业与培养方案。
+  related:
+    - title: 分清学位与培养路径
+      url: basics/choosing/
+- id: professional-master
+  term: 专硕
+  aliases: [专业学位硕士]
+  definition: 专业学位硕士的简称，培养侧重专业实践能力及相应理论训练。
+  note: 与学术学位同等重要。实践、住宿、奖助、费用与毕业要求按具体项目核对，不用名称推断统一待遇。
+  related:
+    - title: 比较培养安排
+      url: basics/choosing/
+- id: direct-phd
+  term: 直博
+  aliases: [直接攻读博士, 直接攻博]
+  definition: 本科后直接进入博士阶段的培养路径。
+  note: 直博是路径而非单一学位类型；核对具体项目的学位类别、年限、考核与分流退出规则，不预设都能转硕。
+  related:
+    - title: 选择前要了解的培养条件
+      url: basics/choosing/
+- id: master-doctor-transition
+  term: 硕博连读
+  aliases: [硕博衔接]
+  definition: 进入硕士阶段后，按相关规定申请衔接博士培养的路径。
+  note: 选拔时间、资格、考核与名额由项目规则决定，不能将存在该路径理解为所有硕士都能自动进入博士阶段。
+  related:
+    - title: 学位与培养路径
+      url: basics/choosing/
+- id: engineering-doctor
+  term: 工程类博士专业学位
+  aliases: [工程博士, 工程类专业学位博士]
+  definition: 博士专业学位中的相关工程类培养类型。
+  note: 具体项目的招生对象、申请方式和培养实践要求需分别查明，不能仅凭类别名称判断能否申请。
+  related:
+    - title: 择校与培养方向
+      url: basics/choosing/

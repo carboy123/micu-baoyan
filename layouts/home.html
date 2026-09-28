@@ -1,0 +1,40 @@
+{{ define "main" }}
+<div class="home-wrap">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-copy"><p class="eyebrow"><span></span>米醋电子工作室 · 学生成长计划</p>
+      <h1 id="hero-title">看懂保研，<br>走好<span class="serif-accent">每一步。</span></h1>
+      <p class="hero-description">从第一次了解推免，到找到适合自己的方向。<br class="desktop-break">把散落的信息，变成你每个阶段清晰的下一步。</p>
+      <div class="hero-actions"><a class="button button-primary" href="{{ "basics/overview/" | relURL }}">从保研入门开始 {{ partial "site/icon.html" "arrow" }}</a><a class="text-link" href="#stages">查看我的阶段 <span>↓</span></a></div>
+      <p class="audience-label">为这些方向的你准备<span>电子信息 / 嵌入式 / 自动化 / 计算机</span></p>
+    </div>
+    <div class="hero-journal" aria-label="保研准备的三个方向">
+      <div class="journal-top"><span>准备手记</span><span class="journal-edition">VOL. 01</span></div>
+      <div class="journal-title">每一份积累，<br>都有它的下一站。</div>
+      <ol class="journal-route"><li><span>01</span><div><strong>先看清规则</strong><small>了解保研，也了解自己的起点</small></div></li><li><span>02</span><div><strong>再积累能力</strong><small>课程、英语、竞赛与真实项目</small></div></li><li><span>03</span><div><strong>把经历讲明白</strong><small>用材料与表达，让努力被看见</small></div></li></ol>
+      <div class="journal-bottom"><span>从你所在的位置开始</span><span aria-hidden="true">↗</span></div>
+      <span class="journal-bookmark" aria-hidden="true">米醋</span>
+    </div>
+  </section>
+  {{ with .Params.studio }}
+  <section class="studio-intro" id="studio" aria-labelledby="studio-title">
+    <div class="studio-identity"><p class="eyebrow">ABOUT MICU / 关于米醋</p><img src="{{ "images/micu-logo.png" | relURL }}" width="337" height="86" alt="米醋电子工作室"></div>
+    <div class="studio-copy"><h2 id="studio-title">{{ .title }}</h2><p>{{ .description }}</p><div class="studio-links"><a class="text-link" href="{{ .url }}" target="_blank" rel="noopener noreferrer">访问工作室官网 <span aria-hidden="true">↗</span><span class="sr-only">（在新标签页打开）</span></a><span>svip.micu.wiki · 需联网访问</span></div></div>
+  </section>
+  {{ end }}
+  <section class="stage-section" id="stages" aria-labelledby="stage-title">
+    <div class="section-heading"><div><p class="eyebrow">01 / 找到你的起点</p><h2 id="stage-title">现在的你，走到哪一步了？</h2></div><a class="text-link" href="{{ "basics/roadmap/" | relURL }}">完整准备路线 {{ partial "site/icon.html" "arrow" }}</a></div>
+    <div class="stage-grid">{{ range $i, $stage := hugo.Data.roadmap }}<a class="stage-card" href="{{ $stage.link | relURL }}"><span class="stage-number">{{ printf "%02d" (add $i 1) }}</span><h3>{{ $stage.label }}</h3><p>{{ $stage.title }}</p><span class="stage-arrow" aria-hidden="true">↗</span></a>{{ end }}</div>
+    <p class="section-footnote">不必一次读完所有内容，从当前阶段最需要的事情开始。</p>
+  </section>
+  <section class="knowledge-section" aria-labelledby="knowledge-title">
+    <div class="section-heading"><div><p class="eyebrow">02 / 建立清晰的认知</p><h2 id="knowledge-title">先把这些问题弄明白。</h2></div><span class="section-side-note">从概念到行动，有序准备</span></div>
+    <div class="knowledge-grid">
+      {{ range slice (dict "title" "保研到底是什么？" "description" "看懂本科院校推荐与招生院校接收，两条线一起准备。" "url" "basics/overview/" "icon" "book" "label" "保研入门") (dict "title" "整个过程怎么走？" "description" "认识申请与考核的主要环节，找到当前该关注的事项。" "url" "basics/flow/" "icon" "route" "label" "流程导读") (dict "title" "这些术语是什么意思？" "description" "从推免资格到待录取，用清楚的解释读懂常见概念。" "url" "basics/glossary/" "icon" "quote" "label" "术语词典") (dict "title" "申请材料怎么准备？" "description" "整理自己的经历，建立一份可逐项核对的材料清单。" "url" "application/materials/" "icon" "file" "label" "申请指南") }}
+      <a class="knowledge-card" href="{{ .url | relURL }}"><span class="line-icon">{{ partial "site/icon.html" .icon }}</span><span class="card-eyebrow">{{ .label }}</span><h3>{{ .title }}</h3><p>{{ .description }}</p><span class="card-arrow" aria-hidden="true">↗</span></a>{{ end }}
+    </div>
+  </section>
+  <section class="project-section" aria-labelledby="project-title"><div class="project-copy"><p class="eyebrow">03 / 从作品，到下一次机会</p><h2 id="project-title">做过的项目，<br>值得被认真讲述。</h2><p>在米醋，竞赛与实践是成长的一部分。记录你解决的问题、作出的选择和真实的个人贡献，让一次经历成为可以继续积累的能力。</p><a class="text-link" href="{{ "application/projects/" | relURL }}">了解竞赛与项目整理 {{ partial "site/icon.html" "arrow" }}</a></div><div class="project-notes"><span class="note-caption">一份项目经历的整理思路</span>{{ range $i, $item := slice "我负责了什么" "为什么这样设计" "怎样验证结果" "下一次如何改进" }}<div class="project-note"><span>0{{ add $i 1 }}</span><strong>{{ $item }}</strong>{{ partial "site/icon.html" "check" }}</div>{{ end }}<p>把真实过程留下，把自己的贡献讲清。</p></div></section>
+  <section class="experience-section" aria-labelledby="experience-title"><div class="section-heading"><div><p class="eyebrow">04 / 向走过这条路的人学习</p><h2 id="experience-title">每一段经历，都有参考的价值。</h2></div><a class="text-link" href="{{ "experiences/" | relURL }}">进入学员经验 {{ partial "site/icon.html" "arrow" }}</a></div><div class="experience-home"><div class="experience-types">{{ range slice "院校面经" "申请复盘" "上岸成果" "上岸感言" }}<a href="{{ "experiences/" | relURL }}?kind={{ . | urlquery }}">{{ . }} <span>↗</span></a>{{ end }}</div><div class="empty-home"><span class="empty-mark" aria-hidden="true">{{ partial "site/icon.html" "book" }}</span><div><h3>真实的故事，正在等待收录。</h3><p>这里将记录学员的准备过程、面试复盘与成长感受。<br>目前暂无已收录内容。</p></div></div></div></section>
+  <section class="resource-section"><div><p class="eyebrow">05 / 让准备落到纸上</p><h2>从一份清单，开始行动。</h2></div><div class="resource-shortcuts"><a href="{{ "resources/checklist/" | relURL }}">申请材料清单 {{ partial "site/icon.html" "arrow" }}</a><a href="{{ "resources/templates/" | relURL }}">文书与项目模板 {{ partial "site/icon.html" "arrow" }}</a><a href="{{ "resources/records/" | relURL }}">申请台账与复习记录 {{ partial "site/icon.html" "arrow" }}</a><a href="{{ "resources/official/" | relURL }}">官方信息入口 {{ partial "site/icon.html" "arrow" }}</a></div></section>
+</div>
+{{ end }}
