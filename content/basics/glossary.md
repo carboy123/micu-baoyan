@@ -3,10 +3,9 @@ title: 术语词典
 description: 看懂申请交流中的简称，并区分正式状态、非正式说法与培养概念。
 layout: glossary
 weight: 40
-lastmod: 2026-09-27
+lastmod: 2026-09-28
 params:
   status: published
-  sourceNote: 依据米醋电子工作室《保研公共知识基础稿》（2026-09-27）整理。通用任务表为准备建议，具体要求以官方通知为准。
   stage: 所有阶段
   sources:
     - title: 研招网 · 推免服务系统说明

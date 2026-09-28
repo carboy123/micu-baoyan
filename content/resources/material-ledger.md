@@ -2,12 +2,11 @@
 title: "材料台账"
 description: "记录每份凭证、可编辑稿和提交稿的版本，核对盖章、有效期与上传回显。"
 weight: 52
-lastmod: 2026-09-27
+lastmod: 2026-09-28
 params:
   status: published
   stage: "申请准备至申请季"
   resourceCategory: "申请记录"
-  sourceNote: "据米醋电子工作室《保研公共知识基础稿》（2026-09-27）重组；空白模板由编者编写，不代表任何院校指定格式。 对应基础稿第6、7.3、16.2节。"
   format: Markdown
   download: downloads/material-ledger.md
 ---

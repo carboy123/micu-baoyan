@@ -2,10 +2,9 @@
 title: 择校与培养方向
 description: 先明确希望学什么、接受怎样的培养，再比较院校、项目和导师。
 weight: 60
-lastmod: 2026-09-27
+lastmod: 2026-09-28
 params:
   status: published
-  sourceNote: 依据米醋电子工作室《保研公共知识基础稿》（2026-09-27）整理。通用任务表为准备建议，具体要求以官方通知为准。
   stage: 大二至申请季
   sources:
     - title: 教育部 · 学术学位与专业学位研究生教育分类发展意见（2023年）

@@ -2,12 +2,11 @@
 title: "单个项目的讲解卡"
 description: "把问题、个人贡献、技术选择和验证证据整理到一张卡片，供简历与面试复用。"
 weight: 42
-lastmod: 2026-09-27
+lastmod: 2026-09-28
 params:
   status: published
   stage: "申请准备至申请季"
   resourceCategory: "材料模板"
-  sourceNote: "据米醋电子工作室《保研公共知识基础稿》（2026-09-27）重组；空白模板由编者编写，不代表任何院校指定格式。 对应基础稿第7.1、7.4、12.2、16.4节。"
   format: Markdown
   download: downloads/project-card.md
 ---

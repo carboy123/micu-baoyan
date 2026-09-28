@@ -2,10 +2,9 @@
 title: 常见问题
 description: 把资格、阶段结果、材料和选择中的常见误解说清楚。
 weight: 70
-lastmod: 2026-09-27
+lastmod: 2026-09-28
 params:
   status: published
-  sourceNote: 依据米醋电子工作室《保研公共知识基础稿》（2026-09-27）整理。通用任务表为准备建议，具体要求以官方通知为准。
   stage: 所有阶段
   sources:
     - title: 研招网 · 推免服务系统说明

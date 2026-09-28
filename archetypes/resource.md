@@ -7,7 +7,6 @@ draft: true
 params:
   status: planned
   resourceCategory: 材料模板
-  sourceNote: ""
   format: ""
   download: ""
   externalURL: ""

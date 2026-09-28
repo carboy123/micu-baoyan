@@ -2,11 +2,10 @@
 title: 2027 入学年度：系统时间与操作规则
 description: 2026 年申请、2027 年入学的全国推免系统安排，按官方说明核对。
 weight: 75
-lastmod: 2026-09-27
+lastmod: 2026-09-28
 params:
   status: published
   stage: 申请季
-  sourceNote: 本页从米醋电子工作室《保研公共知识基础稿》中分离年度信息，并于2026-09-27核对研招网及学信网帮助中心。只适用于所标年度，不自动更新。
   sources:
     - title: 研招网 · 推免服务系统说明（2027入学年度）
       url: https://yz.chsi.com.cn/tm/

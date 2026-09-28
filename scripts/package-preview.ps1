@@ -5,7 +5,7 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $projectRoot = [IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot)).TrimEnd('\')
 $packageRoot = '米醋保研指南'
-$packageName = '米醋保研指南-v0.2.2.zip'
+$packageName = '米醋保研指南-v0.3.0.zip'
 $temporaryPath = $null
 
 # Only these source trees and individual root files can enter the archive.

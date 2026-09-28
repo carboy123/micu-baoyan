@@ -1,6 +1,6 @@
 # 米醋保研指南
 
-面向电子、嵌入式、自动化和计算机相关专业学员的保研知识网站，支持在线阅读和 Windows 本机预览。当前为 **v0.2.2 公共知识内容版**：在品牌首页、知识库与经验分类框架上，依据工作室提供的基础稿补充可阅读内容与空白工具，帮助学员理解保研、找到当前阶段的准备事项。
+面向电子、嵌入式、自动化和计算机相关专业学员的保研知识网站，支持在线阅读和 Windows 本机预览。当前为 **v0.3.0 专业准备与资源版**：通过知识文章、项目训练、阶段任务和可下载工具，帮助学员理解保研、找到当前阶段的准备事项。
 
 **在线阅读：[米醋保研指南](https://carboy123.github.io/micu-baoyan/)** · [源码仓库](https://github.com/carboy123/micu-baoyan) · [部署状态](https://github.com/carboy123/micu-baoyan/actions/workflows/pages.yml)
 
@@ -33,7 +33,9 @@
 
 **当前真实经验库为空。** 原有面经没有导入、改写或用于生成统计。后续收录使用统一模板；本机 [内容模板预览](http://127.0.0.1:1313/preview/) 仅展示字段占位，不代表真实人物或院校经历。正式构建不包含这些草稿模板。
 
-本轮按 `参考资料/保研公共知识基础.md` 组织公共知识，保留出处与适用范围。年度系统日期单列在 `application/calendar-2027/`，不混入通用路线。资格、日期和招生要求以适用年度的官方通知为准，离线版本不会自动更新招生政策。内容覆盖及本轮验证见 [内容补充记录](docs/content-update.md)。
+政策类文章保留官方依据；项目、复习和表达内容提供可按个人情况调整的准备方法。学习资源按专业方向链接项目维护方的仓库与文档，并配有入门任务。年度系统日期单列在 `application/calendar-2027/`，不混入通用路线。资格、日期和招生要求以适用年度的官方通知为准，离线版本不会自动更新招生政策。
+
+本轮内容与验收见 [专业准备与资源更新](docs/professional-resources-update.md)。
 
 ## 内容维护从这里开始
 
@@ -115,8 +117,8 @@ python tests/site-check.py .runtime/builds/subpath --prefix /micu-baoyan/
 
 工作流依据 [Hugo 官方 GitHub Pages 指南](https://gohugo.io/host-and-deploy/host-on-github-pages/) 精简，不额外引入 Node.js、Go 或 Sass 工具。只有生产构建生成的 `public/` 成为网站发布产物；原始资料不提交到源码仓库，`.gitignore` 不会自动移除已经被 Git 跟踪的文件。
 
-## 来源与许可
+## 政策依据与许可
 
-本轮以工作室提供的公共知识基础稿为底稿整理正文；基础稿参考 [OpenSHTU 保研 Wiki](https://github.com/OpenSHTU/Baoyan-Wiki) 与 [江南大学 CS 保研仓库](https://jnu-cs-baoyan.github.io/site/) 的公共主题及相关资料。各文章的 `sourceNote` 和 `sources` 保留整理来源及必要的官方链接，没有复制其学员文章。详见网站 `sources/` 内容来源与整理说明。
+文章的 `sources` 字段仅用于列出适用的官方政策或机构说明；学习仓库与课程链接放在资源正文中，标明维护方和用途。本站的练习、组织方法和空白模板不是院校规定，也不构成录取承诺。新增内容应自行组织表达，不复制未经授权的正文、图片或学员经历。
 
 Hugo 运行时许可在 `tools/hugo/LICENSE`；Hugo Book 主题许可在 `themes/hugo-book/LICENSE`；本地思源黑体、思源宋体的许可在 `static/fonts/`。后续加入图片或学员资料时保留来源、署名及已确认的公开范围。

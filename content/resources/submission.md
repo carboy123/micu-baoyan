@@ -2,10 +2,9 @@
 title: 面经投稿模板
 description: 用统一结构记录背景、考核过程与个人复盘，未知信息可以留空。
 weight: 20
-lastmod: 2026-09-27
+lastmod: 2026-09-28
 params:
   status: published
-  sourceNote: "沿用米醋编者面经采集模板；公开范围与资料保护提示据《保研公共知识基础稿》（2026-09-27）第 6.2、12.3、17 节核对。不是院校表格，本次未导入任何面经。"
   resourceCategory: 投稿模板
   format: Markdown
   download: downloads/interview-template.md

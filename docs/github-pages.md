@@ -100,5 +100,4 @@ python tests/site-check.py .runtime/builds/pages-check --prefix /micu-baoyan/
 - [Hugo v0.166.0 官方 release](https://github.com/gohugoio/hugo/releases/tag/v0.166.0)：固定 extended Linux 归档及 SHA256。
 - [GitHub Pages 自定义工作流](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)：核对任务依赖、权限和部署环境。
 - [GitHub Pages 发布源设置](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)：核对首次启用方式与公开访问边界。
-- [OpenSHTU 保研 Wiki 仓库说明](https://github.com/OpenSHTU/Baoyan-Wiki#readme)：参考保存源码、审阅后合并到 `main` 并自动发布的维护方式；本项目继续使用已有的本地 Hugo Book 主题与资源。
 - [官方 checkout 发布记录](https://github.com/actions/checkout/releases)、[configure-pages 发布记录](https://github.com/actions/configure-pages/releases)、[upload-pages-artifact 发布记录](https://github.com/actions/upload-pages-artifact/releases)、[deploy-pages 发布记录](https://github.com/actions/deploy-pages/releases)：核对实际可用版本。GitHub 通用文档中的部分示例仍使用旧主版本，工作流采用已核验的正式版本。

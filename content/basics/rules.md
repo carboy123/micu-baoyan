@@ -2,10 +2,9 @@
 title: 如何了解本校规则
 description: 找到适用于自己的文件，把资格、成绩口径、成果认定与手续逐项查清。
 weight: 20
-lastmod: 2026-09-27
+lastmod: 2026-09-28
 params:
   status: published
-  sourceNote: 依据米醋电子工作室《保研公共知识基础稿》（2026-09-27）整理。通用任务表为准备建议，具体要求以官方通知为准。
   stage: 大一至申请季
   sources:
     - title: 研招网 · 推免服务系统与推荐信息说明

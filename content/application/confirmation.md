@@ -2,11 +2,10 @@
 title: 正式推免与后续事项
 description: 在正式系统中核对资格、志愿和通知，完成确认并继续跟进后续学业事项。
 weight: 70
-lastmod: 2026-09-27
+lastmod: 2026-09-28
 params:
   status: published
   stage: 申请季至拟录取后
-  sourceNote: 据米醋电子工作室《保研公共知识基础稿》（2026-09-27）第13节整理；检查表是准备建议，年度日期与操作限制以官方当年说明为准。
   sources:
     - title: 中国研究生招生信息网 · 推免服务系统
       url: https://yz.chsi.com.cn/tm/

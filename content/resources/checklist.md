@@ -2,10 +2,9 @@
 title: 申请材料检查清单
 description: 提交前逐项核对要求、文件与确认记录，可下载或打印使用。
 weight: 10
-lastmod: 2026-09-27
+lastmod: 2026-09-28
 params:
   status: published
-  sourceNote: "据米醋电子工作室《保研公共知识基础稿》（2026-09-27）第 6、9、16 节重组；本清单为编者空白模板，不是任何院校指定表格。"
   stage: 大三至申请季
   resourceCategory: 准备清单
   format: Markdown

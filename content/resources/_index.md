@@ -3,10 +3,9 @@ title: 资料与工具
 description: 把要准备的材料、要记录的事项，整理成可以直接使用的清单。
 layout: resources
 weight: 40
-lastmod: 2026-09-27
+lastmod: 2026-09-28
 params:
   status: published
-  sourceNote: "据米醋电子工作室《保研公共知识基础稿》（2026-09-27）第 6—9、12—13、15—17 节重组；空白模板为编者编写，不代表院校指定格式。"
   eyebrow: 让准备有迹可循
 ---
 

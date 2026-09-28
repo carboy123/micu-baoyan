@@ -7,7 +7,6 @@ draft: true
 params:
   status: example
   stage: "适用阶段"
-  sourceNote: ""
   sources: []
 ---
 

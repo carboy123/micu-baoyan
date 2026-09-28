@@ -2,12 +2,11 @@
 title: "申请台账"
 description: "按学校、学院、项目和批次分行记录，跟进申请条件、截止事项与下一步。"
 weight: 51
-lastmod: 2026-09-27
+lastmod: 2026-09-28
 params:
   status: published
   stage: "申请准备至申请季"
   resourceCategory: "申请记录"
-  sourceNote: "据米醋电子工作室《保研公共知识基础稿》（2026-09-27）重组；空白模板由编者编写，不代表任何院校指定格式。 对应基础稿第9、13、16.1节。"
   format: Markdown
   download: downloads/application-ledger.md
 ---

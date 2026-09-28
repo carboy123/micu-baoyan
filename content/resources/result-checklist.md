@@ -2,12 +2,11 @@
 title: "确认结果前的检查单"
 description: "将推荐资格、阶段结果、导师意向和国家系统状态分开核对，避免漏掉正式手续。"
 weight: 54
-lastmod: 2026-09-27
+lastmod: 2026-09-28
 params:
   status: published
   stage: "申请准备至申请季"
   resourceCategory: "准备清单"
-  sourceNote: "据米醋电子工作室《保研公共知识基础稿》（2026-09-27）重组；空白模板由编者编写，不代表任何院校指定格式。 对应基础稿第13、16.6节。"
   format: Markdown
   download: downloads/result-checklist.md
 ---

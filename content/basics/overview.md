@@ -2,10 +2,9 @@
 title: 保研基础概览
 description: 分清本校推荐、院校接收和结果确认，知道一份申请从哪里开始。
 weight: 10
-lastmod: 2026-09-27
+lastmod: 2026-09-28
 params:
   status: published
-  sourceNote: 依据米醋电子工作室《保研公共知识基础稿》（2026-09-27）整理。通用任务表为准备建议，具体要求以官方通知为准。
   stage: 所有阶段
   sources:
     - title: 教育部 · 推荐免试攻读硕士学位研究生管理办法（2006年，概念依据）

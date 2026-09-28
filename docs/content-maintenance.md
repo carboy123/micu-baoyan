@@ -37,14 +37,13 @@ draft: true
 params:
   status: example
   stage: 大三至申请季
-  sourceNote: 说明底稿来源、整理日期及内容适用范围。
   sources:
     - title: 官方文件名称与适用年度
       url: https://yz.chsi.com.cn/tm/
 ---
 ```
 
-`title`、`description`、`weight`、`lastmod` 和 `draft` 是顶层字段；`status`、`stage`、`sourceNote`、`sources` 等项目字段放在 `params` 下，不能将 `status` 写在顶层。`sourceNote` 为显示在文末的文字来源说明，`sources` 为对应的外部出处列表。YAML 使用空格缩进，不用 Tab。`weight` 越小，在同栏目中的顺序越靠前。更新正文后同步修改 `lastmod`。
+`title`、`description`、`weight`、`lastmod` 和 `draft` 是顶层字段；`status`、`stage`、`sources` 等项目字段放在 `params` 下，不能将 `status` 写在顶层。`sources` 仅填写与正文相关的官方政策或机构说明，显示在文末“官方依据”中；没有相应依据时省略或留空。学习仓库等外链在资源正文里注明维护方和用途，不归为招生政策。适用范围直接在正文说明，不再设置一般来历说明字段。YAML 使用空格缩进，不用 Tab。`weight` 越小，在同栏目中的顺序越靠前。更新正文后同步修改 `lastmod`。
 
 | 状态 | 使用场景 | 非草稿时的行为 |
 | --- | --- | --- |
@@ -89,7 +88,7 @@ params:
 | `author` | 本人同意公开的展示名或昵称 |
 | `admissionType` | 原文明确的培养类型，未知时留空 |
 | `result` | 实际结果状态，不把入营、优营、候补或口头意向改写为录取 |
-| `sources` | 需要公开标注的来源，格式与知识文章一致 |
+| `sources` | 仅填写相关官方政策或机构说明；投稿署名、原始来源和必要授权说明写入正文 |
 
 例如多方向可以填写 `direction: [电子信息, 嵌入式]`。未知字段使用 `""` 或省略，不填造出的背景数据，也不要从文件名推断时间。不要在公开文章内填写不必要的证件、电话或私人邮箱。
 

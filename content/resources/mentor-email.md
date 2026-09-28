@@ -2,12 +2,11 @@
 title: "联系导师邮件框架"
 description: "围绕实际背景、已阅读的研究内容和具体问题组织一封初次联系邮件。"
 weight: 41
-lastmod: 2026-09-27
+lastmod: 2026-09-28
 params:
   status: published
   stage: "申请准备至申请季"
   resourceCategory: "材料模板"
-  sourceNote: "据米醋电子工作室《保研公共知识基础稿》（2026-09-27）重组；空白模板由编者编写，不代表任何院校指定格式。 对应基础稿第8、16.3节。"
   format: Markdown
   download: downloads/mentor-email.md
 ---
