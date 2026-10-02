@@ -14,7 +14,7 @@
   label: 大三上
   title: 让方向逐渐清晰
   description: 整理已有经历，了解研究方向与目标院校。
-  output: 第一版简历 · 目标院校清单
+  output: 第一版简历 · 目标院校
   link: basics/roadmap/#stage-3
 - id: stage-4
   label: 大三下至暑假
@@ -26,7 +26,7 @@
   label: 申请季
   title: 把每一步确认好
   description: 跟进校内资格、院校考核与系统确认事项。
-  output: 申请记录 · 待办事项清单
+  output: 跟进申请 · 确认结果
   link: basics/roadmap/#stage-5
 - id: stage-6
   label: 拟录取后

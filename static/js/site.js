@@ -348,7 +348,26 @@
     var navigation = document.querySelector('.sidebar-details');
     if (!navigation) return;
     var mobile = window.matchMedia('(max-width: 760px)');
-    function sync() { navigation.open = !mobile.matches; }
+    function revealCurrent() {
+      if (!navigation.open) return;
+      window.requestAnimationFrame(function () {
+        if (!navigation.open) return;
+        var current = navigation.querySelector('[aria-current="page"]');
+        var scrollArea = mobile.matches ? navigation.querySelector('nav') : navigation;
+        if (!current || !scrollArea) return;
+        var area = scrollArea.getBoundingClientRect();
+        var item = current.getBoundingClientRect();
+        var top = area.top + scrollArea.clientTop;
+        var bottom = top + scrollArea.clientHeight;
+        if (item.top < top) scrollArea.scrollTop += item.top - top;
+        else if (item.bottom > bottom) scrollArea.scrollTop += item.bottom - bottom;
+      });
+    }
+    function sync() {
+      navigation.open = !mobile.matches;
+      revealCurrent();
+    }
+    navigation.addEventListener('toggle', revealCurrent);
     mobile.addEventListener('change', sync);
     sync();
   }

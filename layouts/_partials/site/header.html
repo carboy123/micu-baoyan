@@ -1,3 +1,6 @@
+{{ $current := . }}
+{{ $searchURL := "search/" | relURL }}
+{{ $isSearch := eq .RelPermalink $searchURL }}
 <header class="site-header">
   <div class="header-inner">
     <a class="brand" href="{{ site.Home.RelPermalink }}" aria-label="米醋保研指南首页">
@@ -5,17 +8,21 @@
       <span class="brand-type">米醋<span class="brand-divider">/</span><strong>保研指南</strong><small>MICU · GROWTH GUIDE</small></span>
     </a>
     <nav class="desktop-nav" aria-label="主导航">
-      {{ $current := . }}{{ range site.Menus.main }}
+      {{ range site.Menus.main }}
       {{ $active := or (and (eq .PageRef "/") $current.IsHome) (and (ne .PageRef "/") (hasPrefix $current.RelPermalink .URL)) }}
       {{ if and (eq .PageRef "/experiences") (in (slice "students" "outcomes") $current.Section) }}{{ $active = true }}{{ end }}
       <a href="{{ .URL }}" {{ if $active }}aria-current="page"{{ end }}>{{ .Name }}</a>
       {{ end }}
     </nav>
-    <a class="header-search" href="{{ "search/" | relURL }}" aria-label="搜索站内内容">{{ partial "site/icon.html" "search" }}<span>搜索</span><kbd>/</kbd></a>
+    <a class="header-search" href="{{ $searchURL }}" aria-label="搜索站内内容"{{ if $isSearch }} aria-current="page"{{ end }}>{{ partial "site/icon.html" "search" }}<span>搜索</span><kbd>/</kbd></a>
     <button class="menu-toggle" data-menu-toggle aria-controls="mobile-nav" aria-expanded="false" aria-label="打开导航菜单">{{ partial "site/icon.html" "menu" }}</button>
   </div>
   <nav id="mobile-nav" class="mobile-nav" aria-label="移动端导航" hidden>
-    {{ range site.Menus.main }}<a href="{{ .URL }}">{{ .Name }}</a>{{ end }}
-    <a href="{{ "search/" | relURL }}">站内搜索</a>
+    {{ range site.Menus.main }}
+    {{ $active := or (and (eq .PageRef "/") $current.IsHome) (and (ne .PageRef "/") (hasPrefix $current.RelPermalink .URL)) }}
+      {{ if and (eq .PageRef "/experiences") (in (slice "students" "outcomes") $current.Section) }}{{ $active = true }}{{ end }}
+    <a href="{{ .URL }}"{{ if $active }} aria-current="page"{{ end }}>{{ .Name }}</a>
+    {{ end }}
+    <a href="{{ $searchURL }}"{{ if $isSearch }} aria-current="page"{{ end }}>站内搜索</a>
   </nav>
 </header>

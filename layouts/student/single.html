@@ -16,11 +16,11 @@
       {{ end }}
       {{ end }}
     </dl>
-    <p class="student-data-note">本页按已整理的信息展示；未提供的项目保留空缺。问卷自报与正式录取状态分别记录，具体经历只关联作者已确认的投稿。</p>
+    <p class="student-data-note">信息由学员提供，未提供的项目保留空缺；问卷填写的去向不等同于正式录取确认。</p>
     {{ partial "site/inline-toc.html" . }}
     <div class="prose">{{ .Content }}</div>
     <section class="student-related" aria-labelledby="student-related-heading"><div class="section-heading"><h2 id="student-related-heading">这位同学的分享</h2>{{ if $related }}<a class="text-link" href="{{ printf "%s?student=%s" ("experiences/" | relURL) ($id | urlquery) }}">查看全部面经 ↗</a>{{ end }}</div>
-      {{ if $related }}<div class="student-related-list">{{ range $related }}<a href="{{ .RelPermalink }}"><span>{{ .Params.kind }}{{ with .Params.school }} · {{ . }}{{ end }}</span><h3>{{ .Title }}</h3><p>{{ .Description }}</p><b aria-hidden="true">↗</b></a>{{ end }}</div>{{ else }}<div class="student-related-empty"><h3>暂未关联到这位同学的面经。</h3><p>相关经历经本人确认后会出现在这里。现有院校面经仍可独立阅读。</p><a class="text-link" href="{{ "experiences/" | relURL }}">浏览全部面经 ↗</a></div>{{ end }}
+      {{ if $related }}<div class="student-related-list">{{ range $related }}<a href="{{ .RelPermalink }}"><span>{{ .Params.kind }}{{ with .Params.school }} · {{ . }}{{ end }}</span><h3>{{ .Title }}</h3><p>{{ .Description }}</p><b aria-hidden="true">↗</b></a>{{ end }}</div>{{ else }}<div class="student-related-empty"><h3>暂未关联到这位同学的面经。</h3><p>可先浏览已收录的院校面经。</p><a class="text-link" href="{{ "experiences/" | relURL }}">浏览全部面经 ↗</a></div>{{ end }}
     </section>
     <div class="student-update"><p>这是你的档案？可以补充项目、感言或面经，也可以向工作室提出更正。</p><a class="text-link" href="{{ "resources/submission/" | relURL }}">查看补充与更正方式 ↗</a></div>
   </article>

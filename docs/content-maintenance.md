@@ -10,7 +10,7 @@
 # 通用知识文章
 & '.\tools\hugo\hugo.exe' new content --kind knowledge 'basics/my-topic.md'
 
-# 学员经验；后续收录真实内容时使用
+# 新增学员经验
 & '.\tools\hugo\hugo.exe' new content --kind experience 'experiences/my-story.md'
 
 # 资料说明页
@@ -50,9 +50,9 @@ params:
 | `example` | 已可阅读的通用示例 | 正常展示，进入搜索 |
 | `published` | 已确认可展示的正式内容 | 正常展示，进入搜索；经验文章进入经验库 |
 | `planned` | 只有导读，详细内容待补充 | 显示待补充提示，不进入搜索 |
-| `preview` | 字段与排版模板 | 本项目仅用于 `draft: true` 的本地模板，不进入搜索和经验库 |
+| `preview` | 兼容本地排版预览状态 | 仅与 `draft: true` 配合使用，不进入搜索和经验库；站内占位预览页面已移除 |
 
-`draft` 和 `status` 的作用不同：生产构建排除所有草稿，**仅设置 `status: preview` 并不能代替 `draft: true`**。在第一版中，真实经验库保持空态。
+`draft` 和 `status` 的作用不同：生产构建排除所有草稿，**仅设置 `status: preview` 并不能代替 `draft: true`**。当前经验库已有 162 篇真实面经，优秀学员页暂留空。
 
 ## 2. 面试与申请经验
 
@@ -84,7 +84,8 @@ params:
 | `direction` | 专业方向，可以写单个字符串，或 YAML 数组 |
 | `stage` | 原文明确的申请阶段，可以写单个字符串，或数组 |
 | `applicationYear` | 实际申请的公历年份，原文缺失时留空 |
-| `cohort` | 原文提供的入学届次，保持与申请年份独立 |
+| `cohort` | 已确认的本科毕业届别，保持与申请年份独立；不明确时留空 |
+| `originalCohort` | 原文的届次写法，历史资料口径未明确时在此原样保留，不自动当作本科毕业届别 |
 | `author` | 本人同意公开的展示名或昵称 |
 | `admissionType` | 原文明确的培养类型，未知时留空 |
 | `result` | 实际结果状态，不把入营、优营、候补或口头意向改写为录取 |
@@ -92,7 +93,7 @@ params:
 
 例如多方向可以填写 `direction: [电子信息, 嵌入式]`。未知字段使用 `""` 或省略，不填造出的背景数据，也不要从文件名推断时间。不要在公开文章内填写不必要的证件、电话或私人邮箱。
 
-本机 [模板预览](http://127.0.0.1:1313/preview/) 中有四个排版示例，对应 `content/preview/`。该目录下的占位页全部为草稿；后续真实文章应新建到 `content/experiences/`，不要直接把模板改成公开案例。
+新增真实文章放在 `content/experiences/`，字段按 `archetypes/experience.md` 维护。站内不再提供占位示例页面。
 
 资料整理时保留署名、版权与来源声明，确认本人同意公开的范围。个人回忆、当时回答和事后复盘分别表达；历史通知不能作为本年度规则。
 
@@ -131,17 +132,11 @@ params:
 
 ### 添加下载资料
 
-把可公开的文件放入 `static/downloads/`，再创建资料说明页：
+下载区仅接入用户提供并明确用于网站的附件，不再自编清单、台账或投稿下载模板。当前 6 份文书原件保存在 `参考资料/保研文书资料/`，网站副本位于 `static/downloads/documents/`，须保持字节一致。
 
-```yaml
-params:
-  status: published
-  resourceCategory: 准备清单
-  format: Markdown
-  download: downloads/my-checklist.md
-```
+在 `content/resources/templates.md` 的 `params.downloads` 中维护附件标题、相对路径、下载文件名、格式和大小；正文通过 `download-library` 短代码展示。路径不写 `static/`，也不加开头斜杠，短代码使用 `relURL` 兼容项目子路径。新增或替换后核对原件与副本 SHA256，并实际检查下载链接。
 
-`download` 不写 `static/`，也不加开头斜杠。资源页面会通过 `relURL` 生成兼容子路径的下载入口。当前分组名称为材料模板、准备清单、申请记录、投稿模板、官方信息入口；保持相同写法便于归类。
+当前资料分组为文书附件、公共资源索引、官方信息入口和投稿说明。投稿页面仅说明提交方式，不提供自编附件。
 
 外部资源使用 `externalURL`，正文注明需要联网。未完成的资料保持 `status: planned`，`download` 与 `externalURL` 留空，不挂无效按钮。
 
@@ -174,7 +169,7 @@ params:
 Markdown 中连接其他文章使用当前项目已有的 `relref` 写法：
 
 ```markdown
-[申请材料清单]({{< relref "application/materials.md" >}})
+[申请材料与文书]({{< relref "application/materials.md" >}})
 [大一阶段]({{< relref "basics/roadmap.md#stage-1" >}})
 ```
 

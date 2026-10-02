@@ -1,69 +1,43 @@
 ---
 title: 分享我的经历
-description: 用模板补充学员档案、面经与成长感言，经工作室审阅后展示；也可以私下交由工作室代整理。
+description: 分享面经、申请复盘与感言，或补充、更正自己的学员档案。
 weight: 20
-lastmod: 2026-10-02
+lastmod: 2026-10-03T00:00:00+08:00
 params:
   status: published
-  resourceCategory: 投稿模板
-  format: Markdown
-  download: downloads/experience-pr-template.md
+  resourceCategory: 投稿说明
 ---
 
-每位学员都可以分享。你可以补充自己的档案、写一篇面经或申请复盘，也可以更正旧资料中的信息。工作室检查内容并合并后，网站会自动更新。面试与申请复盘进入经验库，独立上岸感言进入整体成果；优秀学员展示暂留空，后续根据本人投稿和审核结果补充。“精选故事”是内容推荐，不按院校、分数或成绩给学员排名。
-
-## 先选一种模板
-
-| 想分享的内容 | 下载模板 | 放在哪里 |
-| --- | --- | --- |
-| 我的背景、去向、竞赛项目和感言 | [学员档案模板](../../downloads/student-profile-template.md) | `content/students/学员ID/index.md` |
-| 某个院系的面试、申请过程与复盘 | [面经 PR 模板](../../downloads/experience-pr-template.md) | `content/experiences/文章ID/index.md` |
-| 更正旧档案或去向信息 | [更正说明模板](../../downloads/outcome-correction-template.md) | 修改已有文件，或私下交工作室 |
-| 先写内容，不处理文章字段 | [纯正文采集模板](../../downloads/interview-template.md) | 填好后交工作室整理 |
-
-已有档案时沿用原学员 ID，不要重建。面经的 `studentId` 仅在确认属于本人且同意关联时填写；不知道或不愿关联可留空，文章仍可独立收录。申请年份、原始届次和记录日期分别填写，未知信息不猜测补齐。
+欢迎分享真实经历、补充学员档案或更正已有内容。工作室审阅并合并后，网站会更新。已有本人档案时请沿用原记录，不必重新建立。面经与复盘进入经验库，独立上岸感言进入整体成果；优秀学员展示暂留空，后续依据本人投稿及审核结果补充。
 
 ## 方式一：通过 GitHub 提交 PR
 
-这里的 PR 指 **Pull Request，向工作室提出合并内容的请求**。不需要网站账号，也不需要工作室仓库的写入权限。GitHub 需要联网访问。
+PR（Pull Request）是向工作室提出合并内容的请求，需要联网和 GitHub 账号，不需要网站账号或仓库写入权限。
 
-1. 登录 GitHub，打开[米醋保研指南仓库](https://github.com/carboy123/micu-baoyan)，点击 **Fork**，建立自己账号下的副本。
-2. 在副本中新建分支，例如 `my-story`，以免将其他修改混入投稿。
-3. 修改已有的本人档案，或使用 **Add file → Create new file**，按上表填写路径、粘贴模板并替换内容。只加入希望公开的内容和已获授权的图片。
-4. 点击 **Commit changes** 保存到自己的分支，再发起 **Compare & pull request**。目标选 `carboy123/micu-baoyan` 的 `main`，来源选自己的分支。
-5. 按 PR 清单说明新增或更正了什么、是否同意公开、关联了哪份档案。工作室检查格式、链接、真实性和公开范围；需要调整时，在同一分支继续修改即可更新 PR。
-6. 工作室审阅并合并后，自动发布流程会更新列表、搜索和学员档案。检查通过或收到评论并不等于已发布，以合并与网站更新为准。
+1. 打开[米醋保研指南仓库](https://github.com/carboy123/micu-baoyan)，点击 **Fork** 建立自己的副本，再新建分支，如 `my-story`。
+2. 修改本人已有文章。新增档案放在 `content/students/学员ID/index.md`，新增面经放在 `content/experiences/文章ID/index.md`；字段分别参照仓库的 `archetypes/student.md` 和 `archetypes/experience.md`。未知信息可以留空。
+3. 点击 **Commit changes** 保存，再发起 **Compare & pull request**，目标为 `carboy123/micu-baoyan` 的 `main`，来源为自己的分支。
+4. 说明新增或更正了什么、同意公开哪些内容，等待工作室审阅。需要调整时继续修改同一分支；合并后网站自动更新。
 
-首次外部投稿的自动检查可能需要维护者批准运行。投稿者不用提供发布密钥，也不用修改程序或工作流。[GitHub 官方 PR 操作说明](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request-from-a-fork)
+首次外部投稿的自动检查可能需要维护者批准运行。投稿者无需提供密钥或修改程序。[GitHub 官方 PR 操作说明](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request-from-a-fork)
 
 ## 方式二：私下交由工作室整理
 
-不熟悉 GitHub，或不希望把 GitHub 账号与经历关联起来，可以下载模板，填写后通过你与工作室已有的私下联系渠道提交。工作室核对可公开范围、整理成文章，再交你确认。本站没有在线表单或私信入口；不要把私密材料发到公开 Issue 或 PR 中。
+不熟悉 GitHub，或不希望账号与经历关联，可以通过与工作室已有的私下联系渠道交稿。工作室整理后会请你确认公开范围。本站没有在线表单或私信入口。
 
 ## 公开范围由你决定
 
-**公开仓库的 Fork、PR 和提交记录，在合并前也可能被其他人查看。** 昵称只改变网站署名，不会隐藏 GitHub 投稿账号。`draft: true` 只控制网站是否生成页面，不会让已上传的文件变成私密资料。[GitHub 仓库可见性说明](https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories#about-repository-visibility)
+**公开仓库的 Fork、PR 和提交记录在合并前也可能被他人查看，草稿也不例外。** 昵称不会隐藏 GitHub 账号。请勿上传原始问卷、联系方式、证件、账号密码、授权凭据或他人私密信息。[GitHub 仓库可见性说明](https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories#about-repository-visibility)
 
-可以只写昵称和专业方向，不提供头像、精确成绩、排名或本科校名。原始问卷、联系信息、授权凭据与身份对应关系由工作室私下保管，不上传公开仓库。
-
-你可以只允许汇总去向、只公开匿名面经，也可以建立个人档案并关联面经，这些不是必须捆绑的选项。需要更改公开范围、纠错或撤下页面时，请私下联系工作室。网站可以更新，但历史提交和他人已有的 Fork 不会随页面删除自动消失。
-
-## 独立分享上岸感言
-
-只分享感言时无需建立学员主页。由工作室将正文保存到 `content/outcomes/reflections/`，使用 `type: reflection`、`kind: 上岸感言`，并核对毕业届别和 `periodId`。感言按届别展示在整体成果中，不进入面试与申请经验列表，也不增加成果统计人数。
-
-## 去向如何进入成果汇总
-
-新投稿的 `countInOutcomes` 默认保持 `false`，由工作室核对是否为新增样本、所属统计组和准确状态后决定是否计入。认领既有匿名样本时，先检查是否已在过去的汇总中，避免同一位学员被算两次。填入面经或获得多个 offer 都不会自动增加成果人数。`featured` 也保持 `false`，工作室将在内容完善后推荐精选。
+你可以只公开匿名面经，不提供头像、精确成绩、本科校名，也不必关联学员档案。需要纠错、变更公开范围或撤下页面时，请私下联系工作室；删除页面不会自动清除历史提交及他人的 Fork。
 
 ## 分享什么最有帮助
 
-- 说明自己的起点、目标和遇到的问题，让后来者判断经验是否适合自己。
-- 项目写清本人贡献、调试方法、测试结果和改进过程。
-- 面试回忆区分当时回答与事后理解；记不清时明确说明，不补造题目。
-- 记录准确结果，区分入营、优秀营员、候补、拟录取和最终入学。
-- 保留必要署名与版权声明。遵守考核保密要求，不公开未公开试题、他人答辩或评审信息。
+- 说明起点、目标、准备过程与收获；项目写清本人的实际贡献。
+- 区分面试回忆与事后理解，记不清的内容不补造。
+- 申请年份、毕业届别与记录日期分别填写；准确区分入营、候补、拟录取和最终入学等结果。
+- 保留必要署名与版权声明，遵守考核保密要求。
 
-## 提交前最后检查
+## 独立分享上岸感言
 
-确认没有证件、电话、私人邮箱、账号密码、聊天截图或他人信息被意外带入；检查年份、院系、结果和学员关联；删除填写提示、空白标题及占位文字。未知字段允许留空，不必为了填满模板补写不确定内容。
+只分享感言时无需建立学员主页。工作室核对毕业届别后，将正文放在整体成果中，使用独立感言记录；不会进入面试与申请经验，也不会增加成果统计人数。

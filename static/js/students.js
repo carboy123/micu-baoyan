@@ -33,7 +33,7 @@
     empty.hidden = visible.length > 0;
     var featuredOnlyEmpty = filters.featured === '1' && !records.some(function (record) { return record.featured === '1'; });
     page.querySelector('[data-student-empty-title]').textContent = !records.length ? '优秀学员展示正在筹备。' : featuredOnlyEmpty ? '精选故事尚未发布。' : '当前条件没有匹配的学员。';
-    page.querySelector('[data-student-empty-text]').textContent = !records.length ? '当前尚未发布个人展示。欢迎按模板分享自己的经历，经本人确认、工作室审核后在这里呈现。' : featuredOnlyEmpty ? '工作室会在公开内容中推荐精选。取消此条件可查看全部已发布展示。' : '试试其他关键词，或清空筛选查看全部学员。';
+    page.querySelector('[data-student-empty-text]').textContent = !records.length ? '当前尚未发布个人展示。欢迎按投稿说明分享自己的经历，经本人确认、工作室审核后在这里呈现。' : featuredOnlyEmpty ? '工作室会在公开内容中推荐精选。取消此条件可查看全部已发布展示。' : '试试其他关键词，或清空筛选查看全部学员。';
     var from = root.location.pathname + api.buildQuery(filters);
     page.querySelectorAll('[data-student-link]').forEach(function (link) { link.href = link.dataset.base + '?from=' + encodeURIComponent(from); });
   }

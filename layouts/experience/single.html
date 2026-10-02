@@ -10,7 +10,7 @@
       {{ end }}
     </dl>
     {{ with .Params.collectionYear }}<p class="collection-note">本文收集于 {{ . }} 年；收集时间不代替实际申请或考核年份。</p>{{ end }}
-    <p class="collection-note">{{ if eq .Params.kind "院校面经" }}这是个人对当时考核的回忆；题目、评价和建议仅代表该次经历。最终去向与当时考核结果分别记录。{{ else }}这是学员对个人准备过程与成长的回顾，保留原有表达；其中的建议供结合自身情况参考。{{ end }}</p>
+    <p class="collection-note">{{ if eq .Params.kind "院校面经" }}本文为个人考核回忆，具体要求以院系当年安排为准。{{ else }}本文为学员个人回顾，建议请结合自身情况参考。{{ end }}</p>
     {{ partial "site/inline-toc.html" . }}
     <div class="prose">{{ .Content }}</div>
     {{ with .Params.studentId }}
