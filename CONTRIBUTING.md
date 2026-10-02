@@ -6,13 +6,13 @@
 
 本仓库公开。Fork、PR、提交历史和检查日志在合并前也可能公开；昵称不会隐藏 GitHub 账号，`draft: true` 也不是保密开关。只上传已经同意公开的内容。原始问卷、电话、私人邮箱、证件、授权凭据与身份映射通过已有私下渠道交工作室，不提交到本仓库。
 
-不熟悉 GitHub 或希望避免账号与经历关联的同学，可使用 `static/downloads/` 中的模板私下交工作室代整理。本项目没有在线表单或后台投稿系统；不要用公开 Issue 接收私密材料。
+不熟悉 GitHub 或希望避免账号与经历关联的同学，可直接将自己的经历或更正内容私下交工作室整理。本项目没有在线表单或后台投稿系统；不要用公开 Issue 接收私密材料。
 
 ## 浏览器投稿步骤
 
 1. 在 https://github.com/carboy123/micu-baoyan 点击 Fork，建立自己的副本。
 2. 在副本中新建内容分支，例如 `my-story`。
-3. 已有本人档案时修改原文件。新增档案复制 `static/downloads/student-profile-template.md` 到 `content/students/<student-id>/index.md`；新面经复制 `static/downloads/experience-pr-template.md` 到 `content/experiences/<article-id>/index.md`。可通过 Add file → Create new file 完成。
+3. 已有本人档案时修改原文件。新增档案放在 `content/students/<student-id>/index.md`，字段参照 `archetypes/student.md`；新面经放在 `content/experiences/<article-id>/index.md`，字段参照 `archetypes/experience.md`。可通过 Add file → Create new file 完成。
 4. 填写并删除所有模板提示，使用本人愿意公开的昵称。头像和成绩均可不提供；图片放在文章同目录并补充替代文本。
 5. 保存 Commit changes，在原仓库点 Compare & pull request，目标为 `carboy123/micu-baoyan:main`，来源为自己的内容分支。
 6. 填写 PR 清单，等待工作室审阅；继续编辑同一分支会更新同一个 PR。合并后 GitHub Pages 自动发布。
@@ -25,7 +25,7 @@
 - `recordId`：每篇经验文章唯一的英文小写、数字、连字符标识；修改已有面经时保留原 ID，新建时不能重复使用。
 - `displayName` / `author`：本人同意公开的昵称，分别用于档案和经验文章。
 - `avatar`：可留空；填写本页图片名或 `static/` 下的相对路径，如 `avatar.png` 或 `images/avatar.png`。只使用本地 PNG、JPEG、WebP、GIF、AVIF，不填远程网址。
-- `applicationYear`、`cohort`：实际申请年份与资料原始届次分开；未知项留空，不从文件名或届次猜测。
+- `applicationYear`、`cohort`：分别为实际申请年份与已确认的本科毕业届别；未知项留空，不从文件名推断。历史原文的届次写法可另存 `originalCohort`，不自动当作本科毕业届别。
 - `periodId`：工作室维护的成果统计分组标识，投稿者不要猜填。新年度分组由维护者先补充统计元数据。
 - `undergraduateTier`、`destinationTier`：原始资料提供的本科、最终去向层次，未知可留空；不能从院校名字猜填。
 - `countInOutcomes`：新投稿默认为 `false`。只有维护者核对是新增、获准统计的样本，才设为 `true`；此时须有有效 `periodId`。认领原始匿名旧样本必须先核对汇总口径，不能再次计数。

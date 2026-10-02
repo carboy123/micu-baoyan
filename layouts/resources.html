@@ -1,1 +1,39 @@
-{{ define "main" }}<div class="page-wrap"><div class="page-intro">{{ partial "site/breadcrumbs.html" . }}<p class="eyebrow">RESOURCE SHELF / 资料与工具</p><h1>把准备，落到纸上。</h1><p>{{ .Description }}</p></div><div class="resource-grid">{{ range .Pages.ByWeight }}<article class="resource-card"><div class="resource-card-top"><span class="line-icon">{{ partial "site/icon.html" "file" }}</span><span class="status-tag {{ .Params.status }}">{{ if eq .Params.status "planned" }}待补充{{ else }}可使用{{ end }}</span></div><span class="card-eyebrow">{{ .Params.resourceCategory }}</span><h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2><p>{{ .Description }}</p><div class="resource-card-actions"><a class="text-link" href="{{ .RelPermalink }}">{{ if eq .Params.status "planned" }}查看规划{{ else }}查看说明{{ end }} ↗</a>{{ with .Params.download }}<a class="download-small" href="{{ . | relURL }}" download aria-label="下载 Markdown 文件">{{ partial "site/icon.html" "download" }}<span>Markdown</span></a>{{ end }}</div></article>{{ end }}</div><div class="notice resource-note">资料是整理思路的起点。申请材料的具体项目、格式和提交方式，请逐项核对目标院校通知。</div></div>{{ end }}
+{{ define "main" }}
+{{ $categoryInfo := dict
+  "文书附件" (dict "id" "resource-templates" "title" "文书附件" "order" 20)
+  "公共资源索引" (dict "id" "resource-learning" "title" "公共学习资源" "order" 40)
+  "官方信息入口" (dict "id" "resource-official" "title" "官方信息入口" "order" 50)
+  "投稿说明" (dict "id" "resource-submissions" "title" "投稿说明" "order" 60)
+}}
+{{ $groups := slice }}
+{{ range .Pages.GroupByParam "resourceCategory" }}
+  {{ $info := index $categoryInfo .Key | default (dict "id" (printf "resource-%s" (.Key | anchorize)) "title" .Key "order" 100) }}
+  {{ $groups = $groups | append (dict "id" $info.id "title" $info.title "order" $info.order "pages" .Pages.ByWeight) }}
+{{ end }}
+{{ $groups = sort $groups "order" }}
+<div class="page-wrap">
+  <div class="page-intro">
+    {{ partial "site/breadcrumbs.html" . }}
+    <p class="eyebrow">RESOURCE SHELF / 资料与工具</p>
+    <h1>{{ .Title }}</h1>
+    <p>{{ .Description }}</p>
+  </div>
+  <div class="prose resource-intro">{{ .Content }}</div>
+  <div class="resource-grid">
+  {{ range $groups }}
+      {{ $groupID := .id }}
+      {{ range $index, $page := .pages }}
+      <article class="resource-card"{{ if eq $index 0 }} id="{{ $groupID }}"{{ end }}>
+        <span class="line-icon">{{ partial "site/icon.html" "file" }}</span>
+        <span class="card-eyebrow">{{ .Params.resourceCategory }}</span>
+        <h2{{ if eq $index 0 }} id="{{ $groupID }}-title"{{ end }}><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+        <p>{{ .Description }}</p>
+        <div class="resource-card-actions">
+          <a class="text-link" href="{{ .RelPermalink }}">{{ if eq .Params.status "planned" }}查看规划{{ else }}查看说明{{ end }} ↗</a>
+        </div>
+      </article>
+      {{ end }}
+  {{ end }}
+  </div>
+</div>
+{{ end }}

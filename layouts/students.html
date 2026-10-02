@@ -30,7 +30,7 @@
     </article>
     {{ end }}
   </div>
-  <div class="empty-state" data-student-empty{{ if $students }} hidden{{ end }}><span class="empty-mark">{{ partial "site/icon.html" "book" }}</span><h2 data-student-empty-title>优秀学员展示正在筹备。</h2><p data-student-empty-text>当前尚未发布个人展示。欢迎按模板分享自己的经历，经本人确认、工作室审核后在这里呈现。</p><a class="text-link" href="{{ "resources/submission/" | relURL }}">查看投稿模板 ↗</a></div>
+  <div class="empty-state" data-student-empty{{ if $students }} hidden{{ end }}><span class="empty-mark">{{ partial "site/icon.html" "book" }}</span><h2 data-student-empty-title>优秀学员展示正在筹备。</h2><p data-student-empty-text>当前尚未发布个人展示。欢迎按投稿说明分享自己的经历，经本人确认、工作室审核后在这里呈现。</p><a class="text-link" href="{{ "resources/submission/" | relURL }}">查看投稿说明 ↗</a></div>
   {{ if $students }}<noscript><p class="notice">以上已列出所有公开学员展示。启用 JavaScript 后可组合筛选；无需启用也能打开档案阅读。</p></noscript>{{ end }}
   <div class="experience-afterword"><span>真实的面试与申请经历可以独立投稿，无需先建立个人展示。</span><a class="text-link" href="{{ "experiences/" | relURL }}">先阅读面试经验 ↗</a></div>
 </div>

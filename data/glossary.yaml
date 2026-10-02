@@ -44,8 +44,8 @@
   definition: 申请交流中对接收意向或某种阶段结果的泛称，使用范围并不统一。
   note: 继续问清是谁发出、对应哪个项目、具体结果名称和后续条件，再按正式状态记录。
   related:
-    - title: 结果确认检查单
-      url: resources/result-checklist/
+    - title: 正式推免与后续事项
+      url: application/confirmation/
 - id: oral-offer
   term: oral offer
   aliases: [口头接收意向, 口头offer]
@@ -116,7 +116,7 @@
   definition: 对学习、英语、科研、项目与竞赛等申请经历和条件的简写。
   note: 不同人的信息完整度、年度和项目不同，背景看似接近不能推出相同录取结果。
   related:
-    - title: 申请材料清单
+    - title: 申请材料与文书
       url: application/materials/
 - id: rank
   term: 排名
@@ -172,8 +172,8 @@
   definition: 某项提交、回复、考核确认或其他工作的截止时点。
   note: 记录日期、具体时刻和对应事项；院系材料或回复截止可能早于全国系统窗口，不能互相代替。
   related:
-    - title: 申请台账
-      url: resources/application-ledger/
+    - title: 报名与参营安排
+      url: application/camps/
 - id: withdrawal
   term: 放鸽子
   aliases: [鸽]
