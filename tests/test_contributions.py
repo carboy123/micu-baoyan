@@ -30,6 +30,18 @@ class ContributionTests(unittest.TestCase):
         path.write_text(f'---\ntitle: 测试经历\ndescription: 独立测试摘要。\ntype: {"student" if is_student else "experience"}\ndraft: {str(draft).lower()}\nparams:\n  status: published\n{base}{params}---\n\n{body}\n', encoding="utf-8")
         return path
 
+    def test_reflections_belong_to_outcomes_and_require_period(self):
+        path = self.record("experiences", "feeling")
+        path.write_text(path.read_text(encoding="utf-8").replace("kind: 院校面经", "kind: 上岸感言"), encoding="utf-8")
+        self.assertTrue(any("成果栏目" in error for error in checks.validate(self.root)))
+        target = self.root / "content/outcomes/reflections/feeling.md"
+        target.parent.mkdir(parents=True)
+        target.write_text(path.read_text(encoding="utf-8").replace("type: experience", "type: reflection").replace("kind: 上岸感言", "kind: 上岸感言\n  periodId: test-period"), encoding="utf-8")
+        path.unlink()
+        self.assertEqual(checks.validate(self.root), [])
+        target.write_text(target.read_text(encoding="utf-8").replace("test-period", "missing"), encoding="utf-8")
+        self.assertTrue(any("periodId" in error for error in checks.validate(self.root)))
+
     def test_anonymous_experience_does_not_require_student(self):
         self.record("experiences", "anonymous")
         self.assertEqual(checks.validate(self.root), [])

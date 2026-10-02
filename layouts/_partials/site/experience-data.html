@@ -1,8 +1,9 @@
 {{ $records := slice }}
 {{ range where site.RegularPages "Section" "experiences" }}
-{{ if and (not .Draft) (eq .Params.status "published") }}
+{{ if and (not .Draft) (eq .Params.status "published") (eq .Type "experience") (in (slice "院校面经" "申请复盘") .Params.kind) }}
 {{ $directions := slice }}{{ with .Params.direction }}{{ if reflect.IsSlice . }}{{ $directions = . }}{{ else }}{{ $directions = slice . }}{{ end }}{{ end }}
 {{ $stages := slice }}{{ with .Params.stage }}{{ if reflect.IsSlice . }}{{ $stages = . }}{{ else }}{{ $stages = slice . }}{{ end }}{{ end }}
-{{ $records = $records | append (dict "id" (.Params.recordId | default .RelPermalink) "title" .Title "description" .Description "body" .Plain "url" .RelPermalink "kind" (.Params.kind | default "") "school" (.Params.school | default "") "college" (.Params.department | default "") "directions" $directions "stages" $stages "applicationYear" (.Params.applicationYear | default "") "cohort" (.Params.cohort | default "") "collectionYear" (.Params.collectionYear | default "") "studentId" (.Params.studentId | default "") "author" (.Params.author | default "") "resultStatus" (.Params.result | default "")) }}
+{{ $schools := .Params.schools | default (slice (.Params.school | default "")) }}
+{{ $records = $records | append (dict "id" (.Params.recordId | default .RelPermalink) "title" .Title "description" .Description "body" .Plain "url" .RelPermalink "kind" (.Params.kind | default "") "school" (.Params.school | default "") "schools" $schools "college" (.Params.department | default "") "directions" $directions "stages" $stages "applicationYear" (.Params.applicationYear | default "") "cohort" (.Params.cohort | default "") "collectionYear" (.Params.collectionYear | default "") "studentId" (.Params.studentId | default "") "author" (.Params.author | default "") "resultStatus" (.Params.result | default "")) }}
 {{ end }}{{ end }}
 <script type="application/json" id="experience-data">{{ $records | jsonify | safeJS }}</script>

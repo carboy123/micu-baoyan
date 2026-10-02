@@ -29,11 +29,11 @@
     var visible = api.filterStudents(records, filters);
     var ids = new Set(visible.map(function (record) { return record.id; }));
     cards.forEach(function (card) { card.hidden = !ids.has(card.dataset.id); });
-    page.querySelector('[data-student-count]').textContent = visible.length + ' 位学员';
+    page.querySelector('[data-student-count]').textContent = records.length ? visible.length + ' 份公开展示' : '暂无已审核的个人展示';
     empty.hidden = visible.length > 0;
     var featuredOnlyEmpty = filters.featured === '1' && !records.some(function (record) { return record.featured === '1'; });
-    page.querySelector('[data-student-empty-title]').textContent = !records.length ? '故事正在整理，等待本人补充。' : featuredOnlyEmpty ? '精选故事尚未发布。' : '当前条件没有匹配的学员。';
-    page.querySelector('[data-student-empty-text]').textContent = featuredOnlyEmpty ? '每位学员都可以分享；工作室将在内容补充后推荐精选。取消此条件可查看全部学员。' : !records.length ? '学员可以按模板分享背景、准备过程与成长感言，由工作室审核后展示。' : '试试其他关键词，或清空筛选查看全部学员。';
+    page.querySelector('[data-student-empty-title]').textContent = !records.length ? '优秀学员展示正在筹备。' : featuredOnlyEmpty ? '精选故事尚未发布。' : '当前条件没有匹配的学员。';
+    page.querySelector('[data-student-empty-text]').textContent = !records.length ? '当前尚未发布个人展示。欢迎按模板分享自己的经历，经本人确认、工作室审核后在这里呈现。' : featuredOnlyEmpty ? '工作室会在公开内容中推荐精选。取消此条件可查看全部已发布展示。' : '试试其他关键词，或清空筛选查看全部学员。';
     var from = root.location.pathname + api.buildQuery(filters);
     page.querySelectorAll('[data-student-link]').forEach(function (link) { link.href = link.dataset.base + '?from=' + encodeURIComponent(from); });
   }
@@ -46,7 +46,7 @@
   form.addEventListener('change', apply);
   clear.addEventListener('click', function () { filters = api.parseQuery(''); fillControls(); apply(); });
   root.addEventListener('popstate', function () { filters = api.parseQuery(root.location.search); fillControls(); render(); });
-  form.hidden = false; clear.hidden = false; fillControls(); render();
+  form.hidden = !records.length; clear.hidden = !records.length; fillControls(); render();
 }(typeof window !== 'undefined' ? window : null, function () {
   'use strict';
   var keys = ['q', 'school', 'cohort', 'year', 'featured'];

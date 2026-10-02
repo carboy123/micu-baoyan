@@ -54,12 +54,16 @@
     return value || unknownYear;
   }
 
+  function schoolsOf(record) {
+    return list(record.schools && record.schools.length ? record.schools : record.school);
+  }
+
   function filterExperiences(records, filters) {
     filters = filters || {};
     var terms = words(filters.q);
     return list(records).filter(function (record) {
       if (filters.kind && record.kind !== filters.kind) return false;
-      if (filters.school && record.school !== filters.school) return false;
+      if (filters.school && !schoolsOf(record).includes(filters.school)) return false;
       if (filters.direction && !list(record.directions).includes(filters.direction)) return false;
       if (filters.stage && !list(record.stages).includes(filters.stage)) return false;
       if (filters.year && yearValue(record) !== String(filters.year)) return false;
@@ -67,7 +71,7 @@
       if (filters.student && record.studentId !== filters.student) return false;
       var text = normalize([
         record.title, record.description, record.body, record.kind,
-        record.school, record.college, list(record.directions).join(' '),
+        schoolsOf(record).join(' '), record.college, list(record.directions).join(' '),
         list(record.stages).join(' '), record.applicationYear,
         record.cohort, record.author, record.resultStatus
       ].join(' '));
@@ -79,7 +83,7 @@
     var key = { direction: 'directions', stage: 'stages', year: 'applicationYear' }[facet] || facet;
     var values = [];
     list(records).forEach(function (record) {
-      var entries = key === 'applicationYear' ? [yearValue(record)] : list(record[key]);
+      var entries = key === 'applicationYear' ? [yearValue(record)] : (key === 'school' ? schoolsOf(record) : list(record[key]));
       entries.forEach(function (value) {
         value = String(value == null ? '' : value).trim();
         if (value && !values.includes(value)) values.push(value);

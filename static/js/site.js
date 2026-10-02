@@ -134,6 +134,16 @@
     var data = readData('experience-data');
     if (!form || !results) return;
     var filters = core.parseQuery(window.location.search);
+    if (filters.kind === '上岸感言') {
+      var reflectionTarget = internalUrl(root.dataset.reflectionsUrl);
+      if (reflectionTarget) {
+        var reflectionPeriod = filters.cohort.includes('2027') ? 'cohort-2027' : 'cohort-2026';
+        reflectionTarget.searchParams.set('period', reflectionPeriod);
+        reflectionTarget.hash = 'reflections-' + reflectionPeriod;
+        window.location.replace(reflectionTarget.pathname + reflectionTarget.search + reflectionTarget.hash);
+        return;
+      }
+    }
     var kindButtons = Array.from(root.querySelectorAll('[data-kind]'));
     var facetNames = ['school', 'direction', 'stage', 'year', 'cohort'];
     var labels = { school: '全部院校', direction: '全部方向', stage: '全部阶段', year: '全部申请年份', cohort: '全部原始届次' };
@@ -194,8 +204,8 @@
         target.searchParams.set('return', returnPath);
         var article = element('article', 'experience-card');
         var meta = [record.kind, record.school];
-        if (record.cohort) meta.push(String(record.cohort).includes('届') ? record.cohort : record.cohort + ' 届');
-        else if (record.applicationYear) meta.push(record.applicationYear + ' 年申请');
+        if (record.applicationYear) meta.push(record.applicationYear + ' 年申请');
+        else if (record.cohort) meta.push('原文：' + record.cohort);
         else if (record.collectionYear) meta.push(record.collectionYear + ' 年收集 · 考核年份未提供');
         else meta.push('申请年份未提供');
         article.append(element('p', 'card-meta', meta.filter(Boolean).join(' · ')));

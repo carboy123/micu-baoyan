@@ -44,6 +44,30 @@ test('网址保留部署子路径和其他参数，刷新与返回可以恢复�
   assert.equal(cleared.searchParams.has('schoolq'), false);
   assert.equal(cleared.searchParams.has('all'), false);
 });
+test('从感言区切换届别时锚点同步，院校搜索与其他参数保持不变', () => {
+  const current = 'https://example.test/micu-baoyan/outcomes/?period=cohort-2026&schoolq=%E5%A4%A7%E5%AD%A6&campaign=test#reflections-cohort-2026';
+  const state = { period: 'cohort-2027', q: '大学', all: false };
+  const next = new URL(core.stateURL(current, state, true), current);
+  assert.equal(next.pathname, '/micu-baoyan/outcomes/');
+  assert.equal(next.hash, '#reflections-cohort-2027');
+  assert.equal(next.searchParams.get('schoolq'), '大学');
+  assert.equal(next.searchParams.get('campaign'), 'test');
+  assert.deepEqual(core.readState(next.search, ['cohort-2026', 'cohort-2027']), state);
+  const back = new URL(core.stateURL(next.href, { ...state, period: 'cohort-2026' }, true), next);
+  assert.equal(back.hash, '#reflections-cohort-2026');
+});
+test('其他区块切届回到统计区，普通搜索和展开操作不改当前锚点', () => {
+  const state = { period: 'cohort-2027', q: '学院', all: true };
+  for (const hash of ['', '#outcome-data', '#schools-cohort-2026']) {
+    const switched = new URL(core.stateURL('https://example.test/outcomes/?period=cohort-2026' + hash, state, true), 'https://example.test');
+    assert.equal(switched.hash, '#outcome-data');
+    assert.equal(switched.searchParams.get('all'), '1');
+  }
+  const searched = new URL(core.stateURL('https://example.test/outcomes/?period=cohort-2027#reflections-cohort-2027', state), 'https://example.test');
+  assert.equal(searched.hash, '#reflections-cohort-2027');
+  assert.equal(searched.searchParams.get('schoolq'), '学院');
+  assert.equal(searched.searchParams.get('all'), '1');
+});
 test('院校按数量排序且不修改原数据，支持搜索和无匹配', () => {
   const rows = [{ name: '测试甲大学', count: 1 }, { name: '测试乙大学', count: 5 }, { name: '测试丙学院', count: 0 }];
   assert.deepEqual(core.rankSchools(rows, '').map(row => row.name), ['测试乙大学', '测试甲大学']);

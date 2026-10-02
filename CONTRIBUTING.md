@@ -1,6 +1,6 @@
 # 向米醋保研指南投稿
 
-你可以提交学员档案、面经、申请复盘、成长感言及已有内容的更正。每位学员都可以建立档案；`featured` 是工作室的内容推荐字段，投稿时保持 `false`。
+你可以提交学员档案、面经、申请复盘、成长感言及已有内容的更正。优秀学员展示当前留空，待本人投稿并经工作室审核后上线。每位学员都可以建立档案；`featured` 是工作室的内容推荐字段，投稿时保持 `false`。
 
 ## 公开之前
 
@@ -30,7 +30,7 @@
 - `undergraduateTier`、`destinationTier`：原始资料提供的本科、最终去向层次，未知可留空；不能从院校名字猜填。
 - `countInOutcomes`：新投稿默认为 `false`。只有维护者核对是新增、获准统计的样本，才设为 `true`；此时须有有效 `periodId`。认领原始匿名旧样本必须先核对汇总口径，不能再次计数。
 - `result`：准确保留问卷自报、入营、候补、拟录取等状态，不能把意向或优秀营员写成录取。
-- `kind`：经验文章使用“院校面经”“申请复盘”“上岸成果”“上岸感言”之一。最终去向由档案维护，不从面经中的 offer 字样生成成果。
+- `kind`：经验文章仅使用“院校面经”或“申请复盘”。独立上岸感言放在 `content/outcomes/reflections/`，使用 `type: reflection`、`kind: 上岸感言` 和有效 `periodId`，由整体成果页展示。最终去向由档案维护，不从面经中的 offer 字样生成成果。
 - `draft`：待整理内容设为 `true`；确认发布的文章由维护者改为 `false`。正式内容的 `params.status` 为 `published`。
 
 只提交本人真实经历，不替他人建立身份关联；不同院系、阶段和样本独立成文。保留必要署名与版权说明，区分回忆与建议，遵守考核保密要求。更正或撤回注明已有页面，私密说明通过私下渠道交工作室。删除页面不会自动清除历史提交及他人 Fork。
@@ -47,7 +47,7 @@ PR 自动检查 Hugo 生产构建、站内链接、字段、ID 唯一性、经�
 
 ```powershell
 python scripts/check-contributions.py
-python -m unittest discover -s tests -p "test_contributions.py"
+python -m unittest discover -s tests -p "test_*.py"
 node --test tests/students.test.cjs
 ```
 
