@@ -1,6 +1,6 @@
 # 米醋保研指南
 
-面向电子、嵌入式、自动化和计算机相关专业学员的保研知识网站，支持在线阅读和 Windows 本机预览。当前为 **v0.3.0 专业准备与资源版**：通过知识文章、项目训练、阶段任务和可下载工具，帮助学员理解保研、找到当前阶段的准备事项。
+面向电子、嵌入式、自动化和计算机相关专业学员的保研知识网站，支持在线阅读和 Windows 本机预览。当前为 **v0.4.0 学员成果与经验版**：通过知识文章、项目训练、阶段任务和可下载工具，帮助学员理解保研、找到当前阶段的准备事项。
 
 **在线阅读：[米醋保研指南](https://carboy123.github.io/micu-baoyan/)** · [源码仓库](https://github.com/carboy123/micu-baoyan) · [部署状态](https://github.com/carboy123/micu-baoyan/actions/workflows/pages.yml)
 
@@ -26,16 +26,16 @@
 | 首页 | 品牌介绍、六阶段入口、常用知识、经验与资料入口 |
 | 保研基础 | 概览、本校规则、完整流程、术语词典、阶段路线、培养方向和常见问题 |
 | 申请指南 | 材料与文书、院校选择、导师沟通、竞赛项目、报名考核、面试、专业复习、机试、系统确认及年度安排 |
-| 学员经验 | 院校面经、申请复盘、上岸成果、上岸感言；组合筛选与真实空态 |
+| 学员经验 | 成果比例与去向分布、162 篇面经与 50 篇 2025 年匿名感言（共 212 条经验）、82 份匿名学员档案；组合筛选、分页和 PR 投稿 |
 | 资料与工具 | 材料检查清单、六份空白台账与模板、面经投稿模板、临场清单、官方及公共资源入口 |
 
 全站搜索、文章目录、移动菜单、打印与本地下载已接入。经验列表支持内容类型、院校、专业方向、阶段、申请年份与关键词组合，条件保留在网址中。
 
-**当前真实经验库为空。** 原有面经没有导入、改写或用于生成统计。后续收录使用统一模板；本机 [内容模板预览](http://127.0.0.1:1313/preview/) 仅展示字段占位，不代表真实人物或院校经历。正式构建不包含这些草稿模板。
+**已整理两批去向、历史面经与匿名感言。** 成果页分别展示 2025 年申请的 64 份记录与 2027 届的 82 份记录，未知院校单列。经验库收录 162 篇面经和 50 篇 2025 年匿名感言，共 212 条经验；另有 82 份匿名学员档案保存可公开的去向与感言。2025 年感言独立展示，不自动关联个人身份或学员档案。原始问卷及联系信息留在本地。后续投稿使用统一模板；本机 [内容模板预览](http://127.0.0.1:1313/preview/) 仅展示字段占位，不代表真实人物或院校经历。正式构建不包含这些草稿模板。
 
 政策类文章保留官方依据；项目、复习和表达内容提供可按个人情况调整的准备方法。学习资源按专业方向链接项目维护方的仓库与文档，并配有入门任务。年度系统日期单列在 `application/calendar-2027/`，不混入通用路线。资格、日期和招生要求以适用年度的官方通知为准，离线版本不会自动更新招生政策。
 
-本轮内容与验收见 [专业准备与资源更新](docs/professional-resources-update.md)。
+本版整理规则、统计维护与验收见 [学员资料整理说明](docs/community-data.md)。知识资源的既有更新见 [专业准备与资源更新](docs/professional-resources-update.md)。
 
 ## 内容维护从这里开始
 
@@ -54,7 +54,7 @@
 | 位置 | 用途 |
 | --- | --- |
 | `content/` | 网站文章、栏目说明、仅开发可见的模板预览 |
-| `data/` | 六阶段首页数据与术语词典 |
+| `data/` | 六阶段首页数据、术语词典与成果批次/历史匿名汇总 |
 | `archetypes/` | 新文章、经验、资源与词条模板 |
 | `layouts/` | 米醋首页、列表、文章与索引模板 |
 | `static/` | 本地样式、脚本、字体、下载文件 |
@@ -88,12 +88,14 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\build-site.ps1
 ```powershell
 node --check static/js/core.js
 node --check static/js/site.js
-node --test tests/core.test.cjs
+node --test tests/core.test.cjs tests/students.test.cjs tests/outcomes.test.cjs
+python scripts/check-contributions.py
+python -m unittest discover -s tests -p "test_contributions.py"
 python tests/site-check.py public
 python tests/site-check.py .runtime/builds/subpath --prefix /micu-baoyan/
 ```
 
-`site-check.py` 检查内链、锚点、资源、页面 H1、JSON、草稿与搜索隔离、远程自动加载依赖，以及本地原始面经哈希。带草稿的测试产物可以增加 `--development`。公开克隆或 CI 不含原始面经时，显式添加 `--skip-original`，只跳过原始文件哈希检查，其他检查保留；本地默认仍检查原件。本版本的生产验收要求真实经验数据为空；后续正式导入经验时，需同步调整这一验收目标。
+`site-check.py` 检查内链、锚点、资源、页面 H1、JSON、草稿与搜索隔离、远程自动加载依赖，以及本地原始面经哈希。带草稿的测试产物可以增加 `--development`。公开克隆或 CI 不含原始面经时，显式添加 `--skip-original`，只跳过原始文件哈希检查，其他检查保留；本地默认仍检查原件。生产验收检查真实经验编号、学员关联、统计合计、草稿隔离与隐私字段；不再要求经验库为空。
 
 自动检查不能代替浏览器验收。页面改动后仍需检查桌面与手机宽度、中文搜索、筛选、返回与刷新、打印，以及断网时资源可用性。已有结果与验证边界见 [第一版验收记录](docs/acceptance.md)，详细记录见 [运行验证](docs/runtime-validation.md) 与 [交互验证](docs/behavior-validation.md)。
 
@@ -122,3 +124,9 @@ python tests/site-check.py .runtime/builds/subpath --prefix /micu-baoyan/
 文章的 `sources` 字段仅用于列出适用的官方政策或机构说明；学习仓库与课程链接放在资源正文中，标明维护方和用途。本站的练习、组织方法和空白模板不是院校规定，也不构成录取承诺。新增内容应自行组织表达，不复制未经授权的正文、图片或学员经历。
 
 Hugo 运行时许可在 `tools/hugo/LICENSE`；Hugo Book 主题许可在 `themes/hugo-book/LICENSE`；本地思源黑体、思源宋体的许可在 `static/fonts/`。后续加入图片或学员资料时保留来源、署名及已确认的公开范围。
+
+## 学员投稿与去向维护
+
+查看 [投稿说明](CONTRIBUTING.md)。学员主页使用 `archetypes/student.md`，面经沿用 `archetypes/experience.md`；网站内也可下载模板。PR 只做校验，合并 `main` 后由 Pages 工作流发布。`CODEOWNERS` 指定 `@carboy123` 审阅，公开 PR 不具备审核前保密能力。
+
+学员最终去向在其档案元数据中维护，`countInOutcomes` 由维护者核对重复与年份口径后设置。2027 届比例随已发布档案自动计算；2025 年无身份的去向记录保留匿名汇总，50 篇感言作为独立经验展示，不自动关联身份，也不增加成果人数。不要编辑生成页面或重新运行导入覆盖学员后续修改。

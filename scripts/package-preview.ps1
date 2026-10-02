@@ -5,7 +5,7 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $projectRoot = [IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot)).TrimEnd('\')
 $packageRoot = '米醋保研指南'
-$packageName = '米醋保研指南-v0.3.0.zip'
+$packageName = '米醋保研指南-v0.4.0.zip'
 $temporaryPath = $null
 
 # Only these source trees and individual root files can enter the archive.
@@ -14,7 +14,7 @@ $directoryAllowlist = @(
     'scripts', 'static', 'tests', 'themes\hugo-book', 'tools\hugo'
 )
 $fileAllowlist = @(
-    'README.md', 'AGENTS.md', 'hugo.toml', 'DEPENDENCIES.json',
+    'README.md', 'AGENTS.md', 'CONTRIBUTING.md', 'hugo.toml', 'DEPENDENCIES.json',
     'THIRD_PARTY_LICENSES.md', '.gitignore', '.gitattributes',
     '启动预览.cmd', '停止预览.cmd', '构建网站.cmd'
 )

@@ -7,6 +7,7 @@
     <nav class="desktop-nav" aria-label="主导航">
       {{ $current := . }}{{ range site.Menus.main }}
       {{ $active := or (and (eq .PageRef "/") $current.IsHome) (and (ne .PageRef "/") (hasPrefix $current.RelPermalink .URL)) }}
+      {{ if and (eq .PageRef "/experiences") (in (slice "students" "outcomes") $current.Section) }}{{ $active = true }}{{ end }}
       <a href="{{ .URL }}" {{ if $active }}aria-current="page"{{ end }}>{{ .Name }}</a>
       {{ end }}
     </nav>

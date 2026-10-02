@@ -1,0 +1,37 @@
+{{ define "main" }}
+{{ $students := where (where site.RegularPages "Section" "students") "Params.status" "published" }}
+{{ $students = where $students "Draft" false }}
+{{ $schools := slice }}{{ $cohorts := slice }}{{ $years := slice }}
+{{ range $students }}{{ with .Params.school }}{{ $schools = $schools | append (string .) }}{{ end }}{{ with .Params.cohort }}{{ $cohorts = $cohorts | append (string .) }}{{ end }}{{ with .Params.applicationYear }}{{ $years = $years | append (string .) }}{{ end }}{{ end }}
+<div class="page-wrap students-page" data-students-page>
+  {{ partial "site/community-nav.html" . }}
+  <div class="page-intro">{{ partial "site/breadcrumbs.html" . }}<p class="eyebrow">STUDENT STORIES / 学员故事</p><h1>每一种选择，<br>都有自己的来路。</h1><p>{{ .Description }}</p></div>
+  <div class="students-editorial"><p>从一段经历认识一位同学，再沿着面经了解准备过程。已整理的去向信息与后来补充的成长故事，会在同一份档案中汇合。</p><span>尊重每位同学的公开范围<br>不以院校或成绩为学员排名</span></div>
+  <form class="filter-panel students-filters" data-student-filters role="search" aria-label="筛选学员故事" hidden>
+    <div class="filter-search"><label for="student-query">关键词</label><div class="input-with-icon">{{ partial "site/icon.html" "search" }}<input id="student-query" type="search" name="q" placeholder="展示名、院校或方向…" autocomplete="off"></div></div>
+    <div><label for="student-school">去向院校</label><select id="student-school" name="school"><option value="">全部院校</option>{{ range sort (uniq $schools) }}<option value="{{ . }}">{{ . }}</option>{{ end }}</select></div>
+    <div><label for="student-cohort">原始届次</label><select id="student-cohort" name="cohort"><option value="">全部届次</option>{{ range sort (uniq $cohorts) "value" "desc" }}<option value="{{ . }}">{{ . }}</option>{{ end }}<option value="unknown">未提供</option></select></div>
+    <div><label for="student-year">已明确的申请年份</label><select id="student-year" name="year"><option value="">全部年份</option>{{ range sort (uniq $years) "value" "desc" }}<option value="{{ . }}">{{ . }}</option>{{ end }}<option value="unknown">未提供</option></select></div>
+    <label class="student-featured-filter"><input type="checkbox" name="featured" value="1">只看精选故事</label>
+  </form>
+  <div class="results-toolbar"><span data-student-count aria-live="polite">{{ len $students }} 位学员</span><button type="button" class="text-button" data-student-clear hidden>清空筛选 ↺</button></div>
+  <p class="students-year-note">届次保留资料原始标注；没有明确提供的申请年份显示“未提供”，不由届次倒推。</p>
+  <div class="students-grid">
+    {{ range $students.ByParam "studentId" }}
+    {{ $name := .Params.displayName | default .Title }}
+    {{ $direction := .Params.direction }}{{ if reflect.IsSlice $direction }}{{ $direction = delimit $direction " / " }}{{ end }}
+    <article class="student-card" data-student-card data-id="{{ .Params.studentId }}" data-school="{{ .Params.school }}" data-cohort="{{ .Params.cohort }}" data-year="{{ .Params.applicationYear }}" data-featured="{{ if .Params.featured }}1{{ else }}0{{ end }}" data-search="{{ printf "%s %s %s %s %s %s" $name .Description (.Params.school | default "") (.Params.department | default "") ($direction | default "") (.Params.undergraduateTier | default "") }}">
+      <div class="student-card-top"><span class="student-monogram" aria-hidden="true">米</span><span>{{ .Params.cohort | default "届次未提供" }}{{ if .Params.featured }} · 精选故事{{ end }}</span></div>
+      <h2><a data-student-link data-base="{{ .RelPermalink }}" href="{{ .RelPermalink }}">{{ $name }}</a></h2>
+      <p class="student-destination">{{ .Params.school | default "去向院校未提供" }}</p>
+      <p class="student-card-direction">{{ with .Params.department }}{{ . }}{{ else }}院系未提供{{ end }}{{ with $direction }} · {{ . }}{{ end }}</p>
+      <div class="card-tags">{{ with .Params.admissionType }}<span class="tag">{{ . }}</span>{{ end }}{{ with .Params.undergraduateTier }}<span class="tag">本科：{{ . }}</span>{{ end }}</div>
+      <div class="student-card-foot"><span>{{ .Params.result | default "结果状态未提供" }}</span><a class="text-link" data-student-link data-base="{{ .RelPermalink }}" href="{{ .RelPermalink }}" aria-label="查看{{ $name }}的学员档案">查看档案 ↗</a></div>
+    </article>
+    {{ end }}
+  </div>
+  <div class="empty-state" data-student-empty{{ if $students }} hidden{{ end }}><span class="empty-mark">{{ partial "site/icon.html" "book" }}</span><h2 data-student-empty-title>故事正在整理，等待本人补充。</h2><p data-student-empty-text>学员可以按模板分享背景、准备过程与成长感言，由工作室审核后展示。</p></div>
+  <noscript><p class="notice">以下已列出所有公开学员档案。启用 JavaScript 后可组合筛选；无需启用也能打开档案阅读。</p></noscript>
+  <div class="experience-afterword"><span>每位学员都可以投稿；“精选”由工作室根据分享内容另行推荐。</span><a class="text-link" href="{{ "resources/submission/" | relURL }}">填写我的故事 ↗</a></div>
+</div>
+{{ end }}

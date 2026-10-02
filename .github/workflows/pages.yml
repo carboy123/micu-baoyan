@@ -55,6 +55,10 @@ jobs:
         env:
           PAGES_BASE_URL: ${{ steps.pages.outputs.base_url }}
         run: |
+          python3 scripts/check-contributions.py
+          python3 -m unittest discover -s tests -p 'test_contributions.py'
+          node --test tests/core.test.cjs tests/students.test.cjs tests/outcomes.test.cjs
+          python3 tests/outcome-aggregation.py --hugo hugo
           hugo --environment production --buildDrafts=false --minify \
             --baseURL "${PAGES_BASE_URL%/}/" \
             --cacheDir "${RUNNER_TEMP}/hugo-cache" \
