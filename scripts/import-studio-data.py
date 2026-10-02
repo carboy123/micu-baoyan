@@ -138,6 +138,8 @@ def content_file(title: str, description: str, kind: str, params: dict, body: st
         "title": title, "description": description, "type": kind,
         "date": PUBLICATION_DATE, "draft": False, "params": {"status": "published", **params},
     }
+    # 清理纯空白行，保留非空行末用于 Markdown 换行的双空格。
+    body = re.sub(r"(?m)^[^\S\r\n]+$", "", body)
     return json.dumps(frontmatter, ensure_ascii=False, indent=2) + "\n\n" + body.strip() + "\n"
 
 
