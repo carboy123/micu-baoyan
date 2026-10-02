@@ -194,8 +194,8 @@
         target.searchParams.set('return', returnPath);
         var article = element('article', 'experience-card');
         var meta = [record.kind, record.school];
-        if (record.applicationYear) meta.push(record.applicationYear + ' 年申请');
-        else if (record.cohort) meta.push(String(record.cohort).includes('届') ? record.cohort : record.cohort + ' 届');
+        if (record.cohort) meta.push(String(record.cohort).includes('届') ? record.cohort : record.cohort + ' 届');
+        else if (record.applicationYear) meta.push(record.applicationYear + ' 年申请');
         else if (record.collectionYear) meta.push(record.collectionYear + ' 年收集 · 考核年份未提供');
         else meta.push('申请年份未提供');
         article.append(element('p', 'card-meta', meta.filter(Boolean).join(' · ')));

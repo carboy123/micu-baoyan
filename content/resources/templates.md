@@ -2,14 +2,57 @@
 title: "文书与项目材料模板"
 description: "先梳理真实经历，再整理简历、个人陈述、邮件与展示材料；按用途找到可下载模板。"
 weight: 40
-lastmod: 2026-09-28
+lastmod: 2026-10-03T00:00:00+08:00
 params:
   status: published
   resourceCategory: "材料模板"
+  downloads:
+    - title: 简历模板
+      file: downloads/documents/resume-template.docx
+      filename: 0.简历模板.docx
+      format: DOCX
+      size: 178.9 KB
+      description: 用于整理教育背景、项目经历、技能与获奖信息。
+    - title: 个人陈述
+      file: downloads/documents/personal-statement.docx
+      filename: 1.个人陈述.docx
+      format: DOCX
+      size: 19.6 KB
+      description: 包含不同篇幅的个人陈述写作参考。
+    - title: 英文自我介绍
+      file: downloads/documents/english-self-introduction.docx
+      filename: 2.英文自我介绍.docx
+      format: DOCX
+      size: 13.1 KB
+      description: 用于准备英文面试开场与个人经历介绍。
+    - title: 套磁信
+      file: downloads/documents/mentor-email.docx
+      filename: 3.套磁信.docx
+      format: DOCX
+      size: 12.3 KB
+      description: 用于参考初次联系导师的邮件结构。
+    - title: 推荐信
+      file: downloads/documents/recommendation-letter.docx
+      filename: 4.推荐信.docx
+      format: DOCX
+      size: 12.3 KB
+      description: 用于参考推荐材料的内容与表达结构。
+    - title: 面试 PPT
+      file: downloads/documents/interview-presentation.pptx
+      filename: 5.PPT.pptx
+      format: PPTX
+      size: 12.8 MB
+      description: 用于参考面试汇报的页面结构与展示方式。
 ---
 同一份经历可以服务于简历、陈述、邮件和面试展示，但不同材料回答的问题不同。以下是编者组织方法，不是任何院校的评分标准；字数、页数、语言和格式均按目标项目要求调整。
 
-## 两份可下载空白模板
+## 文书附件下载 {#downloads}
+
+下面 6 份附件保留原始格式和内容，点击即可下载。下载后使用支持 DOCX 或 PPTX 的软件打开和编辑。
+
+{{< download-library >}}
+
+## 配套整理工具
 
 | 模板 | 用在什么时候 | 填写重点 |
 | --- | --- | --- |

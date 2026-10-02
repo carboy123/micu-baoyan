@@ -1,5 +1,5 @@
 {
-  "title": "2025年申请感言 · 匿名记录 55",
+  "title": "2026届申请感言 · 匿名记录 55",
   "description": "累了，但也得到了很好的结局",
   "type": "experience",
   "date": "2026-10-02",
@@ -10,12 +10,12 @@
     "recordId": "reflection-2025-055",
     "studentId": "",
     "applicationYear": 2025,
-    "periodId": "application-2025",
-    "school": "未明确院校",
+    "periodId": "cohort-2026",
+    "school": "湖南大学",
     "department": "",
     "direction": "",
     "stage": "",
-    "cohort": "",
+    "cohort": "2026届",
     "author": "匿名投稿",
     "result": "问卷自报",
     "sources": []
@@ -26,6 +26,6 @@
 
 累了，但也得到了很好的结局
 
-申请批次：2025 年。以上为投稿者的个人感受。
+毕业届别：2026 届。以上为投稿者的个人感受。
 
 米醋电子工作室 · 匿名学员投稿整理。

@@ -22,7 +22,7 @@ NS = {"m": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
 EMPTY = {"", "(空)", "（空）", "(跳过)", "（跳过）", "无", "暂无", "没有", "无。", "无感言", "无感言。", "/", "-", "。"}
 TIERS = ("985", "211", "双一流", "四非", "未提供")
 UNKNOWN_SCHOOL = "未明确院校"
-# 仅处理指向明确的常用简称。不将“湖大”“电科”“北理珠”猜成特定学校。
+# 通用简称只做无歧义映射；去向表的简称结合原行业务内容单独核对。
 ALIASES = {
     "西湖": "西湖大学", "天大": "天津大学", "北理工": "北京理工大学",
     "北航": "北京航空航天大学", "上交": "上海交通大学", "北邮": "北京邮电大学",
@@ -58,6 +58,18 @@ SOURCES = {
 HELD_INTERVIEWS = {1: "院校及学院仅填数字1，无实质经验", 2: "院校及学院仅填数字2，无实质经验"}
 EXCLUDED_OUTCOMES_2027 = {51: 50}
 PUBLICATION_DATE = "2026-10-02"
+# 2026-10-03 核对：仅适用于指定原始记录，不能据此匹配作者或批量推断其他问卷。
+# 中国地质大学由用户确认，不区分武汉、北京；其余据同一行去向、offer及院校上下文。
+REVIEWED_DESTINATIONS = {
+    (2025, 29): ("湖大", "湖南大学"),
+    (2025, 53): ("电科直博", "电子科技大学"),
+    (2025, 55): ("湖大人机院", "湖南大学"),
+    (2027, 6): ("控制工程", "中国地质大学"),
+    (2027, 21): ("电科深", "电子科技大学"),
+    (2027, 54): ("电科", "电子科技大学"),
+    (2027, 67): ("南京邮电大大学集成电路", "南京邮电大学"),
+    (2027, 69): ("北理珠", "北京理工大学"),
+}
 
 
 def read_xlsx(path: Path) -> list[list[str]]:
@@ -106,6 +118,16 @@ def school_name(value: str) -> str:
         if value.startswith(alias):
             return ALIASES[alias]
     return UNKNOWN_SCHOOL
+
+
+def outcome_school(source_year: int, record: int, value: str) -> str:
+    reviewed = REVIEWED_DESTINATIONS.get((source_year, record))
+    if reviewed:
+        expected, school = reviewed
+        if value != expected:
+            raise ValueError(f"去向表 {source_year} 第 {record} 条原填内容变化，须重新核对简称映射")
+        return school
+    return school_name(value)
 
 
 def privacy_clean(value: str, audit: list, reference: str) -> str:
@@ -162,7 +184,8 @@ def main() -> None:
         rows = read_xlsx(source_paths[f"outcomes{year}"])[1:]
         assert len(rows) == (64 if year == 2025 else 83), "去向表数量变化，需要重新人工审核后再导入"
         under_i, dest_i, final_i = (6, 7, 9) if year == 2025 else (8, 9, 11)
-        period_id = "application-2025" if year == 2025 else "cohort-2027"
+        graduation_year = 2026 if year == 2025 else 2027
+        period_id = f"cohort-{graduation_year}"
         cleaned = []
         for index, row in enumerate(rows, 1):
             assert row[0] == str(index), "问卷序号变化，禁止按旧行映射导入"
@@ -172,7 +195,7 @@ def main() -> None:
                 audit["duplicates"].append({"source": "outcomes2027", "record": index, "keptRecord": kept, "action": "exclude", "reason": "昵称、联系方式及所有业务回答完全一致，仅提交元数据不同"})
                 continue
             raw_school = text(row[final_i])
-            school = school_name(raw_school)
+            school = outcome_school(year, index, raw_school)
             audit["normalization"].append({"source": f"outcomes{year}", "record": index, "rawDestination": raw_school, "school": school})
             record = {"periodId": period_id, "sourceRecord": index, "undergraduate": text(row[under_i]) or "未提供", "destination": text(row[dest_i]) or "未提供", "school": school}
             assert record["undergraduate"] in TIERS and record["destination"] in TIERS
@@ -184,13 +207,13 @@ def main() -> None:
                     params = {
                         "kind": "上岸感言", "recordId": record_id, "studentId": "",
                         "applicationYear": 2025, "periodId": period_id, "school": school,
-                        "department": "", "direction": "", "stage": "", "cohort": "",
+                        "department": "", "direction": "", "stage": "", "cohort": "2026届",
                         "author": "匿名投稿", "result": "问卷自报", "sources": [],
                     }
-                    title = f"2025年申请感言 · 匿名记录 {index:02d}"
+                    title = f"2026届申请感言 · 匿名记录 {index:02d}"
                     description = reflection[:90] + ("…" if len(reflection) > 90 else "")
                     body = "## 个人感言\n\n" + html.escape(reflection)
-                    body += "\n\n申请批次：2025 年。以上为投稿者的个人感受。\n\n米醋电子工作室 · 匿名学员投稿整理。"
+                    body += "\n\n毕业届别：2026 届。以上为投稿者的个人感受。\n\n米醋电子工作室 · 匿名学员投稿整理。"
                     generated[ROOT / "content" / "experiences" / "archive" / "reflections-2025" / f"{record_id}.md"] = content_file(title, description, "experience", params, body)
                     audit["reflectionMappings"].append({"recordId": record_id, "source": "outcomes2025", "record": index, "sourceRow": index + 1})
                 else:
@@ -214,6 +237,8 @@ def main() -> None:
                 body = "## 去向与背景\n\n"
                 body += f"- 届次：2027 届。\n- 本科院校层次：{record['undergraduate']}（问卷原选项）。\n"
                 body += f"- 最终去向（原填）：{html.escape(raw_school) or '未提供'}。\n- 结果状态：问卷自报。\n"
+                if year == 2027 and index == 6:
+                    body += "- 核对后的去向院校：中国地质大学，暂不区分校区。\n"
                 if school == UNKNOWN_SCHOOL:
                     body += "\n原填信息不足以明确院校，暂不推断学校、学院或培养类型。\n"
                 body += "\n## 上岸感言\n\n" + (html.escape(reflection) if reflection else "这份记录暂未提供可展示的感言。")
@@ -232,10 +257,10 @@ def main() -> None:
         schools = Counter(r["school"] for r in cleaned)
         schools.setdefault(UNKNOWN_SCHOOL, 0)
         if year == 2025:
-            note = "2025 年保研申请，本科 2022 级；无身份标识的疑似重复回答暂保留。"
+            note = "本科 2026 届（2022 级），2025 年保研申请；按 64 份问卷记录统计。"
         else:
             note = "本科 2027 届；申请年份未单独提供。已排除一份完全重复的提交。"
-        period = {"id": period_id, "label": "2025 年申请" if year == 2025 else "2027 届", "applicationYear": 2025 if year == 2025 else None, "graduationYear": None if year == 2025 else 2027, "rawRecords": len(rows), "sampleCount": len(cleaned), "excludedCount": len(rows) - len(cleaned), "note": note, "undergraduate": [{"label": t, "count": undergraduate[t]} for t in TIERS], "destination": [{"label": t, "count": destination[t]} for t in TIERS], "schools": [{"name": name, "count": count} for name, count in sorted(schools.items(), key=lambda pair: (-pair[1], pair[0]))]}
+        period = {"id": period_id, "label": f"{graduation_year} 届", "applicationYear": 2025 if year == 2025 else None, "graduationYear": graduation_year, "rawRecords": len(rows), "sampleCount": len(cleaned), "excludedCount": len(rows) - len(cleaned), "note": note, "undergraduate": [{"label": t, "count": undergraduate[t]} for t in TIERS], "destination": [{"label": t, "count": destination[t]} for t in TIERS], "schools": [{"name": name, "count": count} for name, count in sorted(schools.items(), key=lambda pair: (-pair[1], pair[0]))]}
         period["profileBased" if year == 2027 else "aggregateOnly"] = True
         for field in ("undergraduate", "destination", "schools"):
             assert sum(item["count"] for item in period[field]) == len(cleaned)
@@ -327,7 +352,7 @@ def main() -> None:
         u, d, f = (6, 7, 9) if year == 2025 else (8, 9, 11)
         assert Counter(text(r[u]) or "未提供" for r in valid_rows) == Counter({i["label"]: i["count"] for i in period["undergraduate"]})
         assert Counter(text(r[d]) or "未提供" for r in valid_rows) == Counter({i["label"]: i["count"] for i in period["destination"]})
-        assert Counter(school_name(text(r[f])) for r in valid_rows) == Counter({i["name"]: i["count"] for i in period["schools"]})
+        assert Counter(outcome_school(year, int(r[0]), text(r[f])) for r in valid_rows) == Counter({i["name"]: i["count"] for i in period["schools"]})
     hashes_after = {key: hashlib.sha256(path.read_bytes()).hexdigest() for key, path in source_paths.items()}
     assert hashes_before == hashes_after, "原始文件发生变化"
     audit["validation"] = {"originalHashesUnchanged": True, "distributionTotalsMatch": True, "independentRawCountsMatch": True, "studentProfileCountMatches2027Samples": True}

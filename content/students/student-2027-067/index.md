@@ -12,7 +12,7 @@
     "cohort": "2027届",
     "applicationYear": "",
     "undergraduateTier": "四非",
-    "school": "未明确院校",
+    "school": "南京邮电大学",
     "department": "",
     "direction": "",
     "admissionType": "",
@@ -31,8 +31,6 @@
 - 本科院校层次：四非（问卷原选项）。
 - 最终去向（原填）：南京邮电大大学集成电路。
 - 结果状态：问卷自报。
-
-原填信息不足以明确院校，暂不推断学校、学院或培养类型。
 
 ## 上岸感言
 
