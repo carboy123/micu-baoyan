@@ -9,7 +9,8 @@
   }
   function readState(search, periods) {
     const params = new URLSearchParams(search);
-    const requested = params.get('period');
+    let requested = params.get('period');
+    if (requested === 'application-2025' && periods.includes('cohort-2026')) requested = 'cohort-2026';
     return {
       period: periods.includes(requested) ? requested : (periods[0] || ''),
       q: (params.get('schoolq') || '').trim(),

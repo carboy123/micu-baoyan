@@ -1,14 +1,14 @@
 {
   "periods": [
     {
-      "id": "application-2025",
-      "label": "2025 年申请",
+      "id": "cohort-2026",
+      "label": "2026 届",
       "applicationYear": 2025,
-      "graduationYear": null,
+      "graduationYear": 2026,
       "rawRecords": 64,
       "sampleCount": 64,
       "excludedCount": 0,
-      "note": "2025 年保研申请，本科 2022 级；无身份标识的疑似重复回答暂保留。",
+      "note": "本科 2026 届（2022 级），2025 年保研申请；按 64 份问卷记录统计。",
       "undergraduate": [
         {
           "label": "985",
@@ -56,7 +56,7 @@
       "schools": [
         {
           "name": "电子科技大学",
-          "count": 11
+          "count": 12
         },
         {
           "name": "上海大学",
@@ -79,11 +79,11 @@
           "count": 3
         },
         {
-          "name": "未明确院校",
+          "name": "深圳大学",
           "count": 3
         },
         {
-          "name": "深圳大学",
+          "name": "湖南大学",
           "count": 3
         },
         {
@@ -163,16 +163,16 @@
           "count": 1
         },
         {
-          "name": "湖南大学",
-          "count": 1
-        },
-        {
           "name": "西北工业大学",
           "count": 1
         },
         {
           "name": "西湖大学",
           "count": 1
+        },
+        {
+          "name": "未明确院校",
+          "count": 0
         }
       ],
       "aggregateOnly": true
@@ -233,14 +233,10 @@
       "schools": [
         {
           "name": "电子科技大学",
-          "count": 9
+          "count": 11
         },
         {
           "name": "东南大学",
-          "count": 5
-        },
-        {
-          "name": "未明确院校",
           "count": 5
         },
         {
@@ -270,6 +266,10 @@
         {
           "name": "西南交通大学",
           "count": 3
+        },
+        {
+          "name": "中国地质大学",
+          "count": 2
         },
         {
           "name": "中国海洋大学",
@@ -320,10 +320,6 @@
           "count": 1
         },
         {
-          "name": "中国地质大学",
-          "count": 1
-        },
-        {
           "name": "中国矿业大学",
           "count": 1
         },
@@ -344,6 +340,10 @@
           "count": 1
         },
         {
+          "name": "北京理工大学",
+          "count": 1
+        },
+        {
           "name": "北京科技大学",
           "count": 1
         },
@@ -357,6 +357,10 @@
         },
         {
           "name": "华中科技大学",
+          "count": 1
+        },
+        {
+          "name": "南京邮电大学",
           "count": 1
         },
         {
@@ -382,6 +386,10 @@
         {
           "name": "西安交通大学",
           "count": 1
+        },
+        {
+          "name": "未明确院校",
+          "count": 0
         }
       ],
       "profileBased": true

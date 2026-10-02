@@ -16,3 +16,14 @@
 .experience-detail-wrap .inline-toc{display:block}
 @media print{.inline-toc{display:none!important}}
 @media print{body{background:white;color:#111;font:11pt/1.7 sans-serif}.site-header,.site-footer,.article-sidebar,.article-toc,.article-end,.breadcrumbs,.back-link,.download-button,.roadmap-jumps,.skip-link,.notice{display:none!important}.reading-layout,.experience-detail-wrap,.page-wrap{display:block;max-width:none;padding:0}.article-panel{max-width:none}.article-header h1{font-size:25pt}.prose{font-size:11pt;color:#111}.prose h2{font-size:17pt;break-after:avoid}.prose h3{break-after:avoid}.prose table{display:table;font-size:9pt}.prose th,.prose td{min-width:0;color:#111}.prose pre{white-space:pre-wrap}.article-sources{break-inside:avoid}a{color:inherit}.article-date{color:#555}@page{margin:18mm}}
+
+/* Downloadable document templates reuse the reading page and local file links. */
+.template-download-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:24px 0 32px}
+.template-download-card{display:flex;flex-direction:column;min-width:0;padding:22px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+.prose .template-download-card h3{font-family:var(--serif);font-size:22px;font-weight:500;margin:0 0 12px;line-height:1.5}
+.prose .template-file-meta{font-size:12px;color:var(--muted);margin:0 0 10px}
+.prose .template-file-description{font-size:14px;line-height:1.9;margin:0 0 18px}
+.prose .template-download-link{display:flex;gap:8px;align-items:center;margin-top:auto;padding:9px 0 0;border-top:1px solid var(--line);font-size:14px;text-decoration:none}
+.template-download-link svg{width:18px;height:18px}
+.prose .template-download-link:hover{text-decoration:underline}
+@media(max-width:760px){.template-download-grid{grid-template-columns:1fr;gap:14px}.template-download-card{padding:20px}}

@@ -1,0 +1,10 @@
+<div class="template-download-grid" aria-label="文书模板下载">
+  {{ range .Page.Params.downloads }}
+  <article class="template-download-card">
+    <p class="template-file-meta">{{ .format }} · {{ .size }}</p>
+    <h3>{{ .title }}</h3>
+    <p class="template-file-description">{{ .description }}</p>
+    <a class="template-download-link" href="{{ .file | relURL }}" download="{{ .filename }}" aria-label="下载{{ .title }}，{{ .format }} 格式，{{ .size }}">{{ partial "site/icon.html" "download" }}下载{{ .title }}</a>
+  </article>
+  {{ end }}
+</div>

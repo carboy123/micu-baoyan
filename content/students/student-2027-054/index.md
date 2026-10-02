@@ -12,7 +12,7 @@
     "cohort": "2027届",
     "applicationYear": "",
     "undergraduateTier": "985",
-    "school": "未明确院校",
+    "school": "电子科技大学",
     "department": "",
     "direction": "",
     "admissionType": "",
@@ -31,8 +31,6 @@
 - 本科院校层次：985（问卷原选项）。
 - 最终去向（原填）：电科。
 - 结果状态：问卷自报。
-
-原填信息不足以明确院校，暂不推断学校、学院或培养类型。
 
 ## 上岸感言
 

@@ -17,11 +17,20 @@ test('占比使用完整样本分母，缺失类别仍纳入统计', () => {
   const categories = [40, 16, 8];
   assert.equal(categories.reduce((sum, n) => sum + core.percentage(n, 64), 0), 100);
 });
-test('年度与届别单独保存，未知批次回退，不猜申请年份', () => {
-  const periods = ['application-2025', 'cohort-2027'];
+test('成果按毕业届别切换，未知批次回退，不猜申请年份', () => {
+  const periods = ['cohort-2026', 'cohort-2027'];
   assert.deepEqual(core.readState('?period=cohort-2027&schoolq=%E5%A4%A7%E5%AD%A6&all=1', periods), { period: 'cohort-2027', q: '大学', all: true });
-  assert.equal(core.readState('?period=2026', periods).period, 'application-2025');
+  assert.equal(core.readState('?period=2026', periods).period, 'cohort-2026');
   assert.deepEqual(core.readState('', []), { period: '', q: '', all: false });
+});
+test('旧2025申请批次链接准确映射到2026届，保留院校筛选与展开状态', () => {
+  const periods = ['cohort-2027', 'cohort-2026'];
+  const state = core.readState('?period=application-2025&schoolq=%E5%A4%A7%E5%AD%A6&all=1', periods);
+  assert.deepEqual(state, { period: 'cohort-2026', q: '大学', all: true });
+  const migrated = new URL(core.stateURL('https://example.test/micu-baoyan/outcomes/?period=application-2025', state), 'https://example.test');
+  assert.equal(migrated.searchParams.get('period'), 'cohort-2026');
+  assert.deepEqual(core.readState(migrated.search, periods), state);
+  assert.equal(core.readState('?period=application-2025', ['application-2025']).period, 'application-2025');
 });
 test('网址保留部署子路径和其他参数，刷新与返回可以恢复状态', () => {
   const state = { period: 'cohort-2027', q: '学校 名称', all: true };
@@ -30,8 +39,8 @@ test('网址保留部署子路径和其他参数，刷新与返回可以恢复�
   assert.match(url, /campaign=test/);
   assert.match(url, /#outcome-data$/);
   const parsed = new URL(url, 'https://example.test');
-  assert.deepEqual(core.readState(parsed.search, ['application-2025', 'cohort-2027']), state);
-  const cleared = new URL(core.stateURL(parsed.href, { period: 'application-2025', q: '', all: false }), 'https://example.test');
+  assert.deepEqual(core.readState(parsed.search, ['cohort-2026', 'cohort-2027']), state);
+  const cleared = new URL(core.stateURL(parsed.href, { period: 'cohort-2026', q: '', all: false }), 'https://example.test');
   assert.equal(cleared.searchParams.has('schoolq'), false);
   assert.equal(cleared.searchParams.has('all'), false);
 });
