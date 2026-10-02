@@ -54,9 +54,9 @@ params:
 
 `draft` 和 `status` 的作用不同：生产构建排除所有草稿，**仅设置 `status: preview` 并不能代替 `draft: true`**。在第一版中，真实经验库保持空态。
 
-## 2. 四类学员经验
+## 2. 面试与申请经验
 
-真实经验统一放在 `content/experiences/`。面经、复盘、成果和感言可以使用同一份文章模板，按类型调整正文结构。
+`content/experiences/` 仅放院校面经与申请复盘。上岸感言使用 `type: reflection`，单独放入 `content/outcomes/reflections/`，并填写对应 `periodId`，由整体成果页按届别展示。优秀学员页先留空，后续经本人确认与工作室审核再增加主页。
 
 ```yaml
 type: experience
@@ -78,7 +78,7 @@ params:
 
 | 字段 | 填写规则 |
 | --- | --- |
-| `kind` | 只使用：院校面经、申请复盘、上岸成果、上岸感言 |
+| `kind` | 经验栏目只使用：院校面经、申请复盘 |
 | `school` | 原文明确的院校名称，统一同校写法 |
 | `department` | 学院／院系，不能因同校而合并不同样本 |
 | `direction` | 专业方向，可以写单个字符串，或 YAML 数组 |

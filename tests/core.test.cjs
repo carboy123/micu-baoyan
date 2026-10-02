@@ -97,3 +97,14 @@ test('分页覆盖首末页、越界与空结果，不修改原始数据', () =>
   assert.deepEqual(core.paginate([], 3, 12), { records: [], page: 1, pages: 1 });
   assert.equal(items.length, 25);
 });
+
+test('多校合填记录可由任一院校找到，组合筛选与返回恢复不重复计数', () => {
+  const multi = { id: 'multi', kind: '院校面经', school: '多校记录', schools: ['测试甲大学', '测试丙大学'], stages: ['预推免'], applicationYear: 2026 };
+  const source = [...records, multi];
+  const filters = { school: '测试丙大学', stage: '预推免', year: '2026' };
+  assert.deepEqual(core.filterExperiences(source, core.parseQuery(core.buildQuery(filters))).map(r => r.id), ['multi']);
+  assert.equal(core.filterExperiences(source, {}).length, 5);
+  assert.deepEqual(core.filterExperiences(source, { ...filters, year: '2025' }), []);
+  assert.deepEqual(core.facetValues(source, 'school'), ['测试丙大学', '测试甲大学', '测试乙大学']);
+  assert.deepEqual(core.filterExperiences(source, { q: '测试丙大学' }).map(r => r.id), ['multi']);
+});

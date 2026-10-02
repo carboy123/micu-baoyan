@@ -10,6 +10,7 @@ import argparse
 from collections import Counter, defaultdict
 import hashlib
 import html
+import importlib.util
 import json
 from pathlib import Path
 import re
@@ -155,11 +156,13 @@ def stage_name(value: str) -> str:
     return value
 
 
-def content_file(title: str, description: str, kind: str, params: dict, body: str) -> str:
+def content_file(title: str, description: str, kind: str, params: dict, body: str, aliases=None) -> str:
     frontmatter = {
         "title": title, "description": description, "type": kind,
         "date": PUBLICATION_DATE, "draft": False, "params": {"status": "published", **params},
     }
+    if aliases:
+        frontmatter["aliases"] = aliases
     # 清理纯空白行，保留非空行末用于 Markdown 换行的双空格。
     body = re.sub(r"(?m)^[^\S\r\n]+$", "", body)
     return json.dumps(frontmatter, ensure_ascii=False, indent=2) + "\n\n" + body.strip() + "\n"
@@ -214,36 +217,25 @@ def main() -> None:
                     description = reflection[:90] + ("…" if len(reflection) > 90 else "")
                     body = "## 个人感言\n\n" + html.escape(reflection)
                     body += "\n\n毕业届别：2026 届。以上为投稿者的个人感受。\n\n米醋电子工作室 · 匿名学员投稿整理。"
-                    generated[ROOT / "content" / "experiences" / "archive" / "reflections-2025" / f"{record_id}.md"] = content_file(title, description, "experience", params, body)
+                    generated[ROOT / "content" / "outcomes" / "reflections" / "cohort-2026" / f"{record_id}.md"] = content_file(title, description, "reflection", params, body, aliases=[f"/experiences/archive/reflections-2025/{record_id}/"])
                     audit["reflectionMappings"].append({"recordId": record_id, "source": "outcomes2025", "record": index, "sourceRow": index + 1})
                 else:
                     audit["omittedReflections"].append({"source": "outcomes2025", "record": index, "reason": "未提供感言或仅空白、跳过、无效占位"})
             if year == 2027:
-                student_id = f"student-2027-{index:03d}"
-                display_name = f"米醋学员 27-{index:03d}"
                 reflection = privacy_clean(row[12], audit["privacyEdits"], f"outcomes2027:{index}:reflection")
                 if len(reflection) <= 1 or reflection.isdecimal():
-                    reflection = ""
-                # 新档案不用昵称、身份、联系方式推断公开展示名或关联面经。
-                admission_type = "直博" if "直博" in raw_school else ("专硕" if "专硕" in raw_school else "")
+                    audit["omittedReflections"].append({"source": "outcomes2027", "record": index, "reason": "未提供有效感言"})
+                    continue
+                record_id = f"reflection-2027-{index:03d}"
                 params = {
-                    "studentId": student_id, "displayName": display_name, "featured": False,
-                    "cohort": "2027届", "applicationYear": "", "undergraduateTier": record["undergraduate"],
-                    "school": school, "department": "", "direction": "", "admissionType": admission_type,
-                    "result": "问卷自报", "periodId": period_id, "destinationText": raw_school,
-                    "destinationTier": record["destination"], "countInOutcomes": True,
-                    "hasReflection": bool(reflection),
+                    "kind": "上岸感言", "recordId": record_id, "applicationYear": "",
+                    "periodId": period_id, "school": school, "cohort": "2027届",
+                    "author": "匿名投稿", "result": "问卷自报", "sources": [],
                 }
-                body = "## 去向与背景\n\n"
-                body += f"- 届次：2027 届。\n- 本科院校层次：{record['undergraduate']}（问卷原选项）。\n"
-                body += f"- 最终去向（原填）：{html.escape(raw_school) or '未提供'}。\n- 结果状态：问卷自报。\n"
-                if year == 2027 and index == 6:
-                    body += "- 核对后的去向院校：中国地质大学，暂不区分校区。\n"
-                if school == UNKNOWN_SCHOOL:
-                    body += "\n原填信息不足以明确院校，暂不推断学校、学院或培养类型。\n"
-                body += "\n## 上岸感言\n\n" + (html.escape(reflection) if reflection else "这份记录暂未提供可展示的感言。")
-                generated[ROOT / "content" / "students" / student_id / "index.md"] = content_file(display_name, f"2027 届匿名学员的本科院校层次、问卷自报去向与感言。", "student", params, body)
-                audit["studentMappings"].append({"studentId": student_id, "source": "outcomes2027", "record": index, "originalNickname": row[6], "sourceRow": index + 1, "experienceLinks": []})
+                body = "## 上岸感言\n\n" + html.escape(reflection)
+                description = reflection[:90] + ("…" if len(reflection) > 90 else "")
+                generated[ROOT / "content" / "outcomes" / "reflections" / "cohort-2027" / f"{record_id}.md"] = content_file(f"2027届申请感言 · 匿名记录 {index:02d}", description, "reflection", params, body)
+                audit["reflectionMappings"].append({"recordId": record_id, "source": "outcomes2027", "record": index, "sourceRow": index + 1})
         if year == 2025:
             # 缺少稳定身份字段：相同业务回答只标疑似重复，不直接删除样本。
             groups = defaultdict(list)
@@ -261,90 +253,24 @@ def main() -> None:
         else:
             note = "本科 2027 届；申请年份未单独提供。已排除一份完全重复的提交。"
         period = {"id": period_id, "label": f"{graduation_year} 届", "applicationYear": 2025 if year == 2025 else None, "graduationYear": graduation_year, "rawRecords": len(rows), "sampleCount": len(cleaned), "excludedCount": len(rows) - len(cleaned), "note": note, "undergraduate": [{"label": t, "count": undergraduate[t]} for t in TIERS], "destination": [{"label": t, "count": destination[t]} for t in TIERS], "schools": [{"name": name, "count": count} for name, count in sorted(schools.items(), key=lambda pair: (-pair[1], pair[0]))]}
-        period["profileBased" if year == 2027 else "aggregateOnly"] = True
+        period["aggregateOnly"] = True
         for field in ("undergraduate", "destination", "schools"):
             assert sum(item["count"] for item in period[field]) == len(cleaned)
         periods.append(period)
         all_outcome_records.extend(cleaned)
     generated[ROOT / "data" / "outcomes.json"] = json.dumps({"periods": periods}, ensure_ascii=False, indent=2) + "\n"
 
-    original = source_paths["interviewsLegacy"].read_text(encoding="utf-8-sig")
-    legacy_count = 0
-    current_school = ""
-    for match in re.finditer(r"^(#{2,3}) (.+)\n([\s\S]*?)(?=^#{2,3} |\Z)", original, flags=re.M):
-        level, heading, body = match.groups()
-        if level == "##":
-            current_school = re.sub(r"^\d+\.\s*", "", heading).strip()
-            continue
-        legacy_count += 1
-        record_id = f"legacy-{legacy_count:03d}"
-        info = re.search(r"\*\*基本信息\*\*：([^\n]+)", body)
-        assert info, f"旧面经缺少基本信息：{record_id}"
-        parts = re.match(r"(20\d{2}届) · (.+?)；本科院校层次：(.+?)；结果：(.+)", info[1])
-        assert parts, f"旧面经基本信息格式变化：{record_id}"
-        cohort, stage, undergraduate_tier, result = parts.groups()
-        body = privacy_clean(body, audit["privacyEdits"], record_id)
-        # 只移除文件级分隔线；原有问题与回答、限定语和建议均保留。
-        body = re.sub(r"\n---\s*$", "", body).strip()
-        body = "## 这次申请\n\n" + body
-        body += "\n\n## 阅读说明\n\n以上为投稿者对一次申请或考核的回忆，门槛与偏好为个人观察。原文只提供届次，未将其换算为申请年份。\n\n© 2026 米醋电子工作室 [svip.micu.wiki](https://svip.micu.wiki/) · 保留所有权利。\"米醋电子工作室\"名称及Logo为米醋电子工作室的品牌标识；未经许可，不得移除或篡改本文档中的署名、版权声明与品牌标识。"
-        department = re.sub(r"（样本 \d+）", "", heading).strip()
-        params = {"kind": "院校面经", "school": current_school, "department": department, "direction": "", "stage": stage_name(stage), "applicationYear": "", "cohort": cohort, "author": "匿名投稿", "recordId": record_id, "studentId": "", "result": result, "undergraduateTier": undergraduate_tier, "sources": []}
-        title = f"{current_school}｜{department}｜{cohort} · {stage_name(stage)}"
-        generated[ROOT / "content" / "experiences" / "archive" / "legacy" / f"{record_id}.md"] = content_file(title, f"匿名投稿的{current_school}考核回忆，涵盖原文提供的考核环节与个人建议。", "experience", params, body)
-    assert legacy_count == 51
-
-    rows = read_xlsx(source_paths["interviews2026"])[1:]
-    assert len(rows) == 113
-    groups = (
-        ("申请概况", [(10, "本科院校层次"), (11, "这次申请的结果"), (12, "进面门槛（个人观察）"), (13, "强 / 弱 com（个人判断）")]),
-        ("考核安排", [(14, "考核模块"), (15, "主要面试形式"), (16, "单人面试时长"), (17, "综合面试环节")]),
-        ("笔试与机试", [(18, "笔试题型"), (19, "具体笔试题目"), (20, "机试内容"), (21, "具体机试题目")]),
-        ("英语环节", [(22, "英语形式"), (23, "英语问题或翻译内容")]),
-        ("专业课环节", [(24, "专业课范围"), (25, "专业课提问方式"), (26, "具体专业课问题")]),
-        ("科研、项目与竞赛", [(27, "被追问的方面"), (28, "具体追问内容"), (29, "PPT 汇报要求")]),
-        ("个人复盘与建议", [(30, "整体难度（个人感受）"), (31, "老师风格（个人感受）"), (32, "项目更看重的因素（个人判断）"), (33, "给后来者的建议")]),
-    )
-    survey_count = 0
-    for index, row in enumerate(rows, 1):
-        assert row[0] == str(index)
-        if index in HELD_INTERVIEWS:
-            assert row[7] == row[8] == str(index), "待核记录变化，需要重新人工审核"
-            audit["heldInterviews"].append({"source": "interviews2026", "record": index, "reason": HELD_INTERVIEWS[index]})
-            continue
-        survey_count += 1
-        record_id = f"survey-2026-{index:03d}"
-        school = school_name(text(row[7]))
-        raw_school = privacy_clean(row[7], audit["privacyEdits"], record_id + ":school")
-        department = privacy_clean(row[8], audit["privacyEdits"], record_id + ":department")
-        stage = stage_name(text(row[9]))
-        audit["normalization"].append({"source": "interviews2026", "record": index, "rawSchool": row[7], "school": school})
-        body = "## 记录范围\n\n"
-        body += f"- 院校（原填）：{html.escape(raw_school)}。\n- 学院 / 专业 / 方向（原填）：{html.escape(department) or '未提供'}。\n- 参加批次：{html.escape(text(row[9]))}。\n"
-        if school == "多校记录":
-            body += "\n本条将多个院校的经历合并填报，原文未逐项说明归属，因此保留为一份多校回忆；不能把下列每道题分别归到其中某一所学校。\n"
-        if school == UNKNOWN_SCHOOL:
-            body += "\n院校名称尚待核实，保留原填文字，不擅自纠正或补全。\n"
-        body += "\n问卷于 2026 年收集，未单独提供考核年份与届次；以下内容保留当时回忆及个人观察。\n"
-        for heading, fields in groups:
-            answers = []
-            for column, label in fields:
-                answer = privacy_clean(row[column], audit["privacyEdits"], f"{record_id}:{column}")
-                if answer:
-                    answers.append(f"### {label}\n\n{html.escape(answer)}")
-            if answers:
-                body += "\n## " + heading + "\n\n" + "\n\n".join(answers) + "\n"
-        body += "\n## 阅读说明\n\n未展示的环节表示这份投稿未提供可用回答，不据此认定院校没有该环节。个人观察与经历不代表当年招生规定。\n\n米醋电子工作室 · 匿名学员投稿整理。"
-        params = {"kind": "院校面经", "school": school, "department": department, "direction": "", "stage": stage, "applicationYear": "", "cohort": "", "collectionYear": 2026, "author": "匿名投稿", "recordId": record_id, "studentId": "", "result": text(row[11]), "undergraduateTier": text(row[10]), "sources": []}
-        title = ("多校考核回忆" if school == "多校记录" else school) + f"｜{department}｜{stage}"
-        generated[ROOT / "content" / "experiences" / "archive" / "survey-2026" / f"{record_id}.md"] = content_file(title, f"匿名投稿的{school}申请与考核回忆；考核年份未提供，保留个人经验和结果状态。", "experience", params, body)
-    assert survey_count == 111
-    assert len(audit["studentMappings"]) == 82
+    spec = importlib.util.spec_from_file_location("school_interviews", ROOT / "scripts/import-school-interviews.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    interview_files, interview_audit = module.build_records(args.source_dir / "按院校整理", ROOT)
+    generated.update(interview_files)
+    audit["interviews"] = interview_audit
     assert [p["sampleCount"] for p in periods] == [64, 82]
     audit["outcomeRecords"] = all_outcome_records
     reflection_count = len(audit["reflectionMappings"])
-    assert reflection_count + len(audit["omittedReflections"]) == 64
-    audit["summary"] = {"legacyExperiences": legacy_count, "surveyRawRecords": len(rows), "surveyExperiences": survey_count, "heldSurveyRecords": len(HELD_INTERVIEWS), "publicInterviewExperiences": legacy_count + survey_count, "publicReflections": reflection_count, "omittedReflections": len(audit["omittedReflections"]), "publicExperiences": legacy_count + survey_count + reflection_count, "studentProfiles": len(audit["studentMappings"]), "outcomeSamples": [p["sampleCount"] for p in periods]}
+    assert reflection_count + len(audit["omittedReflections"]) == 146
+    audit["summary"] = {"publicInterviewExperiences": len(interview_files), "publicReflections": reflection_count, "omittedReflections": len(audit["omittedReflections"]), "publicExperiences": len(interview_files), "studentProfiles": 0, "outcomeSamples": [p["sampleCount"] for p in periods]}
     # 再次直接从原表排除明确重复行计算，独立核对公开三类分布。
     for period, year in zip(periods, (2025, 2027)):
         original_rows = read_xlsx(source_paths[f"outcomes{year}"])[1:]
@@ -355,7 +281,7 @@ def main() -> None:
         assert Counter(outcome_school(year, int(r[0]), text(r[f])) for r in valid_rows) == Counter({i["name"]: i["count"] for i in period["schools"]})
     hashes_after = {key: hashlib.sha256(path.read_bytes()).hexdigest() for key, path in source_paths.items()}
     assert hashes_before == hashes_after, "原始文件发生变化"
-    audit["validation"] = {"originalHashesUnchanged": True, "distributionTotalsMatch": True, "independentRawCountsMatch": True, "studentProfileCountMatches2027Samples": True}
+    audit["validation"] = {"originalHashesUnchanged": True, "distributionTotalsMatch": True, "independentRawCountsMatch": True, "outcomesIndependentOfStudentProfiles": True}
     if args.write:
         changed_existing = [path for path, value in generated.items() if path.exists() and path.read_text(encoding="utf-8") != value]
         if changed_existing and not (args.replace_existing or args.add_only):

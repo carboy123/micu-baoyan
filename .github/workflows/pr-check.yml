@@ -53,3 +53,4 @@ jobs:
             --baseURL 'https://carboy123.github.io/micu-baoyan/' \
             --cacheDir "${RUNNER_TEMP}/hugo-cache" --destination public
           python3 tests/site-check.py public --prefix /micu-baoyan/ --skip-original
+          python3 tests/community-students.py --hugo hugo --build public

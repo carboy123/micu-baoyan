@@ -17,19 +17,22 @@
     });
     return { panel, rows, input: panel.querySelector('[data-school-query]'), more: panel.querySelector('[data-school-more]') };
   });
-  function updateURL(replace) {
-    const url = core.stateURL(window.location.href, state);
+  function updateURL(replace, changePeriod) {
+    const url = core.stateURL(window.location.href, state, changePeriod);
     if (url !== window.location.pathname + window.location.search + window.location.hash) {
       window.history[replace ? 'replaceState' : 'pushState']({}, '', url);
     }
   }
-  function render() {
+  function renderPeriodLinks() {
     links.forEach(link => {
       const selected = link.dataset.periodLink === state.period;
       if (selected) link.setAttribute('aria-current', 'true');
       else link.removeAttribute('aria-current');
-      link.href = core.stateURL(window.location.href, { ...state, period: link.dataset.periodLink, all: false });
+      link.href = core.stateURL(window.location.href, { ...state, period: link.dataset.periodLink, all: false }, true);
     });
+  }
+  function render() {
+    renderPeriodLinks();
     panelData.forEach(({ panel, rows, input, more }) => {
       const selected = panel.dataset.outcomePeriod === state.period;
       panel.hidden = !selected;
@@ -59,8 +62,9 @@
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
     state = { ...state, period: link.dataset.periodLink, all: false };
-    updateURL(false);
+    updateURL(false, true);
     render();
+    document.getElementById(window.location.hash.slice(1))?.scrollIntoView({ block: 'start' });
   }));
   panelData.forEach(({ panel, input, more }) => {
     if (!input) return;
@@ -89,5 +93,6 @@
     state = core.readState(window.location.search, periods);
     render();
   });
+  window.addEventListener('hashchange', renderPeriodLinks);
   render();
 })();

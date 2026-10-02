@@ -17,8 +17,10 @@
       all: params.get('all') === '1'
     };
   }
-  function stateURL(currentURL, state) {
+  function stateURL(currentURL, state, changePeriod) {
     const url = new URL(currentURL);
+    if (changePeriod) url.hash = url.hash.startsWith('#reflections-') && state.period
+      ? '#reflections-' + state.period : '#outcome-data';
     if (state.period) url.searchParams.set('period', state.period);
     else url.searchParams.delete('period');
     if (state.q) url.searchParams.set('schoolq', state.q);

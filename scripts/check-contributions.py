@@ -23,7 +23,7 @@ BODY_CONTACT_PATTERNS = (
 )
 AVATAR_EXTENSION = {".avif", ".gif", ".jpg", ".jpeg", ".png", ".webp"}
 PLACEHOLDERS = {"学员展示名", "作者展示名", "面经标题", "院校名称", "【录取院校】", "【学员展示名】", "填写真实经历的简短摘要。", "用一句话介绍自己的专业方向与准备经历。", "用一句话介绍自己的方向与准备经历。", "用一句话说明这段经历。"}
-KINDS = {"院校面经", "申请复盘", "上岸成果", "上岸感言"}
+KINDS = {"院校面经", "申请复盘"}
 
 
 def scalar(raw: str):
@@ -90,7 +90,7 @@ def validate(root: Path) -> list[str]:
     def fail(path: Path, message: str):
         errors.append(f"{path.relative_to(root).as_posix()}: {message}")
 
-    for section in ("students", "experiences"):
+    for section in ("students", "experiences", "outcomes"):
         for path in sorted((root / "content" / section).rglob("*.md")):
             if path.name == "_index.md":
                 continue
@@ -144,10 +144,16 @@ def validate(root: Path) -> list[str]:
                     # Unknown undergraduate/destination tiers are valid and must
                     # remain a separate unknown bucket in aggregate rendering.
             else:
-                if fields.get("type") != "experience":
-                    fail(path, "经验文章须使用 type: experience")
-                if fields.get("params.kind") not in KINDS:
-                    fail(path, "kind 必须为现有四类经验之一")
+                if section == "outcomes":
+                    if fields.get("type") != "reflection" or fields.get("params.kind") != "上岸感言":
+                        fail(path, "成果栏目的感言须使用 type: reflection 和 kind: 上岸感言")
+                    if str(fields.get("params.periodId", "")) not in period_ids:
+                        fail(path, "感言须关联有效 periodId，以便在对应届别的整体成果中展示")
+                else:
+                    if fields.get("type") != "experience":
+                        fail(path, "经验文章须使用 type: experience")
+                    if fields.get("params.kind") not in KINDS:
+                        fail(path, "经验栏目仅收录院校面经与申请复盘；上岸感言请放入成果栏目")
                 record_id = fields.get("params.recordId", "")
                 if not isinstance(record_id, str) or not ID.fullmatch(record_id):
                     fail(path, "recordId 必须为非空英文小写、数字和连字符标识")

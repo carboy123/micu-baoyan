@@ -1,0 +1,15 @@
+{{ define "main" }}
+{{ $period := .Params.periodId }}
+{{ $return := printf "%s?period=%s#reflections-%s" ("outcomes/" | relURL) $period $period }}
+<div class="experience-detail-wrap">
+  {{ partial "site/community-nav.html" . }}
+  <nav class="breadcrumbs" aria-label="当前位置"><a href="{{ site.Home.RelPermalink }}">首页</a><span>/</span><a href="{{ $return }}">整体成果 · 上岸感言</a><span>/</span><span aria-current="page">{{ .Params.cohort }}</span></nav>
+  <a class="back-link" href="{{ $return }}">← 返回{{ .Params.cohort }}上岸感言</a>
+  <article class="article-panel">
+    <header class="article-header"><p class="eyebrow">MICU / 上岸感言</p><h1>{{ .Title }}</h1><p class="article-date">{{ .Params.cohort }} · {{ .Params.author | default "匿名投稿" }}{{ with .Params.school }} · {{ . }}{{ end }}</p></header>
+    <div class="prose">{{ .Content }}</div>
+    <p class="collection-note">以上为投稿者的个人感受与回顾，保留原有表达。</p>
+    <div class="article-end"><a href="{{ $return }}">← 返回本届上岸感言</a><button class="text-button" data-print>{{ partial "site/icon.html" "file" }} 打印本页</button></div>
+  </article>
+</div>
+{{ end }}
