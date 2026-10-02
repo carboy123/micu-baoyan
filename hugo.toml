@@ -10,7 +10,7 @@ summaryLength = 90
 
 [params]
   description = '面向电子、嵌入式、自动化与计算机专业的保研成长指南。看懂规则，明确每个阶段的下一步。'
-  version = '0.3.0'
+  version = '0.4.0'
   BookTheme = 'light'
   BookSearch = false
   BookComments = false

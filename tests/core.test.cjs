@@ -55,7 +55,7 @@ test('选项去重并展开多值方向、阶段，空资料库提供空选项',
 });
 
 test('URL 完整还原中文、空格、加号和所有筛选条件', () => {
-  const filters = { q: '电子 C++', kind: '院校面经', school: '测试甲大学', direction: '嵌入式', stage: '夏令营', year: 'unknown' };
+  const filters = { q: '电子 C++', kind: '院校面经', school: '测试甲大学', direction: '嵌入式', stage: '夏令营', year: 'unknown', cohort: '', student: '', page: '' };
   assert.deepEqual(core.parseQuery(core.buildQuery(filters)), filters);
   assert.equal(core.buildQuery(core.parseQuery('')), '');
   assert.equal(core.buildQuery({ q: '  推免  ', ignored: 'secret' }), '?q=%E6%8E%A8%E5%85%8D');
@@ -76,4 +76,24 @@ test('拒绝外站、协议相对路径、脚本、反斜杠及非列表路径',
     '/\\evil.test/experiences/', '/experiences/../other/', '/other/',
     '/experiences/%2f%2fevil.test', '/experiences/\n?q=test', null
   ].forEach(value => assert.equal(core.safeReturnUrl(value), '/experiences/'));
+});
+
+
+test('届次和学员关联独立筛选，不能凭年份或名字误匹配', () => {
+  const linked = records.map((r, i) => ({ ...r, studentId: i < 2 ? 'micu-test' : '' }));
+  assert.deepEqual(core.filterExperiences(linked, { student: 'micu-test', cohort: '2026' }).map(r => r.id), ['a']);
+  assert.deepEqual(core.filterExperiences(linked, { student: 'missing' }), []);
+  const query = core.buildQuery({ student: 'micu-test', cohort: '2026', page: '2' });
+  assert.equal(core.parseQuery(query).page, '2');
+  assert.equal(core.safeReturnUrl('/experiences/' + query), '/experiences/' + query);
+});
+
+test('分页覆盖首末页、越界与空结果，不修改原始数据', () => {
+  const items = Array.from({length: 25}, (_, i) => i);
+  assert.deepEqual(core.paginate(items, '2', 12).records, items.slice(12, 24));
+  assert.deepEqual(core.paginate(items, 999, 12), { records: [24], page: 3, pages: 3 });
+  assert.equal(core.paginate(items, -1, 12).page, 1);
+  assert.equal(core.paginate(items, 'bad', 12).page, 1);
+  assert.deepEqual(core.paginate([], 3, 12), { records: [], page: 1, pages: 1 });
+  assert.equal(items.length, 25);
 });

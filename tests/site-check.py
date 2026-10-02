@@ -141,14 +141,20 @@ class Checker:
         content = self.source / "content"
         for path in content.rglob("*.md"):
             text = path.read_text(encoding="utf-8-sig")
-            if not text.startswith("---"):
+            if text.startswith("{"):
+                frontmatter, _ = json.JSONDecoder().raw_decode(text)
+                status_value = frontmatter.get("params", {}).get("status")
+                draft = frontmatter.get("draft", False)
+            elif text.startswith("---"):
+                frontmatter = text.split("---", 2)[1]
+                status = re.search(r"^  status:\s*['\"]?([^'\"\s]+)", frontmatter, re.M)
+                status_value = status.group(1) if status else None
+                draft = re.search(r"^draft:\s*true\s*$", frontmatter, re.M | re.I)
+            else:
                 continue
-            frontmatter = text.split("---", 2)[1]
-            status = re.search(r"^  status:\s*['\"]?([^'\"\s]+)", frontmatter, re.M)
-            draft = re.search(r"^draft:\s*true\s*$", frontmatter, re.M | re.I)
-            if draft or (status and status.group(1) in ("planned", "preview")):
+            if draft or status_value in ("planned", "preview"):
                 relative = path.relative_to(content)
-                if relative.name == "_index.md":
+                if relative.name in ("_index.md", "index.md"):
                     route = relative.parent
                 else:
                     route = relative.with_suffix("")
@@ -222,6 +228,19 @@ class Checker:
         except (json.JSONDecodeError, ValueError) as exc:
             self.fail(path, f"JSON {name!r} 无法解析: {exc}")
             return
+        if name == "outcome-data" or name == "outcomes-data":
+            periods = data.get("periods", []) if isinstance(data, dict) else []
+            if not periods:
+                self.fail(path, "成果数据没有年度分组")
+            for period in periods:
+                count = period.get("sampleCount", -1)
+                for dimension in ("undergraduate", "destination", "schools"):
+                    entries = period.get(dimension, [])
+                    if any(not isinstance(e.get("count"), int) or e["count"] < 0 for e in entries):
+                        self.fail(path, f"{period.get('id')} 的 {dimension} 含非法计数")
+                    elif sum(e["count"] for e in entries) != count:
+                        self.fail(path, f"{period.get('id')} 的 {dimension} 与样本数不一致")
+            return
         if name not in ("search-data", "experience-data"):
             return
         if not isinstance(data, list):
@@ -233,8 +252,6 @@ class Checker:
                 self.fail(path, "search-data 为空，示例文章与术语未进入搜索")
         else:
             self.experience_blocks += 1
-            if not self.development and data:
-                self.fail(path, f"首版生产 experience-data 应为空，实际含 {len(data)} 条")
         ids = set()
         for index, record in enumerate(data):
             if not isinstance(record, dict):
@@ -245,18 +262,26 @@ class Checker:
                 self.fail(path, f"{name} 重复 id: {record_id!r}")
             if record_id:
                 ids.add(record_id)
+            if name == "experience-data":
+                if not record_id or not record.get("title") or not record.get("kind"):
+                    self.fail(path, f"experience-data[{index}] 缺少编号、标题或类型")
+                student_id = record.get("studentId")
+                if student_id and not (self.build / "students" / student_id / "index.html").is_file():
+                    self.fail(path, f"experience-data[{index}] 关联不存在的学员")
+                if any(key in record for key in ("phone", "email", "contact", "ip", "userId")):
+                    self.fail(path, f"experience-data[{index}] 包含私密字段")
             url = record.get("url")
             if not isinstance(url, str) or not url:
                 self.fail(path, f"{name}[{index}] 缺少有效 url")
                 continue
             target = self.check_reference(path, Reference(url, f"{name}[{index}]"))
-            if name == "search-data":
+            if name in ("search-data", "experience-data"):
                 if record.get("status") in ("planned", "preview"):
                     self.fail(path, f"search-data 收录了 {record['status']} 记录: {url}")
                 if target and target.is_relative_to(self.build):
                     relative = target.relative_to(self.build).as_posix()
                     if relative in self.forbidden_search_pages or relative.startswith("preview/"):
-                        self.fail(path, f"search-data 收录了待补充或草稿预览: {url}")
+                        self.fail(path, f"{name} 收录了待补充或草稿预览: {url}")
 
     def check_original(self) -> None:
         candidates = [self.source / SOURCE_NAME, self.source / "参考资料" / SOURCE_NAME]

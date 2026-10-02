@@ -207,7 +207,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\build-site.ps1
 python tests/site-check.py .runtime/builds/subpath --prefix /micu-baoyan/
 ```
 
-当前脚本会检查本地原始面经哈希，并要求第一版真实经验为空。将来开始收录真实经验时，应按新的任务范围更新这项验收约束，不能用测试数据充当学员内容。
+当前脚本检查本地原始面经哈希、真实经验编号、学员关联、成果分布合计及草稿隔离。学员档案、历史资料整理和投稿流程见 [学员资料整理说明](community-data.md)；测试数据只能用于隔离验证，不能充当正式学员内容。
 
 原始面经与内部采集材料不提交到公开仓库。发布前逐项检查待提交文件和公开范围，只让确认后的文章及所需资源进入站点。运行与构建问题见 [运行手册](runtime.md)，后续 GitHub Pages 接入步骤见 [项目 README](../README.md)。
 

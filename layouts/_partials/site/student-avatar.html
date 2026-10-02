@@ -1,0 +1,16 @@
+{{- $url := "" -}}
+{{- with .Params.avatar -}}
+  {{- $path := string . -}}
+  {{- $invalid := findRE `(?i)^[a-z][a-z0-9+.-]*:|^//|[\\%?#]|(?:^|/)\.\.(?:/|$)` $path -}}
+  {{- if and (not $invalid) (findRE `(?i)\.(avif|gif|jpe?g|png|webp)$` $path) -}}
+    {{- with $.Resources.Get $path -}}
+      {{- $url = .RelPermalink -}}
+    {{- else -}}
+      {{- $staticPath := strings.TrimPrefix "/" $path -}}
+      {{- if fileExists (printf "static/%s" $staticPath) -}}
+        {{- $url = $staticPath | relURL -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $url -}}

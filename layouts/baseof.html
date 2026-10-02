@@ -9,6 +9,14 @@
   <meta name="theme-color" content="#f7f5ef">
   <link rel="icon" href="{{ "images/micu-symbol.png" | relURL }}" type="image/png" sizes="194x203">
   <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
+  <link rel="stylesheet" href="{{ "css/students.css" | relURL }}">
+  <link rel="stylesheet" href="{{ "css/community.css" | relURL }}">
+  {{ if eq .Layout "outcomes" }}
+  <link rel="stylesheet" href="{{ "css/outcomes.css" | relURL }}">
+  <script defer src="{{ "js/outcome-core.js" | relURL }}"></script>
+  <script defer src="{{ "js/outcomes.js" | relURL }}"></script>
+  {{ end }}
+  {{ if eq .Section "students" }}<script defer src="{{ "js/students.js" | relURL }}"></script>{{ end }}
   <script defer src="{{ "js/core.js" | relURL }}"></script>
   <script defer src="{{ "js/site.js" | relURL }}"></script>
 </head>

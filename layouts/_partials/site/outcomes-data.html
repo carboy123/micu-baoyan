@@ -1,0 +1,35 @@
+{{/* Historical anonymous aggregates plus reviewed profiles, counted only once. */}}
+{{ $periods := slice }}
+{{ $students := where (where site.RegularPages "Type" "student") "Params.status" "published" }}
+{{ range hugo.Data.outcomes.periods }}
+  {{ $period := . }}
+  {{ $undergraduate := dict }}{{ $destination := dict }}{{ $schools := dict }}
+  {{ $sampleCount := 0 }}
+  {{ if not .profileBased }}
+    {{ $sampleCount = .sampleCount | default 0 }}
+    {{ range .undergraduate }}{{ $undergraduate = merge $undergraduate (dict .label .count) }}{{ end }}
+    {{ range .destination }}{{ $destination = merge $destination (dict .label .count) }}{{ end }}
+    {{ range .schools }}{{ $schools = merge $schools (dict .name .count) }}{{ end }}
+  {{ end }}
+  {{ range $students }}
+    {{ if and (not .Draft) .Params.countInOutcomes (eq .Params.periodId $period.id) }}
+      {{ $sampleCount = add $sampleCount 1 }}
+      {{ $tier := .Params.undergraduateTier | default "未提供" }}
+      {{ $undergraduate = merge $undergraduate (dict $tier (add (index $undergraduate $tier | default 0) 1)) }}
+      {{ $tier = .Params.destinationTier | default "未提供" }}
+      {{ $destination = merge $destination (dict $tier (add (index $destination $tier | default 0) 1)) }}
+      {{ $school := .Params.school | default "未明确院校" }}
+      {{ $schools = merge $schools (dict $school (add (index $schools $school | default 0) 1)) }}
+    {{ end }}
+  {{ end }}
+  {{ $u := slice }}{{ $d := slice }}{{ $s := slice }}
+  {{ range $label := slice "985" "211" "双一流" "四非" "未提供" }}
+    {{ $u = $u | append (dict "label" $label "count" (index $undergraduate $label | default 0)) }}
+    {{ $d = $d | append (dict "label" $label "count" (index $destination $label | default 0)) }}
+  {{ end }}
+  {{ range $label, $count := $undergraduate }}{{ if not (in (slice "985" "211" "双一流" "四非" "未提供") $label) }}{{ $u = $u | append (dict "label" $label "count" $count) }}{{ end }}{{ end }}
+  {{ range $label, $count := $destination }}{{ if not (in (slice "985" "211" "双一流" "四非" "未提供") $label) }}{{ $d = $d | append (dict "label" $label "count" $count) }}{{ end }}{{ end }}
+  {{ range $name, $count := $schools }}{{ $s = $s | append (dict "name" $name "count" $count) }}{{ end }}
+  {{ $periods = $periods | append (dict "id" .id "label" .label "applicationYear" .applicationYear "graduationYear" .graduationYear "rawRecords" .rawRecords "historicalSampleCount" .sampleCount "sampleAdjustment" (sub $sampleCount (.sampleCount | default 0)) "sampleCount" $sampleCount "excludedCount" .excludedCount "note" .note "undergraduate" $u "destination" $d "schools" (sort $s "count" "desc")) }}
+{{ end }}
+{{ return (dict "periods" $periods) }}

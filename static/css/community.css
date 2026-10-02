@@ -1,0 +1,15 @@
+.collection-note,.filter-context{font-size:13px;color:var(--muted);margin:18px 0;max-width:900px}
+.filter-context{padding:12px 16px;background:var(--sage);border-left:3px solid var(--red)}
+.experience-pagination{display:flex;justify-content:center;align-items:center;gap:24px;margin:32px 0 48px;font-size:14px}
+.experience-pagination button{padding:9px 18px;border:1px solid var(--line);background:var(--surface)}
+.experience-pagination button:hover:not(:disabled){border-color:var(--red);color:var(--red)}
+.experience-pagination button:disabled{opacity:.45}
+.experience-results{scroll-margin-top:115px}
+.experience-card,.experience-facts dd{overflow-wrap:anywhere;min-width:0}
+.experience-static-list a{color:var(--red);text-decoration:underline;text-underline-offset:4px}
+.community-related{margin-top:32px;padding:24px;background:var(--sage);border:1px solid var(--line)}
+.community-related h2{font-size:23px}.community-related ul{padding-left:22px}.community-related a{color:var(--red)}
+.experience-home-count{font:46px/1.2 var(--serif);color:var(--red);display:block;margin-bottom:12px}
+.experience-detail-wrap .prose,.student-detail .prose{font-size:16px}
+@media(min-width:1000px){[data-experience-filters]{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){.experience-pagination{gap:14px}.experience-pagination button{padding:8px 12px}.community-related{padding:20px}.collection-note{font-size:12px}}

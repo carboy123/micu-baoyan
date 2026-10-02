@@ -1,0 +1,6 @@
+{{ $current := .RelPermalink }}
+<nav class="community-nav" aria-label="学员内容导航">
+  {{ range slice (dict "path" "outcomes/" "title" "整体成果") (dict "path" "experiences/" "title" "面试与申请经验") (dict "path" "students/" "title" "学员故事") (dict "path" "resources/submission/" "title" "分享我的经历") }}
+  {{ $url := .path | relURL }}<a href="{{ $url }}"{{ if hasPrefix $current $url }} aria-current="page"{{ end }}>{{ .title }}</a>
+  {{ end }}
+</nav>

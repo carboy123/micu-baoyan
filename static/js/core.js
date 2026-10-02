@@ -6,7 +6,7 @@
 }(typeof window !== 'undefined' ? window : null, function () {
   'use strict';
 
-  var filterKeys = ['q', 'kind', 'school', 'direction', 'stage', 'year'];
+  var filterKeys = ['q', 'kind', 'school', 'direction', 'stage', 'year', 'cohort', 'student', 'page'];
   var unknownYear = 'unknown';
 
   function normalize(value) {
@@ -63,6 +63,8 @@
       if (filters.direction && !list(record.directions).includes(filters.direction)) return false;
       if (filters.stage && !list(record.stages).includes(filters.stage)) return false;
       if (filters.year && yearValue(record) !== String(filters.year)) return false;
+      if (filters.cohort && String(record.cohort || '') !== String(filters.cohort)) return false;
+      if (filters.student && record.studentId !== filters.student) return false;
       var text = normalize([
         record.title, record.description, record.body, record.kind,
         record.school, record.college, list(record.directions).join(' '),
@@ -99,6 +101,13 @@
     }, {});
   }
 
+  function paginate(records, requestedPage, perPage) {
+    perPage = Math.max(1, Math.floor(Number(perPage) || 12));
+    var pages = Math.max(1, Math.ceil(records.length / perPage));
+    var page = Math.min(pages, Math.max(1, Math.floor(Number(requestedPage) || 1)));
+    return { records: records.slice((page - 1) * perPage, page * perPage), page: page, pages: pages };
+  }
+
   function buildQuery(filters) {
     var params = new URLSearchParams();
     filterKeys.forEach(function (key) {
@@ -131,6 +140,7 @@
     parseQuery: parseQuery,
     buildQuery: buildQuery,
     safeReturnUrl: safeReturnUrl,
+    paginate: paginate,
     unknownYear: unknownYear
   };
 }));

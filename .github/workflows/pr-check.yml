@@ -1,0 +1,55 @@
+name: Check contribution
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: contribution-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  HUGO_VERSION: '0.166.0'
+  HUGO_SHA256: '0e39b901e3f919f1daae05c8ff64f0c14c8a348ef46886d63f8e6d1bb2653885'
+  TZ: Asia/Shanghai
+
+jobs:
+  validate:
+    name: Validate contribution
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout proposed merge
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install pinned Hugo
+        shell: bash
+        run: |
+          archive="hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
+          curl --fail --location --silent --show-error --retry 3 --connect-timeout 20 --max-time 120 \
+            "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/${archive}" \
+            --output "${RUNNER_TEMP}/${archive}"
+          printf '%s  %s\n' "${HUGO_SHA256}" "${RUNNER_TEMP}/${archive}" | sha256sum --check --strict
+          mkdir -p "${RUNNER_TEMP}/hugo-bin"
+          tar -xzf "${RUNNER_TEMP}/${archive}" -C "${RUNNER_TEMP}/hugo-bin" hugo
+          printf '%s\n' "${RUNNER_TEMP}/hugo-bin" >> "${GITHUB_PATH}"
+
+      - name: Check contribution fields and regression tests
+        shell: bash
+        run: |
+          python3 scripts/check-contributions.py
+          python3 -m unittest discover -s tests -p 'test_contributions.py'
+          node --test tests/core.test.cjs tests/students.test.cjs tests/outcomes.test.cjs
+          python3 tests/outcome-aggregation.py --hugo hugo
+
+      - name: Build and validate production pages
+        shell: bash
+        run: |
+          hugo --environment production --buildDrafts=false --minify \
+            --baseURL 'https://carboy123.github.io/micu-baoyan/' \
+            --cacheDir "${RUNNER_TEMP}/hugo-cache" --destination public
+          python3 tests/site-check.py public --prefix /micu-baoyan/ --skip-original
