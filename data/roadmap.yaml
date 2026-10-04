@@ -1,36 +1,30 @@
 - id: stage-1
   label: 大一
-  title: 先把基础打牢
-  description: 了解本校规则，重视课程、英语与专业基础。
-  output: 本校规则摘要 · 学期计划
+  title: 摸清规则，打好基础
+  description: 稳定课程成绩，衔接四六级，跟随工作室开始训练并接触科研。
   link: basics/roadmap/#stage-1
 - id: stage-2
   label: 大二
-  title: 在实践中积累
-  description: 稳定成绩，选择竞赛与项目，记录自己的贡献。
-  output: 项目过程记录 · 个人贡献说明
+  title: 备赛与科研并行
+  description: 六级争取500+，按工作室规划备赛参赛，推进项目与论文产出。
   link: basics/roadmap/#stage-2
 - id: stage-3
   label: 大三上
-  title: 让方向逐渐清晰
-  description: 整理已有经历，了解研究方向与目标院校。
-  output: 第一版简历 · 目标院校
+  title: 判断资格，准备申请
+  description: 判断资格与加分差距，推进论文和英语，准备申请材料与考核。
   link: basics/roadmap/#stage-3
 - id: stage-4
   label: 大三下至暑假
-  title: 为申请做好准备
-  description: 跟进官方通知，准备材料，练习专业与项目表达。
-  output: 申请材料包 · 项目介绍
+  title: 补足加分，申请夏令营
+  description: 有缺口时按工作室规划争取有效加分，同时开展院校申请与面试。
   link: basics/roadmap/#stage-4
 - id: stage-5
   label: 申请季
-  title: 把每一步确认好
+  title: 跟进资格与确认
   description: 跟进校内资格、院校考核与系统确认事项。
-  output: 跟进申请 · 确认结果
   link: basics/roadmap/#stage-5
 - id: stage-6
   label: 拟录取后
-  title: 从容迎接下一程
-  description: 完成本科学业，关注后续审核，规划入学前学习。
-  output: 毕业任务计划 · 入学准备计划
+  title: 完成学业，衔接科研
+  description: 完成本科学业，关注后续审核，结合研究方向继续学习。
   link: basics/roadmap/#stage-6
