@@ -2,7 +2,8 @@
   'use strict';
   const page = document.querySelector('[data-outcome-page]');
   const core = window.MicuOutcomes;
-  if (!page || !core) return;
+  const contentCore = window.MicuCore;
+  if (!page || !core || !contentCore) return;
   const panels = Array.from(page.querySelectorAll('[data-outcome-period]'));
   const periods = panels.map(panel => panel.dataset.outcomePeriod);
   if (!periods.length) return;
@@ -15,10 +16,14 @@
     rows.forEach(row => {
       row.element.querySelector('.outcome-school-track span').style.width = core.percentage(row.count, Number(panel.dataset.sampleCount)) + '%';
     });
-    return { panel, rows, input: panel.querySelector('[data-school-query]'), more: panel.querySelector('[data-school-more]') };
+    return { panel, rows, input: panel.querySelector('[data-school-query]'), more: panel.querySelector('[data-school-more]'),
+      reflections: Array.from(panel.querySelectorAll('.outcome-reflection-entry')),
+      pagination: panel.querySelector('[data-reflection-pagination]') };
   });
-  function updateURL(replace, changePeriod) {
-    const url = core.stateURL(window.location.href, state, changePeriod);
+  function updateURL(replace, changePeriod, anchor) {
+    const target = new URL(core.stateURL(window.location.href, state, changePeriod), window.location.href);
+    if (anchor) target.hash = anchor;
+    const url = target.pathname + target.search + target.hash;
     if (url !== window.location.pathname + window.location.search + window.location.hash) {
       window.history[replace ? 'replaceState' : 'pushState']({}, '', url);
     }
@@ -32,10 +37,21 @@
     });
   }
   function render() {
+    const current = panelData.find(item => item.panel.dataset.outcomePeriod === state.period);
+    state.reflectionPage = contentCore.paginate(current.reflections, state.reflectionPage, 10).page;
     renderPeriodLinks();
-    panelData.forEach(({ panel, rows, input, more }) => {
+    panelData.forEach(({ panel, rows, input, more, reflections, pagination }) => {
       const selected = panel.dataset.outcomePeriod === state.period;
       panel.hidden = !selected;
+      if (pagination) {
+        const result = contentCore.paginate(reflections, selected ? state.reflectionPage : 1, 10);
+        const visible = new Set(result.records);
+        reflections.forEach(entry => { entry.hidden = !visible.has(entry); });
+        pagination.hidden = result.pages <= 1;
+        pagination.querySelector('[data-reflection-prev]').disabled = result.page <= 1;
+        pagination.querySelector('[data-reflection-next]').disabled = result.page >= result.pages;
+        pagination.querySelector('[data-reflection-status]').textContent = '第 ' + result.page + ' / ' + result.pages + ' 页';
+      }
       if (!input) return;
       if (input.value !== state.q) input.value = state.q;
       panel.querySelector('[data-school-form]').hidden = false;
@@ -61,12 +77,23 @@
   links.forEach(link => link.addEventListener('click', event => {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
-    state = { ...state, period: link.dataset.periodLink, all: false };
+    state = { ...state, period: link.dataset.periodLink, all: false, reflectionPage: 1 };
     updateURL(false, true);
     render();
     document.getElementById(window.location.hash.slice(1))?.scrollIntoView({ block: 'start' });
   }));
-  panelData.forEach(({ panel, input, more }) => {
+  panelData.forEach(({ panel, input, more, pagination }) => {
+    if (pagination) pagination.addEventListener('click', event => {
+      const previous = event.target.closest('[data-reflection-prev]');
+      const next = event.target.closest('[data-reflection-next]');
+      if ((!previous && !next) || (previous || next).disabled) return;
+      state = { ...state, reflectionPage: state.reflectionPage + (previous ? -1 : 1) };
+      const section = pagination.closest('.outcome-reflections');
+      updateURL(false, false, section.id);
+      render();
+      section.focus({ preventScroll: true });
+      section.scrollIntoView({ block: 'start' });
+    });
     if (!input) return;
     panel.querySelector('[data-school-form]').addEventListener('submit', event => event.preventDefault());
     function handleInput(event) {
@@ -95,4 +122,5 @@
   });
   window.addEventListener('hashchange', renderPeriodLinks);
   render();
+  updateURL(true);
 })();

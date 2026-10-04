@@ -60,7 +60,7 @@
       </section>
       {{ else }}<div class="empty-state"><h2>这一批成果仍在整理中。</h2><p>有可纳入统计的去向记录后，本页会展示本科背景、最终去向与院校分布。</p></div>{{ end }}
       {{ if $reflections }}
-      <section class="outcome-reflections" id="reflections-{{ .id }}" aria-labelledby="reflections-heading-{{ .id }}">
+      <section class="outcome-reflections" id="reflections-{{ .id }}" aria-labelledby="reflections-heading-{{ .id }}" tabindex="-1">
         <div class="outcome-section-heading"><div><p class="eyebrow">03 / 上岸感言</p><h2 id="reflections-heading-{{ .id }}">那些想留给后来者的话。</h2></div><p>{{ .label }} · {{ len $reflections }} 篇匿名感言</p></div>
         <p class="outcome-reflections-intro">有走到终点的喜悦，也有回望来路的感触。以下保留投稿者自己的表达。</p>
         <div class="outcome-reflection-list">
@@ -74,6 +74,7 @@
           </article>
           {{ end }}
         </div>
+        <nav class="experience-pagination reflection-pagination" data-reflection-pagination aria-label="{{ .label }}上岸感言分页" hidden><button type="button" data-reflection-prev>上一页</button><span data-reflection-status aria-live="polite"></span><button type="button" data-reflection-next>下一页</button></nav>
         <p class="collection-note">米醋电子工作室 · 匿名学员投稿整理。以上为投稿者的个人感受与回顾。</p>
       </section>
       {{ end }}

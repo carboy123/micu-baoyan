@@ -11,10 +11,12 @@
     const params = new URLSearchParams(search);
     let requested = params.get('period');
     if (requested === 'application-2025' && periods.includes('cohort-2026')) requested = 'cohort-2026';
+    const page = Number(params.get('rpage'));
     return {
       period: periods.includes(requested) ? requested : (periods[0] || ''),
       q: (params.get('schoolq') || '').trim(),
-      all: params.get('all') === '1'
+      all: params.get('all') === '1',
+      reflectionPage: Number.isSafeInteger(page) && page > 0 ? page : 1
     };
   }
   function stateURL(currentURL, state, changePeriod) {
@@ -27,6 +29,8 @@
     else url.searchParams.delete('schoolq');
     if (state.all) url.searchParams.set('all', '1');
     else url.searchParams.delete('all');
+    if (!changePeriod && state.reflectionPage > 1) url.searchParams.set('rpage', state.reflectionPage);
+    else url.searchParams.delete('rpage');
     return url.pathname + url.search + url.hash;
   }
   function rankSchools(schools, query) {
