@@ -36,7 +36,6 @@
           {{ template "outcome-composition" (dict "title" "本科院校层次" "subtitle" "申请之前的背景构成" "key" (printf "undergraduate-%s" .id) "items" .undergraduate "sampleCount" .sampleCount) }}
           {{ template "outcome-composition" (dict "title" "最终去向院校层次" "subtitle" "问卷填写的去向构成" "key" (printf "destination-%s" .id) "items" .destination "sampleCount" .sampleCount) }}
         </div>
-        <p class="outcome-chart-note">类别沿用问卷互斥单选项“985、211、双一流、四非”，每条记录在每张图中只计入一个类别；不按院校名称重新判定层次。因四舍五入，占比之和可能略有偏差。</p>
       </section>
       <section class="outcome-schools" aria-labelledby="schools-{{ .id }}" data-school-section>
         <div class="outcome-section-heading"><div><p class="eyebrow">02 / 去向分布</p><h2 id="schools-{{ .id }}">他们去了哪些院校？</h2></div><p>按记录条数排序 · 同一分母 {{ .sampleCount }} 条</p></div>
