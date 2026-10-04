@@ -38,7 +38,7 @@ summaryLength = 90
   weight = 30
 [[menus.main]]
   name = '学员经验'
-  pageRef = '/experiences'
+  pageRef = '/outcomes'
   weight = 40
 [[menus.main]]
   name = '资料与工具'

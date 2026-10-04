@@ -1,5 +1,5 @@
 ---
-title: 学员经验
+title: 面试与申请经验
 description: 按院校、方向与申请阶段，找到与自己相关的真实经历。
 layout: experiences
 weight: 30

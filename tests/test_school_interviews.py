@@ -83,11 +83,14 @@ class SchoolBookImportTests(unittest.TestCase):
         q_text = generated[IMPORTER.record_path("Q2026-003", self.project)]
         self.assertIn("**22、具体项目追问**\n\n无", q_text)
         self.assertIn("保留第一行\\\n保留第二行 RT\\_DETR。", q_text)
-        self.assertIn("问卷标记为“跳过”的题号：12、13。", q_text)
+        parsed, _ = IMPORTER.parse_sources(self.source)
+        survey_record = next(record for record in parsed if record["sourceId"] == "Q2026-003")
+        self.assertEqual(survey_record["missingNotes"], ["未填写的题号：6、10。", "问卷标记为“跳过”的题号：12、13。"])
         m_text = generated[IMPORTER.record_path("M018", self.project)]
         self.assertIn('{{< relref "/experiences/archive/survey-2026/survey-2026-024.md" >}}', m_text)
         for output in generated.values():
             self.assertNotRegex(output, r"private\.xlsx|private\.md|Sheet1|原序号|用户确认|问卷提交日期")
+            self.assertNotRegex(output, r"本条记录的缺项|未填写的题号|问卷标记为|空白或跳过只表示|以上为投稿者对当时经历的回忆")
             self.assertIn("{{< studio-credit >}}", output)
 
     def test_duplicate_source_identifier_is_rejected(self):
