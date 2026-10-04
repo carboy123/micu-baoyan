@@ -62,21 +62,19 @@
       {{ if $reflections }}
       <section class="outcome-reflections" id="reflections-{{ .id }}" aria-labelledby="reflections-heading-{{ .id }}">
         <div class="outcome-section-heading"><div><p class="eyebrow">03 / 上岸感言</p><h2 id="reflections-heading-{{ .id }}">那些想留给后来者的话。</h2></div><p>{{ .label }} · {{ len $reflections }} 篇匿名感言</p></div>
-        <p class="outcome-reflections-intro">有走到终点的喜悦，也有回望来路的感触。每篇保留投稿者自己的表达，点击标题阅读全文。</p>
-        {{ $batchSize := 12 }}
-        {{ $batches := div (add (len $reflections) (sub $batchSize 1)) $batchSize }}
-        {{ range $batchIndex := seq 0 (sub $batches 1) }}
-          {{ $start := mul $batchIndex $batchSize }}
-          {{ $batch := first $batchSize (after $start $reflections) }}
-          <details class="outcome-reflection-batch"{{ if eq $batchIndex 0 }} open{{ end }}>
-            <summary><span>第 {{ add $start 1 }}—{{ add $start (len $batch) }} 篇</span><span>{{ len $batch }} 篇感言</span></summary>
-            <div class="outcome-reflection-grid">
-              {{ range $batch }}
-              <article class="outcome-reflection-card"><p class="outcome-reflection-meta">{{ .Params.cohort }}{{ with .Params.school }}<span>·</span>{{ . }}{{ end }}</p><h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3><p class="outcome-reflection-excerpt">{{ .Description }}</p><a class="text-link" href="{{ .RelPermalink }}" aria-label="阅读全文：{{ .Title }}">阅读全文 ↗</a></article>
-              {{ end }}
-            </div>
-          </details>
-        {{ end }}
+        <p class="outcome-reflections-intro">有走到终点的喜悦，也有回望来路的感触。以下保留投稿者自己的表达。</p>
+        <div class="outcome-reflection-list">
+          {{ range $reflections }}
+          {{ $body := .Content | replaceRE `(?s)^\s*<h2\b[^>]*>.*?</h2>\s*` "" }}
+          {{/* Show the generated collection credit once below the list. */}}
+          {{ $body = $body | replaceRE `<p>毕业届别：2026 届。以上为投稿者的个人感受。</p>\s*<p>米醋电子工作室 · 匿名学员投稿整理。</p>\s*$` "" }}
+          <article class="outcome-reflection-entry" id="{{ .Params.recordId }}" aria-labelledby="heading-{{ .Params.recordId }}">
+            <header><h3 id="heading-{{ .Params.recordId }}">{{ .Title | replaceRE `^\d{4}届申请感言 · ` "" }}</h3>{{ with .Params.school }}<p>{{ . }}</p>{{ end }}</header>
+            <div class="prose outcome-reflection-body">{{ $body | safeHTML }}</div>
+          </article>
+          {{ end }}
+        </div>
+        <p class="collection-note">米醋电子工作室 · 匿名学员投稿整理。以上为投稿者的个人感受与回顾。</p>
       </section>
       {{ end }}
     </section>
@@ -94,6 +92,6 @@
 <article class="outcome-composition-card" aria-labelledby="{{ .key }}">
   <div class="outcome-composition-title"><div><span>{{ .subtitle }}</span><h3 id="{{ .key }}">{{ .title }}</h3></div><span class="outcome-chart-total">{{ .sampleCount }}<small>条记录</small></span></div>
   <div class="outcome-stacked-bar" aria-hidden="true">{{ range .items }}{{ if gt .count 0 }}{{ $share := div (mul (float .count) 100) (float $.sampleCount) }}<span class="outcome-tier-{{ index $colors .label | default "unknown" }}" style="width: {{ printf "%.4f" $share | safeCSS }}%"></span>{{ end }}{{ end }}</div>
-  <table class="outcome-composition-table"><caption class="sr-only">{{ .title }}，分母 {{ .sampleCount }} 条记录</caption><thead><tr><th scope="col">问卷选项</th><th scope="col">记录</th><th scope="col">占比</th></tr></thead><tbody>{{ range .items }}{{ $share := 0.0 }}{{ if gt $.sampleCount 0 }}{{ $share = div (mul (float .count) 100) (float $.sampleCount) }}{{ end }}<tr><th scope="row"><span class="outcome-key outcome-tier-{{ index $colors .label | default "unknown" }}" aria-hidden="true"></span>{{ .label }}</th><td>{{ .count }}</td><td>{{ printf "%.1f" $share }}%</td></tr>{{ end }}</tbody></table>
+  <table class="outcome-composition-table"><caption class="sr-only">{{ .title }}，分母 {{ .sampleCount }} 条记录</caption><thead><tr><th scope="col">问卷选项</th><th scope="col">记录</th><th scope="col">占比</th></tr></thead><tbody>{{ range .items }}{{ if not (and (eq .label "未提供") (eq .count 0)) }}{{ $share := 0.0 }}{{ if gt $.sampleCount 0 }}{{ $share = div (mul (float .count) 100) (float $.sampleCount) }}{{ end }}<tr><th scope="row"><span class="outcome-key outcome-tier-{{ index $colors .label | default "unknown" }}" aria-hidden="true"></span>{{ .label }}</th><td>{{ .count }}</td><td>{{ printf "%.1f" $share }}%</td></tr>{{ end }}{{ end }}</tbody></table>
 </article>
 {{ end }}
