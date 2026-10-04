@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const core = require('../static/js/outcome-core.js');
+const contentCore = require('../static/js/core.js');
 
 test('占比使用完整样本分母，缺失类别仍纳入统计', () => {
   assert.equal(core.percentage(16, 64), 25);
@@ -19,21 +20,21 @@ test('占比使用完整样本分母，缺失类别仍纳入统计', () => {
 });
 test('成果按毕业届别切换，未知批次回退，不猜申请年份', () => {
   const periods = ['cohort-2026', 'cohort-2027'];
-  assert.deepEqual(core.readState('?period=cohort-2027&schoolq=%E5%A4%A7%E5%AD%A6&all=1', periods), { period: 'cohort-2027', q: '大学', all: true });
+  assert.deepEqual(core.readState('?period=cohort-2027&schoolq=%E5%A4%A7%E5%AD%A6&all=1', periods), { period: 'cohort-2027', q: '大学', all: true, reflectionPage: 1 });
   assert.equal(core.readState('?period=2026', periods).period, 'cohort-2026');
-  assert.deepEqual(core.readState('', []), { period: '', q: '', all: false });
+  assert.deepEqual(core.readState('', []), { period: '', q: '', all: false, reflectionPage: 1 });
 });
 test('旧2025申请批次链接准确映射到2026届，保留院校筛选与展开状态', () => {
   const periods = ['cohort-2027', 'cohort-2026'];
   const state = core.readState('?period=application-2025&schoolq=%E5%A4%A7%E5%AD%A6&all=1', periods);
-  assert.deepEqual(state, { period: 'cohort-2026', q: '大学', all: true });
+  assert.deepEqual(state, { period: 'cohort-2026', q: '大学', all: true, reflectionPage: 1 });
   const migrated = new URL(core.stateURL('https://example.test/micu-baoyan/outcomes/?period=application-2025', state), 'https://example.test');
   assert.equal(migrated.searchParams.get('period'), 'cohort-2026');
   assert.deepEqual(core.readState(migrated.search, periods), state);
   assert.equal(core.readState('?period=application-2025', ['application-2025']).period, 'application-2025');
 });
 test('网址保留部署子路径和其他参数，刷新与返回可以恢复状态', () => {
-  const state = { period: 'cohort-2027', q: '学校 名称', all: true };
+  const state = { period: 'cohort-2027', q: '学校 名称', all: true, reflectionPage: 1 };
   const url = core.stateURL('https://example.test/micu-baoyan/outcomes/?campaign=test#outcome-data', state);
   assert.match(url, /^\/micu-baoyan\/outcomes\/\?/);
   assert.match(url, /campaign=test/);
@@ -46,7 +47,7 @@ test('网址保留部署子路径和其他参数，刷新与返回可以恢复�
 });
 test('从感言区切换届别时锚点同步，院校搜索与其他参数保持不变', () => {
   const current = 'https://example.test/micu-baoyan/outcomes/?period=cohort-2026&schoolq=%E5%A4%A7%E5%AD%A6&campaign=test#reflections-cohort-2026';
-  const state = { period: 'cohort-2027', q: '大学', all: false };
+  const state = { period: 'cohort-2027', q: '大学', all: false, reflectionPage: 1 };
   const next = new URL(core.stateURL(current, state, true), current);
   assert.equal(next.pathname, '/micu-baoyan/outcomes/');
   assert.equal(next.hash, '#reflections-cohort-2027');
@@ -74,6 +75,38 @@ test('院校按数量排序且不修改原数据，支持搜索和无匹配', ()
   assert.equal(rows[0].name, '测试甲大学');
   assert.deepEqual(core.rankSchools(rows, '  甲大  ').map(row => row.name), ['测试甲大学']);
   assert.deepEqual(core.rankSchools(rows, '不匹配'), []);
+});
+
+test('感言页码与院校筛选共同保存在网址，切届恢复第一页', () => {
+  const current = 'https://example.test/micu-baoyan/outcomes/?campaign=test#reflections-cohort-2027';
+  const state = { period: 'cohort-2027', q: '大学', all: true, reflectionPage: 3 };
+  const url = new URL(core.stateURL(current, state), current);
+  assert.equal(url.searchParams.get('rpage'), '3');
+  assert.equal(url.searchParams.get('campaign'), 'test');
+  assert.equal(url.hash, '#reflections-cohort-2027');
+  assert.deepEqual(core.readState(url.search, ['cohort-2026', 'cohort-2027']), state);
+  const switched = new URL(core.stateURL(url.href, { ...state, period: 'cohort-2026' }, true), current);
+  assert.equal(switched.searchParams.has('rpage'), false);
+  assert.equal(core.readState(switched.search, ['cohort-2026', 'cohort-2027']).reflectionPage, 1);
+  assert.equal(switched.hash, '#reflections-cohort-2026');
+  const first = new URL(core.stateURL(url.href, { ...state, reflectionPage: 1 }), current);
+  assert.equal(first.searchParams.has('rpage'), false);
+});
+
+test('无效感言页码回到第一页，末页与越界页按实际条数处理', () => {
+  for (const value of ['', '0', '-2', 'foo', '1.5', 'Infinity', '9007199254740992']) {
+    assert.equal(core.readState('?rpage=' + value, ['cohort-2027']).reflectionPage, 1);
+  }
+  const entries = Array.from({ length: 68 }, (_, i) => '感言' + (i + 1));
+  const first = contentCore.paginate(entries, 1, 10);
+  assert.deepEqual(first.records, entries.slice(0, 10));
+  assert.equal(first.pages, 7);
+  assert.deepEqual(contentCore.paginate(entries, 2, 10).records, entries.slice(10, 20));
+  const last = contentCore.paginate(entries, 99, 10);
+  assert.equal(last.page, 7);
+  assert.deepEqual(last.records, entries.slice(60));
+  assert.equal(contentCore.paginate(entries.slice(0, 50), 99, 10).page, 5);
+  assert.deepEqual(contentCore.paginate([], 3, 10), { records: [], page: 1, pages: 1 });
 });
 test('默认前10条、完整列表、搜索与清空后的结果', () => {
   const rows = Array.from({ length: 12 }, (_, i) => ({ name: '测试院校' + String(i).padStart(2, '0'), count: 12 - i }));

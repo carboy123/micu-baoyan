@@ -11,13 +11,13 @@
   <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
   <link rel="stylesheet" href="{{ "css/students.css" | relURL }}">
   <link rel="stylesheet" href="{{ "css/community.css" | relURL }}">
+  <script defer src="{{ "js/core.js" | relURL }}"></script>
   {{ if eq .Layout "outcomes" }}
   <link rel="stylesheet" href="{{ "css/outcomes.css" | relURL }}">
   <script defer src="{{ "js/outcome-core.js" | relURL }}"></script>
   <script defer src="{{ "js/outcomes.js" | relURL }}"></script>
   {{ end }}
   {{ if eq .Section "students" }}<script defer src="{{ "js/students.js" | relURL }}"></script>{{ end }}
-  <script defer src="{{ "js/core.js" | relURL }}"></script>
   <script defer src="{{ "js/site.js" | relURL }}"></script>
 </head>
 <body class="{{ if .IsHome }}home-page{{ else }}inner-page{{ end }}">
