@@ -175,7 +175,7 @@ def build_records(source_dir: Path, root: Path) -> tuple[dict[Path, str], dict]:
         department = plain_field(clean_markdown(record["department"], source_id, audit["privacyEdits"]))
         stage = stage_name(plain_field(record["stage"]))
         title = f"{school}｜{department}｜{year}年申请 · {stage}" if school != "多校记录" else f"多校考核回忆｜{year}年申请 · {stage}"
-        meta.update({"title": title, "description": f"{year} 年保研申请的一份匿名{school}考核记录，保留当时经历、结果与个人观察。", "type": "experience", "draft": False, "lastmod": "2026-10-03"})
+        meta.update({"title": title, "description": f"{year} 年保研申请的一份匿名{school}考核记录，保留当时经历、结果与个人观察。", "type": "experience", "draft": False, "lastmod": "2026-10-05"})
         meta["params"].update({
             "status": "published", "kind": "院校面经", "recordId": record_id(source_id), "sourceId": source_id,
             "school": school, "schools": MULTI_SCHOOLS.copy() if school == "多校记录" else [school],
@@ -201,10 +201,7 @@ def build_records(source_dir: Path, root: Path) -> tuple[dict[Path, str], dict]:
                         answers.append(f"**{number}、{question['label']}**\n\n{answer}")
                 if answers:
                     body += f"## {heading}\n\n" + "\n\n".join(answers) + "\n\n"
-            if record["missingNotes"]:
-                body += "## 本条记录的缺项\n\n" + "\n\n".join(record["missingNotes"]) + "\n\n"
-                body += "空白或跳过只表示这份投稿没有提供回答，不代表院校没有该考核环节。\n\n"
-        body += "以上为投稿者对当时经历的回忆；门槛、偏好、评价和建议属于个人观察，不代表院校统一招生规定。\n\n{{< studio-credit >}}\n"
+        body += "{{< studio-credit >}}\n"
         body = re.sub(r"(?m)^[^\S\r\n]+$", "", body)
         if re.search(r"参考资料|\.xlsx|Sheet1|用户确认|\*\*来源\*\*|问卷提交日期|原序号", body):
             raise ValueError(f"公开正文仍包含内部定位信息：{source_id}")

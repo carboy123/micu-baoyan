@@ -10,7 +10,7 @@
     <nav class="desktop-nav" aria-label="主导航">
       {{ range site.Menus.main }}
       {{ $active := or (and (eq .PageRef "/") $current.IsHome) (and (ne .PageRef "/") (hasPrefix $current.RelPermalink .URL)) }}
-      {{ if and (eq .PageRef "/experiences") (in (slice "students" "outcomes") $current.Section) }}{{ $active = true }}{{ end }}
+      {{ if and (eq .PageRef "/outcomes") (in (slice "experiences" "students" "outcomes") $current.Section) }}{{ $active = true }}{{ end }}
       <a href="{{ .URL }}" {{ if $active }}aria-current="page"{{ end }}>{{ .Name }}</a>
       {{ end }}
     </nav>
@@ -20,7 +20,7 @@
   <nav id="mobile-nav" class="mobile-nav" aria-label="移动端导航" hidden>
     {{ range site.Menus.main }}
     {{ $active := or (and (eq .PageRef "/") $current.IsHome) (and (ne .PageRef "/") (hasPrefix $current.RelPermalink .URL)) }}
-      {{ if and (eq .PageRef "/experiences") (in (slice "students" "outcomes") $current.Section) }}{{ $active = true }}{{ end }}
+      {{ if and (eq .PageRef "/outcomes") (in (slice "experiences" "students" "outcomes") $current.Section) }}{{ $active = true }}{{ end }}
     <a href="{{ .URL }}"{{ if $active }} aria-current="page"{{ end }}>{{ .Name }}</a>
     {{ end }}
     <a href="{{ $searchURL }}"{{ if $isSearch }} aria-current="page"{{ end }}>站内搜索</a>

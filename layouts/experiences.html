@@ -1,8 +1,8 @@
 {{ define "main" }}<div class="page-wrap" data-experience-page data-reflections-url="{{ "outcomes/" | relURL }}">
-<div class="page-intro">{{ partial "site/breadcrumbs.html" . }}<p class="eyebrow">SHARED JOURNEYS / 学员经验</p><h1>从他人的经历里，<br class="mobile-only">找到自己的思路。</h1><p>按院校整理的考核记录与申请复盘。结合申请年份、院系和阶段，寻找适合自己的准备经验。</p></div>
+<div class="page-intro">{{ partial "site/breadcrumbs.html" . }}<p class="eyebrow">SHARED JOURNEYS / 面试与申请经验</p><h1>从他人的经历里，<br class="mobile-only">找到自己的思路。</h1><p>按院校整理的考核记录与申请复盘。结合申请年份、院系和阶段，寻找适合自己的准备经验。</p></div>
 {{ partial "site/community-nav.html" . }}
 <div class="experience-tabs" role="group" aria-label="内容类型">{{ range slice "" "院校面经" "申请复盘" }}<button type="button" data-kind="{{ . }}" aria-pressed="{{ if eq . "" }}true{{ else }}false{{ end }}">{{ . | default "全部经历" }}</button>{{ end }}</div>
-<form class="filter-panel" data-experience-filters role="search" aria-label="筛选学员经验">
+<form class="filter-panel" data-experience-filters role="search" aria-label="筛选面试与申请经验">
   <div class="filter-search"><label for="experience-query">关键词</label><div class="input-with-icon">{{ partial "site/icon.html" "search" }}<input type="search" name="q" id="experience-query" placeholder="搜索院校、方向或经历…" autocomplete="off"></div></div>
   <div><label for="filter-school">申请院校</label><select name="school" id="filter-school"><option value="">全部院校</option></select></div>
   <div><label for="filter-direction">专业方向</label><select name="direction" id="filter-direction"><option value="">全部方向</option></select></div>
