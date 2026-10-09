@@ -131,6 +131,6 @@ Hugo 运行时许可在 `tools/hugo/LICENSE`；Hugo Book 主题许可在 `themes
 
 ## 学员投稿与去向维护
 
-查看 [投稿说明](CONTRIBUTING.md)。学员主页使用 `archetypes/student.md`，面经沿用 `archetypes/experience.md`。PR 只做校验，合并 `main` 后由 Pages 工作流发布。`CODEOWNERS` 指定 `@carboy123` 审阅，公开 PR 不具备审核前保密能力。
+查看 [投稿说明](CONTRIBUTING.md)。学员主页使用 [优秀学员案例模板](archetypes/student.md)，分别填写所获 offer 与最终去向；档案中的去向字段只对应最终选择，多份 offer 不重复计入成果。面经沿用 `archetypes/experience.md`。PR 只做校验，合并 `main` 后由 Pages 工作流发布。`CODEOWNERS` 指定 `@carboy123` 审阅，公开 PR 不具备审核前保密能力。
 
 2026 届与 2027 届目前分别保留 64 / 82 份匿名汇总，118 篇独立感言按届别在整体成果展示，不关联身份，也不增加统计人数。优秀学员页暂留空。后续获准公开的学员最终去向在档案元数据中维护，`countInOutcomes` 由维护者核对是否新增、重复及届别口径后设置；认领历史样本不能再次计数。不要编辑生成页面或重新运行导入覆盖学员后续修改。
