@@ -13,7 +13,7 @@
 1. 在 https://github.com/carboy123/micu-baoyan 点击 Fork，建立自己的副本。
 2. 在副本中新建内容分支，例如 `my-story`。
 3. 已有本人档案时修改原文件。新增档案放在 `content/students/<student-id>/index.md`，字段参照 `archetypes/student.md`；新面经放在 `content/experiences/<article-id>/index.md`，字段参照 `archetypes/experience.md`。可通过 Add file → Create new file 完成。
-4. 填写并删除所有模板提示，使用本人愿意公开的昵称。头像和成绩均可不提供；图片放在文章同目录并补充替代文本。
+4. 填写并删除所有模板提示，使用本人愿意公开的昵称，只提供同意公开的信息；文章配图放在同目录并补充替代文本。
 5. 保存 Commit changes，在原仓库点 Compare & pull request，目标为 `carboy123/micu-baoyan:main`，来源为自己的内容分支。
 6. 填写 PR 清单，等待工作室审阅；继续编辑同一分支会更新同一个 PR。合并后 GitHub Pages 自动发布。
 
@@ -21,9 +21,9 @@
 
 ## 优秀学员案例模板
 
-使用 [优秀学员案例模板](archetypes/student.md)，包括本科背景、成绩与英语、论文科研、竞赛项目、所获 offer、最终去向、准备过程与个人建议。学员只需填写正文，文件开头的 YAML 字段交工作室整理。
+使用 [优秀学员案例模板](archetypes/student.md)，包括本科背景、成绩与英语、科研、竞赛项目、所获 offer、最终去向、准备过程与个人建议。学员只需填写正文，文件开头的 YAML 字段交工作室整理。
 
-论文科研与竞赛项目分别填写概况，不要求论文题目、作者信息、竞赛过程或项目技术细节。其他部分按模板填写：“所获 offer”逐项记录院校、院系、方向、培养类型、申请阶段和实际确认状态；“最终去向”单独记录最终选择。暂无 offer 或去向未定时如实说明，只提交本人愿意公开的内容。
+科研统一填写论文、专利、省级及以上大创的成果概况，与竞赛项目分开，不要求技术细节。“所获 offer”只列院校、学院／院系、专业／研究方向与培养类型四项；“最终去向”单独记录最终选择。暂无 offer 或去向未定时如实说明，只提交本人愿意公开的内容。
 
 档案元数据的 `school`、`department`、`direction`、`admissionType`、`result` 只对应最终去向；正文中的多个 offer 不分别计入成果统计。工作室审核后再发布，模板本身不会生成学员案例。
 
@@ -32,7 +32,6 @@
 - `studentId`：稳定的英文、数字、连字符 ID，不使用身份证、手机号或学号。已有档案沿用原 ID；面经仅在确认作者及其同意后关联，否则留空。
 - `recordId`：每篇经验文章唯一的英文小写、数字、连字符标识；修改已有面经时保留原 ID，新建时不能重复使用。
 - `displayName` / `author`：本人同意公开的昵称，分别用于档案和经验文章。
-- `avatar`：可留空；填写本页图片名或 `static/` 下的相对路径，如 `avatar.png` 或 `images/avatar.png`。只使用本地 PNG、JPEG、WebP、GIF、AVIF，不填远程网址。
 - `applicationYear`、`cohort`：分别为实际申请年份与已确认的本科毕业届别；未知项留空，不从文件名推断。历史原文的届次写法可另存 `originalCohort`，不自动当作本科毕业届别。
 - `periodId`：工作室维护的成果统计分组标识，投稿者不要猜填。新年度分组由维护者先补充统计元数据。
 - `undergraduateTier`、`destinationTier`：原始资料提供的本科、最终去向层次，未知可留空；不能从院校名字猜填。
