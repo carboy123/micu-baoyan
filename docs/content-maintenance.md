@@ -136,7 +136,7 @@ params:
 
 在 `content/resources/templates.md` 的 `params.downloads` 中维护附件标题、相对路径、下载文件名、格式和大小；正文通过 `download-library` 短代码展示。路径不写 `static/`，也不加开头斜杠，短代码使用 `relURL` 兼容项目子路径。新增或替换后核对原件与副本 SHA256，并实际检查下载链接。
 
-当前资料分组为文书附件、公共资源索引、官方信息入口和投稿说明。投稿页面仅说明提交方式，不提供自编附件。
+当前资料分组为文书附件、米醋学习视频、官方信息入口和投稿说明。投稿页面仅说明提交方式，不提供自编附件。
 
 外部资源使用 `externalURL`，正文注明需要联网。未完成的资料保持 `status: planned`，`download` 与 `externalURL` 留空，不挂无效按钮。
 
