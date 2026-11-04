@@ -5,8 +5,8 @@
 {{ range $students }}{{ with .Params.school }}{{ $schools = $schools | append (string .) }}{{ end }}{{ with .Params.cohort }}{{ $cohorts = $cohorts | append (string .) }}{{ end }}{{ with .Params.applicationYear }}{{ $years = $years | append (string .) }}{{ end }}{{ end }}
 <div class="page-wrap students-page" data-students-page>
   {{ partial "site/community-nav.html" . }}
-  <div class="page-intro">{{ partial "site/breadcrumbs.html" . }}<p class="eyebrow">STUDENT STORIES / 优秀学员</p><h1>认真走过的路，<br>值得被看见。</h1><p>{{ .Description }}</p></div>
-  <div class="students-editorial"><p>学业、竞赛与项目中的积累，以及申请时的思考与选择。这里将展示经本人确认、工作室审核的成长经历。</p><span>从真实经历中寻找准备方法<br>尊重每位同学的公开范围</span></div>
+  <div class="page-intro">{{ partial "site/breadcrumbs.html" . }}<p class="eyebrow">STUDENT STORIES / 优秀学员</p><h1>优秀学员</h1><p>{{ .Description }}</p></div>
+  <div class="students-editorial"><p>学员自愿分享自己的经历，工作室审核后发布。</p><span>公开范围由学员本人确认</span></div>
   <form class="filter-panel students-filters" data-student-filters role="search" aria-label="筛选优秀学员展示" hidden>
     <div class="filter-search"><label for="student-query">关键词</label><div class="input-with-icon">{{ partial "site/icon.html" "search" }}<input id="student-query" type="search" name="q" placeholder="展示名、院校或方向…" autocomplete="off"></div></div>
     <div><label for="student-school">去向院校</label><select id="student-school" name="school"><option value="">全部院校</option>{{ range sort (uniq $schools) }}<option value="{{ . }}">{{ . }}</option>{{ end }}</select></div>
@@ -15,7 +15,7 @@
     <label class="student-featured-filter"><input type="checkbox" name="featured" value="1">只看精选故事</label>
   </form>
   <div class="results-toolbar"><span data-student-count aria-live="polite">{{ if $students }}{{ len $students }} 份公开展示{{ else }}暂无已审核的个人展示{{ end }}</span><button type="button" class="text-button" data-student-clear hidden>清空筛选 ↺</button></div>
-  {{ if $students }}<p class="students-year-note">届次保留资料原始标注；没有明确提供的申请年份显示“未提供”，不由届次倒推。</p>{{ end }}
+  {{ if $students }}<p class="students-year-note">届次沿用学员填写的写法。申请年份缺失时显示“未提供”。</p>{{ end }}
   <div class="students-grid">
     {{ range $students.ByParam "studentId" }}
     {{ $name := .Params.displayName | default .Title }}

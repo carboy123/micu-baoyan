@@ -194,7 +194,7 @@
       setText(root, '[data-experience-count]', '共 ' + matches.length + ' 篇');
       var status = null;
       if (!data.valid) status = { title: '暂时无法读取经验资料。', description: '请刷新页面后重试，或先通过导航浏览其他内容。' };
-      else if (!data.records.length) status = { title: '故事还未写入，期待真实的分享。', description: '目前暂无已收录内容。后续将逐步整理学员的申请与成长经历。' };
+      else if (!data.records.length) status = { title: '暂无面经', description: '已审核的面经会在这里发布。' };
       else if (!matches.length) status = { title: '还没有找到符合条件的经历。', description: '试试减少筛选条件，或清空筛选后重新查找。' };
       setStatus(root, '[data-experience-status]', status);
       var fragment = document.createDocumentFragment();

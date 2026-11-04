@@ -6,12 +6,12 @@
   {{ partial "site/breadcrumbs.html" . }}
   {{ partial "site/community-nav.html" . }}
   <div class="outcome-intro">
-    <div><p class="eyebrow">MICU / 学员成果</p><h1>从本科起点，<br>看见不同的去向。</h1></div>
-    <div class="outcome-intro-note"><span class="outcome-note-label">每一条记录，都是一段准备的历程</span><p>把学员的本科院校构成与最终去向放在一起，了解不同背景的申请结果。读一读他们留下的感言，看见准备过程中的坚持与收获。</p><a class="text-link" href="{{ "experiences/" | relURL }}">阅读面经与复盘 ↗</a></div>
+    <div><p class="eyebrow">MICU / 学员成果</p><h1>米醋学员去向</h1></div>
+    <div class="outcome-intro-note"><span class="outcome-note-label">成果总览</span><p>按本科毕业届别查看学员的本科院校、保研去向和上岸感言。</p><a class="text-link" href="{{ "experiences/" | relURL }}">阅读面经与复盘 ↗</a></div>
   </div>
   {{ if $periods }}
   <div class="outcome-period-bar"><span class="outcome-control-label">选择毕业届别</span><nav class="outcome-periods" aria-label="成果统计届别">{{ range $i, $period := $periods }}<a href="?period={{ .id | urlquery }}#outcome-data" data-period-link="{{ .id }}"{{ if eq $i 0 }} aria-current="true"{{ end }}>{{ .label }}</a>{{ end }}</nav></div>
-  <p class="outcome-scope">按各届已整理的有效去向记录统计；比例描述这些记录的构成，不代表全体学员或录取成功率。</p>
+  <p class="outcome-scope">各项占比按该届已收录的有效去向记录计算。</p>
   <noscript><p class="notice">以下完整展示各批次数据。启用 JavaScript 后可切换批次、搜索院校并展开完整分布。</p></noscript>
   <div id="outcome-data" tabindex="-1">
   {{ range $periods }}
@@ -31,7 +31,7 @@
       </div>
       {{ if gt .sampleCount 0 }}
       <section class="outcome-comparison" aria-labelledby="comparison-{{ .id }}">
-        <div class="outcome-section-heading"><div><p class="eyebrow">01 / 背景与去向</p><h2 id="comparison-{{ .id }}">起点各不相同，去向值得看见。</h2></div><p>两张图使用同一批 {{ .sampleCount }} 条记录。</p></div>
+        <div class="outcome-section-heading"><div><p class="eyebrow">01 / 背景与去向</p><h2 id="comparison-{{ .id }}">本科院校与保研去向</h2></div><p>两张图使用同一批 {{ .sampleCount }} 条记录。</p></div>
         <div class="outcome-comparison-grid">
           {{ template "outcome-composition" (dict "title" "本科院校层次" "subtitle" "申请之前的背景构成" "key" (printf "undergraduate-%s" .id) "items" .undergraduate "sampleCount" .sampleCount) }}
           {{ template "outcome-composition" (dict "title" "最终去向院校层次" "subtitle" "问卷填写的去向构成" "key" (printf "destination-%s" .id) "items" .destination "sampleCount" .sampleCount) }}
@@ -74,13 +74,13 @@
           {{ end }}
         </div>
         <nav class="experience-pagination reflection-pagination" data-reflection-pagination aria-label="{{ .label }}上岸感言分页" hidden><button type="button" data-reflection-prev>上一页</button><span data-reflection-status aria-live="polite"></span><button type="button" data-reflection-next>下一页</button></nav>
-        <p class="collection-note">米醋电子工作室 · 匿名学员投稿整理。以上为投稿者的个人感受与回顾。</p>
+        <p class="collection-note">米醋电子工作室 · 匿名学员投稿</p>
       </section>
       {{ end }}
     </section>
   {{ end }}
   </div>
-  <div class="outcome-endnote"><p><strong>数字之外，还有准备过程。</strong><br>院校层次不能概括每个人的选择。研究方向、培养方式与个人目标，同样值得认真了解。</p><a class="text-link" href="{{ "experiences/" | relURL }}">阅读面试与申请经验 ↗</a></div>
+  <div class="outcome-endnote"><p>可以按院校查找学员分享的考核题目和申请复盘。</p><a class="text-link" href="{{ "experiences/" | relURL }}">阅读面试与申请经验 ↗</a></div>
   {{ else }}<div class="empty-state"><h2>成果资料正在整理中。</h2><p>完成核对后，将在这里展示各批次学员的本科背景、最终去向与院校分布。</p></div>{{ end }}
 </div>
 {{ end }}

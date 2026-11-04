@@ -1,6 +1,6 @@
 ---
 title: 竞赛与项目整理
-description: 把一次比赛或项目，沉淀成能够解释的专业能力。
+description: 把比赛和项目中自己做的工作写进材料，在面试里讲清楚。
 weight: 40
 lastmod: 2026-10-03T00:00:00+08:00
 params:

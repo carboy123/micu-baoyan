@@ -9,8 +9,7 @@
       {{ if or .value (in (slice "申请年份") .label) }}<div><dt>{{ .label }}</dt><dd>{{ if reflect.IsSlice .value }}{{ delimit .value " / " }}{{ else }}{{ .value | default "未注明" }}{{ end }}</dd></div>{{ end }}
       {{ end }}
     </dl>
-    {{ with .Params.collectionYear }}<p class="collection-note">本文收集于 {{ . }} 年；收集时间不代替实际申请或考核年份。</p>{{ end }}
-    <p class="collection-note">{{ if eq .Params.kind "院校面经" }}本文为个人考核回忆，具体要求以院系当年安排为准。{{ else }}本文为学员个人回顾，建议请结合自身情况参考。{{ end }}</p>
+    {{ with .Params.collectionYear }}<p class="collection-note">收集于 {{ . }} 年</p>{{ end }}
     {{ partial "site/inline-toc.html" . }}
     <div class="prose">{{ .Content }}</div>
     {{ with .Params.studentId }}
