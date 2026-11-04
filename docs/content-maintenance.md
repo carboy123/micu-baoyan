@@ -52,11 +52,11 @@ params:
 | `planned` | 只有导读，详细内容待补充 | 显示待补充提示，不进入搜索 |
 | `preview` | 兼容本地排版预览状态 | 仅与 `draft: true` 配合使用，不进入搜索和经验库；站内占位预览页面已移除 |
 
-`draft` 和 `status` 的作用不同：生产构建排除所有草稿，**仅设置 `status: preview` 并不能代替 `draft: true`**。当前经验库已有 162 篇真实面经，优秀学员页暂留空。
+`draft` 和 `status` 的作用不同：生产构建排除所有草稿，**仅设置 `status: preview` 并不能代替 `draft: true`**。当前经验库已有 162 篇真实面经。
 
 ## 2. 面试与申请经验
 
-`content/experiences/` 仅放院校面经与申请复盘。上岸感言使用 `type: reflection`，单独放入 `content/outcomes/reflections/`，并填写对应 `periodId`，由整体成果页按届别展示。优秀学员页先留空，后续经本人确认与工作室审核再增加主页。
+`content/experiences/` 仅放院校面经与申请复盘。上岸感言使用 `type: reflection`，单独放入 `content/outcomes/reflections/`，并填写对应 `periodId`，由整体成果页按届别展示。优秀学员案例经本人确认与工作室审核后维护在 `content/students/`。
 
 ```yaml
 type: experience
