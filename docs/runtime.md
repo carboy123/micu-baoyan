@@ -60,19 +60,21 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\build-site.ps1
 
 ## 部署到独立服务器
 
-2026-11-04 将生产静态网站部署至 <http://47.93.147.95/>。宝塔中的项目类型为 HTML，绑定服务器 IP，Nginx 根目录为 `/www/wwwroot/micu-baoyan`；与排行榜、工作室官网和商城使用不同站点目录。当前未绑定业务域名，也未配置本站 HTTPS。
+2026-11-04 按用户确认的方案将服务器版发布至 <https://svip.micu.wiki/baoyan/>，部署目录为 `/www/wwwroot/svip.micu.wiki/baoyan`。使用官网已有的域名和 HTTPS，不需要新增子域名 DNS 或另申请证书。官网会员导航的“保研指南”入口指向这一地址，其他入口和官网首页保持原样。
 
 在项目根目录使用现有工具构建并检查：
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\build-site.ps1 -BaseURL 'http://47.93.147.95/' -Destination '.runtime/builds/server-release'
-python tests/site-check.py .runtime/builds/server-release --prefix /
-python tests/community-students.py --hugo tools/hugo/hugo.exe --build .runtime/builds/server-release
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\build-site.ps1 -BaseURL 'https://svip.micu.wiki/baoyan/' -Destination '.runtime/builds/official-subpath'
+python tests/site-check.py .runtime/builds/official-subpath --prefix /baoyan/
+python tests/community-students.py --hugo tools/hugo/hugo.exe --build .runtime/builds/official-subpath
 ```
 
-首次发布的产物包含 459 个文件，其中 368 个为 HTML。将输出目录中的非隐藏文件打包为 ZIP，归档根层直接放置 `index.html`、`css/`、`js/` 等内容，不额外套一层目录。在宝塔文件管理中上传并解压到本站根目录，核对目标后覆盖新站点的默认欢迎页。后续更新先备份现有站点，再替换产物，避免遗留已撤下的页面。发布压缩包应移出 Web 根目录保存。
+产物包含 459 个文件，其中 368 个为 HTML。将输出目录中的非隐藏文件打包为 ZIP，归档顶层使用 `baoyan/`，网页位于 `baoyan/index.html`，资源位于 `baoyan/css/`、`baoyan/js/` 等路径。在宝塔文件管理中上传到 `/www/wwwroot/svip.micu.wiki` 并解压，先核对归档结构及目标目录，避免覆盖官网根目录的 `index.html`。后续更新先备份保研目录，再替换产物，避免遗留已撤下的页面；发布压缩包移出官网根目录保存。
 
-首次发布包保存在服务器 `/www/wwwroot/micu-baoyan-server-release.zip`，位于本站根目录之外。线上 459 个文件已逐项与本地构建产物比较 SHA-256，包括 6 份文书附件；全部一致。不存在的页面返回 404。
+会员导航属于官网的独立页面，不由本 Hugo 工程生成。此次发布仅将官网 `member/index.html` 中“保研指南”的地址由 IP 替换为 `https://svip.micu.wiki/baoyan/`，保留原有访问口令、样式、脚本及其余 11 个入口。后续只更新保研文章时，不需要再次覆盖会员导航。
+
+原 IP 站点 `http://47.93.147.95/` 与目录 `/www/wwwroot/micu-baoyan` 保留，不作为当前会员导航入口。旧发布包保存在 `/www/wwwroot/micu-baoyan-server-release.zip`。
 
 只发布构建产物；原始问卷、参考资料、源码、Git 历史、本地运行日志、面板账号和密码均不上传或写入公开仓库。6 份公开文书附件保留构建中的原始字节。
 
