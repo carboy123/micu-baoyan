@@ -2,7 +2,7 @@
 
 面向电子、嵌入式、自动化和计算机相关专业学员的保研知识网站，支持在线阅读和 Windows 本机预览。当前为 **v0.4.0 学员成果与经验版**：通过知识文章、项目训练、阶段任务和文书附件，帮助学员理解保研、找到当前阶段的准备事项。
 
-**在线阅读：[米醋保研指南](https://carboy123.github.io/micu-baoyan/)** · [源码仓库](https://github.com/carboy123/micu-baoyan) · [部署状态](https://github.com/carboy123/micu-baoyan/actions/workflows/pages.yml)
+**在线阅读：[服务器站点](http://47.93.147.95/)** · [GitHub Pages](https://carboy123.github.io/micu-baoyan/) · [源码仓库](https://github.com/carboy123/micu-baoyan) · [Pages 部署状态](https://github.com/carboy123/micu-baoyan/actions/workflows/pages.yml)
 
 技术方案为 **Hugo 0.166.0 extended + 本地 Hugo Book 主题 + Markdown + 原生 JavaScript**，没有数据库、账号系统或后端 API。主题、脚本、字体与资料随完整预览包提供；日常阅读、修改和构建不需要联网，也不需要 Node.js、Python 或云服务器。
 
@@ -110,6 +110,8 @@ python tests/site-check.py .runtime/builds/subpath --prefix /micu-baoyan/
 克隆后按 [运行时说明](docs/runtime.md) 从固定的 Hugo 官方 release 准备对应 Windows amd64 extended 版本，核对官方归档校验及 `tools/hugo/runtime.json` 中的程序 SHA256，再放回 `tools/hugo/hugo.exe`。不要为了跳过检查修改校验值。主题及字体文件连同许可应保留在仓库中，不依赖子模块或在线拉取。
 
 ## 发布到 GitHub Pages
+
+独立服务器已于 **2026-11-04** 部署至 [47.93.147.95](http://47.93.147.95/)，使用宝塔管理的 Nginx HTML 项目，站点根目录为 `/www/wwwroot/micu-baoyan`。当前以 IP 和 HTTP 访问；绑定域名及 HTTPS 尚未配置。服务器只接收静态构建产物，更新步骤见 [服务器部署](docs/runtime.md#部署到独立服务器)。GitHub Actions 继续发布 Pages，**不会自动同步这台服务器**。
 
 网站已于 **2026-09-28** 发布至 [carboy123.github.io/micu-baoyan](https://carboy123.github.io/micu-baoyan/)，源码保存在公开仓库 `carboy123/micu-baoyan`。Pages 使用 GitHub Actions，已启用 HTTPS；[首次部署](https://github.com/carboy123/micu-baoyan/actions/runs/36364263752)的构建和发布均成功。
 
