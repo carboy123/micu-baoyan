@@ -58,6 +58,28 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\build-site.ps1
 
 `dev/prepare_assets.py` 仅供开发者恢复依赖时使用，需要 Python 3.10 或更新版本；日常运行与构建不会调用它。已验证的本地主题、字体和许可将直接复用，重复执行不会重新下载。缺失或损坏的字体会从固定的 Adobe 官方 GitHub 提交恢复；大文件优先使用官方 Git Blob API，失败后尝试固定提交的 raw URL，网络请求有超时与最多三次重试。主题目录如果发生修改，脚本会停止并保留本地修改，不直接覆盖。
 
+## 部署到独立服务器
+
+2026-11-04 将生产静态网站部署至 <http://47.93.147.95/>。宝塔中的项目类型为 HTML，绑定服务器 IP，Nginx 根目录为 `/www/wwwroot/micu-baoyan`；与排行榜、工作室官网和商城使用不同站点目录。当前未绑定业务域名，也未配置本站 HTTPS。
+
+在项目根目录使用现有工具构建并检查：
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\build-site.ps1 -BaseURL 'http://47.93.147.95/' -Destination '.runtime/builds/server-release'
+python tests/site-check.py .runtime/builds/server-release --prefix /
+python tests/community-students.py --hugo tools/hugo/hugo.exe --build .runtime/builds/server-release
+```
+
+首次发布的产物包含 459 个文件，其中 368 个为 HTML。将输出目录中的非隐藏文件打包为 ZIP，归档根层直接放置 `index.html`、`css/`、`js/` 等内容，不额外套一层目录。在宝塔文件管理中上传并解压到本站根目录，核对目标后覆盖新站点的默认欢迎页。后续更新先备份现有站点，再替换产物，避免遗留已撤下的页面。发布压缩包应移出 Web 根目录保存。
+
+首次发布包保存在服务器 `/www/wwwroot/micu-baoyan-server-release.zip`，位于本站根目录之外。线上 459 个文件已逐项与本地构建产物比较 SHA-256，包括 6 份文书附件；全部一致。不存在的页面返回 404。
+
+只发布构建产物；原始问卷、参考资料、源码、Git 历史、本地运行日志、面板账号和密码均不上传或写入公开仓库。6 份公开文书附件保留构建中的原始字节。
+
+更新后检查首页、文章直达与刷新、搜索索引、筛选、附件下载及 404；在桌面和手机宽度查看真实页面。切换域名时，先完成域名解析、站点绑定和证书配置，再以真实新地址重新构建；不要修改生成的 HTML 来替换网址。
+
+GitHub Pages 与本服务器独立发布。现有 `.github/workflows/pages.yml` 只部署 Pages，不会将推送的提交自动上传到宝塔；服务器更新仍需执行上述构建与上传步骤。
+
 ## 封装可转发的本机预览包
 
 在确认网站、说明和验收完成后运行：
